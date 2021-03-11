@@ -16,8 +16,6 @@
 #ifndef OHOS_GLOBAL_UTILS_H
 #define OHOS_GLOBAL_UTILS_H
 
-#include <stdint.h>
-
 #include "global.h"
 
 #ifdef __cplusplus
@@ -27,14 +25,15 @@ extern "C" {
 #endif // __cplusplus
 
 #define LOCALE_ELEMENT_NUM 3
+#define GLOBAL_PATH_MAX 256
 typedef struct GlobalUtilsImpl {
-    uint32_t (*GetOffsetByLocale)(const char *path, char *locale, uint32_t length);
+    uint32_t (*GetOffsetByLocale)(const char *path, const char *locale, uint32_t length);
     uint32_t (*GetDefaultOffsetValue)(int32_t file);
     uint32_t (*GetKeyValue)(int32_t file);
     int32_t (*GetIdItem)(int32_t file, uint32_t offset, IdItem *idItem);
-    uint32_t (*GetIdHeaderOffsetByLocale)(char *locale, Key *keys, uint32_t configNum);
+    uint32_t (*GetIdHeaderOffsetByLocale)(const char *locale, const Key *keys, uint32_t configNum);
     int32_t (*GetIdHeaderByOffset)(int32_t file, uint32_t offset, IdHeader *idHeader);
-    int32_t (*SplitLocale)(char *src, char **dest, int32_t *num);
+    int32_t (*SplitLocale)(const char *src, char **dest, int32_t *num);
     int32_t (*CheckFilePath)(const char *path, char *realResourcePath, int32_t length);
 } GlobalUtilsImpl;
 
@@ -45,14 +44,6 @@ typedef struct LocaleItem {
 } LocaleItem;
 
 GlobalUtilsImpl *GetGlobalUtilsImpl(void);
-
-inline static uint8_t ToLowerCase(uint8_t c)
-{
-    if (c >= 'A' && c <= 'Z') {
-        return c + ('a' - 'A');
-    }
-    return c;
-}
 
 #define MC_FAILURE -1
 #define MC_SUCCESS 0

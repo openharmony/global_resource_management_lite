@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Huawei Device Co., Ltd.
+ * Copyright (c) 2020-2021 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,7 +26,7 @@
 #include "global_utils.h"
 
 /*
- * locale format as below, use '-' or '_' to link, e.g. en_Hant_US
+ * locale format as below, use '-' or '_' to link, e.g. en_Latn_US
  * and needn't have all 3 elements, so max length is 13 including '\0'
  * |   language  |   script  |        region          |
  * | ----------- | --------- | ---------------------- |
@@ -47,7 +47,6 @@ void GLOBAL_ConfigLanguage(const char *appLanguage)
         return;
     }
     if (strcpy_s(g_locale, MAX_LOCALE_LENGTH, appLanguage) != EOK) {
-        // strcpy_s failed
         return;
     }
 }
@@ -57,8 +56,8 @@ int32_t GLOBAL_GetLanguage(char *language, uint8_t len)
     if (language == NULL || len == 0) {
         return MC_FAILURE;
     }
-    char *localeArray[LOCALE_ELEMENT_NUM] = {0};
-    char tempLocale[MAX_LOCALE_LENGTH] = {0};
+    char *localeArray[LOCALE_ELEMENT_NUM] = {NULL};
+    char tempLocale[MAX_LOCALE_LENGTH] = {'\0'};
     int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
     if (ret != EOK) {
         return MC_FAILURE;
@@ -68,8 +67,9 @@ int32_t GLOBAL_GetLanguage(char *language, uint8_t len)
     if (ret == MC_FAILURE || count != UI_LOCALE_ELEMENT_NUM) {
         return MC_FAILURE;
     }
-    ret = strncpy_s(language, len, localeArray[0], MAX_LANGUAGE_LENGTH - 1); // language must be the element 0
-    return ret;
+
+    // language must be the element 0;
+    return (strncpy_s(language, len, localeArray[0], MAX_LANGUAGE_LENGTH - 1) != EOK) ? MC_FAILURE : MC_SUCCESS;
 }
 
 int32_t GLOBAL_GetRegion(char *region, uint8_t len)
@@ -77,8 +77,8 @@ int32_t GLOBAL_GetRegion(char *region, uint8_t len)
     if (region == NULL || len == 0) {
         return MC_FAILURE;
     }
-    char *localeArray[LOCALE_ELEMENT_NUM] = {0};
-    char tempLocale[MAX_LOCALE_LENGTH] = {0};
+    char *localeArray[LOCALE_ELEMENT_NUM] = {NULL};
+    char tempLocale[MAX_LOCALE_LENGTH] = {'\0'};
     int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
     if (ret != EOK) {
         return MC_FAILURE;
@@ -88,8 +88,9 @@ int32_t GLOBAL_GetRegion(char *region, uint8_t len)
     if (ret == MC_FAILURE || count != UI_LOCALE_ELEMENT_NUM) {
         return MC_FAILURE;
     }
-    ret = strncpy_s(region, len, localeArray[1], MAX_REGION_LENGTH - 1); // region must be the element 1
-    return ret;
+
+    // region must be the element 1
+    return (strncpy_s(region, len, localeArray[1], MAX_REGION_LENGTH - 1) != EOK) ? MC_FAILURE : MC_SUCCESS;
 }
 
 static void FreeIdItem(IdItem *idItem)
@@ -113,33 +114,38 @@ static void FreeValue(char **value)
 
 int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
 {
-    if (path == NULL || strlen(path) == 0 || value == NULL) {
+    if (path == NULL || path[0] == '\0' || value == NULL) {
         return MC_FAILURE;
     }
-    char tempLocale[MAX_LOCALE_LENGTH] = {0};
+
+    char tempLocale[MAX_LOCALE_LENGTH] = {'\0'};
     int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
     if (ret != EOK) {
         return MC_FAILURE;
     }
-    char realResourcePath[PATH_MAX] = {0};
-    if (GetGlobalUtilsImpl()->CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
+
+    char realResourcePath[GLOBAL_PATH_MAX] = {'\0'};
+    GlobalUtilsImpl *utilsImpl = GetGlobalUtilsImpl();
+    if (utilsImpl->CheckFilePath(path, realResourcePath, GLOBAL_PATH_MAX) == MC_FAILURE) {
         return MC_FAILURE;
     }
-    uint32_t idHeaderOffset = GetGlobalUtilsImpl()->GetOffsetByLocale(realResourcePath, tempLocale, MAX_LOCALE_LENGTH);
+
+    uint32_t idHeaderOffset = utilsImpl->GetOffsetByLocale(realResourcePath, tempLocale, MAX_LOCALE_LENGTH);
     IdHeader idHeader = {0, NULL};
     int32_t file = open(realResourcePath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     if (file < 0) {
         return MC_FAILURE;
     }
-    ret = GetGlobalUtilsImpl()->GetIdHeaderByOffset(file, idHeaderOffset, &idHeader);
+    ret = utilsImpl->GetIdHeaderByOffset(file, idHeaderOffset, &idHeader);
     if (ret != MC_SUCCESS) {
         close(file);
         return ret;
     }
+
     IdItem idItem = {0, INVALID_RES_TYPE, 0, 0, NULL, 0, NULL};
     for (uint32_t i = 0; i < idHeader.count; i++) {
         if (idHeader.idParams[i].id == id) {
-            int32_t ret = GetGlobalUtilsImpl()->GetIdItem(file, idHeader.idParams[i].offset, &idItem);
+            int32_t ret = utilsImpl->GetIdItem(file, idHeader.idParams[i].offset, &idItem);
             if (ret != MC_SUCCESS) {
                 close(file);
                 free(idHeader.idParams);
@@ -158,8 +164,7 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
     }
     close(file);
     free(idHeader.idParams);
-    free(idItem.value);
-    free(idItem.name);
+    FreeIdItem(&idItem);
     return MC_SUCCESS;
 }
 
@@ -169,22 +174,23 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
         return MC_FAILURE;
     }
 
-    char tempLocale[MAX_LOCALE_LENGTH] = {0};
+    char tempLocale[MAX_LOCALE_LENGTH] = {'\0'};
     int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
     if (ret != EOK) {
         return MC_FAILURE;
     }
-    char realResourcePath[PATH_MAX] = {0};
-    if (GetGlobalUtilsImpl()->CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
+    char realResourcePath[GLOBAL_PATH_MAX] = {'\0'};
+    GlobalUtilsImpl *utilsImpl = GetGlobalUtilsImpl();
+    if (utilsImpl->CheckFilePath(path, realResourcePath, GLOBAL_PATH_MAX) == MC_FAILURE) {
         return MC_FAILURE;
     }
-    uint32_t idHeaderOffset = GetGlobalUtilsImpl()->GetOffsetByLocale(realResourcePath, tempLocale, MAX_LOCALE_LENGTH);
+    uint32_t idHeaderOffset = utilsImpl->GetOffsetByLocale(realResourcePath, tempLocale, MAX_LOCALE_LENGTH);
     IdHeader idHeader = {0, NULL};
     int32_t file = open(realResourcePath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     if (file < 0) {
         return MC_FAILURE;
     }
-    ret = GetGlobalUtilsImpl()->GetIdHeaderByOffset(file, idHeaderOffset, &idHeader);
+    ret = utilsImpl->GetIdHeaderByOffset(file, idHeaderOffset, &idHeader);
     if (ret != MC_SUCCESS) {
         close(file);
         return ret;
@@ -192,7 +198,7 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
 
     IdItem idItem = {0, INVALID_RES_TYPE, 0, 0, NULL, 0, NULL};
     for (uint32_t i = 0; i < idHeader.count; i++) {
-        int32_t ret = GetGlobalUtilsImpl()->GetIdItem(file, idHeader.idParams[i].offset, &idItem);
+        int32_t ret = utilsImpl->GetIdItem(file, idHeader.idParams[i].offset, &idItem);
         if (ret != MC_SUCCESS) {
             close(file);
             free(idHeader.idParams);
@@ -215,7 +221,6 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
 
     close(file);
     free(idHeader.idParams);
-    free(idItem.value);
-    free(idItem.name);
+    FreeIdItem(&idItem);
     return MC_SUCCESS;
 }
