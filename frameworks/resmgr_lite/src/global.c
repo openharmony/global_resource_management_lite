@@ -124,9 +124,9 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
         return MC_FAILURE;
     }
 
-    char realResourcePath[GLOBAL_PATH_MAX] = {'\0'};
+    char realResourcePath[PATH_MAX] = {'\0'};
     GlobalUtilsImpl *utilsImpl = GetGlobalUtilsImpl();
-    if (utilsImpl->CheckFilePath(path, realResourcePath, GLOBAL_PATH_MAX) == MC_FAILURE) {
+    if (utilsImpl->CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
         return MC_FAILURE;
     }
 
@@ -179,9 +179,9 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
     if (ret != EOK) {
         return MC_FAILURE;
     }
-    char realResourcePath[GLOBAL_PATH_MAX] = {'\0'};
+    char realResourcePath[PATH_MAX] = {'\0'};
     GlobalUtilsImpl *utilsImpl = GetGlobalUtilsImpl();
-    if (utilsImpl->CheckFilePath(path, realResourcePath, GLOBAL_PATH_MAX) == MC_FAILURE) {
+    if (utilsImpl->CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
         return MC_FAILURE;
     }
     uint32_t idHeaderOffset = utilsImpl->GetOffsetByLocale(realResourcePath, tempLocale, MAX_LOCALE_LENGTH);
