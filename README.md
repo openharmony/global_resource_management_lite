@@ -49,11 +49,11 @@ if (values != NULL) {
 
 ## Repositories Involved<a name="section15583142420413"></a>
 
-Globalization subsystem
+[Globalization subsystem](https://gitee.com/openharmony/docs/blob/master/en/readme/globalization.md)
 
-**hmf\_global\_resmgr\_lite**
+global\_resmgr\_lite
 
-hmf\_global\_i18n\_lite
+[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
 
-hmf\_global\_cust\_lite
+[global\_cust\_lite](https://gitee.com/openharmony/global_cust_lite/blob/master/README.md)
 
