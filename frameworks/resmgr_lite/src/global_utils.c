@@ -297,7 +297,11 @@ static int32_t GetKeyParams(int32_t file, Key *keys, uint32_t resConfigNum)
     }
     g_defaultIdHeaderOffset = INVALID_OFFSET;
     for (uint32_t i = 0; i < resConfigNum; ++i) {
-        (void)lseek(file, INDEX_DEFAULT_OFFSET, SEEK_CUR); // skip the "KEYS" header
+        int seekRet = lseek(file, INDEX_DEFAULT_OFFSET, SEEK_CUR); // skip the "KEYS" header
+        if (seekRet < 0) {
+            FreeKeyParams(keys, i);
+            return MC_FAILURE;
+        }
         keys[i].offset = GetDefaultOffsetValue(file);
         keys[i].keysCount = GetDefaultOffsetValue(file);
         if (keys[i].keysCount == 0) {
@@ -323,7 +327,7 @@ static int32_t GetKeyParams(int32_t file, Key *keys, uint32_t resConfigNum)
 
 static int32_t CheckFilePath(const char *path, char *realResourcePath, int32_t length)
 {
-    if (length > GLOBAL_PATH_MAX || length < 0) {
+    if (length > PATH_MAX || length < 0) {
         return MC_FAILURE;
     }
 #if (defined(_WIN32) || defined(_WIN64))
@@ -332,7 +336,10 @@ static int32_t CheckFilePath(const char *path, char *realResourcePath, int32_t l
     }
     return MC_SUCCESS;
 #elif defined(I18N_PRODUCT)
-    strcpy_s(realResourcePath, GLOBAL_PATH_MAX, path);
+    int ret = strcpy_s(realResourcePath, PATH_MAX, path);
+    if (ret != 0) {
+        return MC_FAILURE;
+    }
     return MC_SUCCESS;
 #else
     if (realpath(path, realResourcePath) == NULL) {
@@ -347,15 +354,19 @@ static uint32_t GetOffsetByLocale(const char *path, const char *locale, uint32_t
     if (path == NULL || strlen(path) == 0 || locale == NULL || length == 0) {
         return INVALID_OFFSET;
     }
-    char realResourcePath[GLOBAL_PATH_MAX] = {0};
-    if (CheckFilePath(path, realResourcePath, GLOBAL_PATH_MAX) == MC_FAILURE) {
+    char realResourcePath[PATH_MAX] = {0};
+    if (CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
         return INVALID_OFFSET;
     }
     int32_t file = open(realResourcePath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     if (file < 0) {
         return INVALID_OFFSET;
     }
-    (void)lseek(file, RES_CONFIG_NUM_OFFSET, SEEK_SET); // goto resConfigNum index, now is fixed at 132
+    int seekRet = lseek(file, RES_CONFIG_NUM_OFFSET, SEEK_SET); // goto resConfigNum index, now is fixed at 132
+    if (seekRet < 0) {
+        close(file);
+        return INVALID_OFFSET;
+    }
     uint32_t resConfigNum = GetDefaultOffsetValue(file);
     if (resConfigNum == 0 || resConfigNum > MAX_RES_CONFIG_NUM) {
         close(file);
@@ -417,8 +428,10 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
     }
     uint8_t defaultCache[INDEX_DEFAULT_OFFSET] = {0};
     uint8_t lengthCache[VALUE_LENGTH_OFFSET] = {0};
-    (void)lseek(file, offset, SEEK_SET);
-
+    int seekRet = lseek(file, offset, SEEK_SET);
+    if (seekRet < 0) {
+        return MC_FAILURE;
+    }
     (void)read(file, defaultCache, INDEX_DEFAULT_OFFSET);
     idItem->size = ConvertUint8ArrayToUint32(defaultCache, INDEX_DEFAULT_OFFSET);
 
