@@ -16,13 +16,13 @@
 
 ```
 /base/global/
-├── resmgr_lite              # 资源管理代码仓
-│   ├──  frameworks         # 资源管理核心代码
-│   │   ├── resmgr         # 资源解析核心代码
-│   │   │   ├── include   # 资源管理头文件
-│   │   │   └── src       # 资源管理实现代码
-│   ├──  interfaces         # 资源管理接口
-│   │   └── innerkits      # 资源管理对子系统间接口
+├── resmgr_lite               # 资源管理代码仓
+│   ├──  frameworks           # 资源管理核心代码
+│   │   ├── resmgr            # 资源解析核心代码
+│   │   │   ├── include       # 资源管理头文件
+│   │   │   └── src           # 资源管理实现代码
+│   ├──  interfaces           # 资源管理接口
+│   │   └── innerkits         # 资源管理对子系统间接口
 ```
 
 ## 说明<a name="section17235135618274"></a>
