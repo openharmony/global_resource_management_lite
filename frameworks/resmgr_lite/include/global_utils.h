@@ -25,7 +25,9 @@ extern "C" {
 #endif // __cplusplus
 
 #define LOCALE_ELEMENT_NUM 3
-#define GLOBAL_PATH_MAX 256
+#ifdef I18N_PRODUCT
+#define PATH_MAX 1024
+#endif
 typedef struct GlobalUtilsImpl {
     uint32_t (*GetOffsetByLocale)(const char *path, const char *locale, uint32_t length);
     uint32_t (*GetDefaultOffsetValue)(int32_t file);

@@ -16,13 +16,13 @@
 
 ```
 /base/global/
-├── resmgr_lite              # 资源管理代码仓
-│   ├──  frameworks         # 资源管理核心代码
-│   │   ├── resmgr         # 资源解析核心代码
-│   │   │   ├── include   # 资源管理头文件
-│   │   │   └── src       # 资源管理实现代码
-│   ├──  interfaces         # 资源管理接口
-│   │   └── innerkits      # 资源管理对子系统间接口
+├── resmgr_lite               # 资源管理代码仓
+│   ├──  frameworks           # 资源管理核心代码
+│   │   ├── resmgr            # 资源解析核心代码
+│   │   │   ├── include       # 资源管理头文件
+│   │   │   └── src           # 资源管理实现代码
+│   ├──  interfaces           # 资源管理接口
+│   │   └── innerkits         # 资源管理对子系统间接口
 ```
 
 ## 说明<a name="section17235135618274"></a>
@@ -49,11 +49,11 @@ if (values != NULL) {
 
 ## 相关仓<a name="section15583142420413"></a>
 
-全球化子系统
+[全球化子系统](https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/%E5%85%A8%E7%90%83%E5%8C%96%E5%AD%90%E7%B3%BB%E7%BB%9F.md)
 
-**hmf\_global\_resmgr\_lite**
+global\_resmgr\_lite
 
-hmf\_global\_i18n\_lite
+[global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README_zh.md)
 
-hmf\_global\_cust\_lite
+[global\_cust\_lite](https://gitee.com/openharmony/global_cust_lite/blob/master/README_zh.md)
 
