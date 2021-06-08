@@ -328,7 +328,8 @@ const LocaleInfo *ResLocale::GetDefault()
 bool ResLocale::UpdateDefault(const LocaleInfo& localeInfo, bool needNotify)
 {
     AutoMutex mutex(ResLocale::lock_);
-    LocaleInfo* temp = new(std::nothrow) LocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
+    LocaleInfo* temp = new(std::nothrow) LocaleInfo(localeInfo.GetLanguage(),
+        localeInfo.GetScript(), localeInfo.GetRegion());
     if (temp == nullptr) {
         return false;
     }
@@ -348,7 +349,8 @@ LocaleInfo* BuildFromString(const char* str, char sep, RState& rState)
 {
     ResLocale* resLocale = ResLocale::BuildFromString(str, sep, rState);
     if (rState == SUCCESS) {
-        LocaleInfo * localeInfo = new(std::nothrow) LocaleInfo(resLocale->GetLanguage(), resLocale->GetScript(), resLocale->GetRegion());
+        LocaleInfo *localeInfo = new(std::nothrow) LocaleInfo(resLocale->GetLanguage(),
+            resLocale->GetScript(), resLocale->GetRegion());
         if (localeInfo == nullptr) {
             delete resLocale;
             rState = ERROR;
@@ -361,7 +363,7 @@ LocaleInfo* BuildFromString(const char* str, char sep, RState& rState)
 
 LocaleInfo* BuildFromParts(const char* language, const char* script, const char* region, RState& rState)
 {
-    LocaleInfo * localeInfo = new(std::nothrow) LocaleInfo(language, script, region);
+    LocaleInfo *localeInfo = new(std::nothrow) LocaleInfo(language, script, region);
     if (localeInfo == nullptr) {
         rState = ERROR;
         return nullptr;

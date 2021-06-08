@@ -19,8 +19,8 @@
 #include <gtest/gtest.h>
 
 #include "hilog_wrapper.h"
-#include "res_locale.h"
 #include "locale_matcher.h"
+#include "res_locale.h"
 #include "test_common.h"
 
 using namespace OHOS::Global::Resource;

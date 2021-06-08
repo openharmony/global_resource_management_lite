@@ -62,7 +62,7 @@ void StringUtilsTest::TearDown()
     // step 4: input testcase teardown step
 }
 
-std::string convertToPluralStr(int idxRet)
+std::string ConvertToPluralStr(int idxRet)
 {
     switch (idxRet) {
         case OHOS::I18N::PluralRuleType::ZERO:
@@ -97,7 +97,7 @@ HWTEST_F(StringUtilsTest, StringUtilsFuncTest003, TestSize.Level1)
     int size = sizeof(numbers) / sizeof(numbers[0]);
     for (int i = 0; i < size; ++i) {
         int us = formatter.GetPluralRuleIndex(numbers[i], status);
-        std::string converted = convertToPluralStr(us);
+        std::string converted = ConvertToPluralStr(us);
         HILOG_DEBUG("%d con: %s", numbers[i], converted.c_str());
     }
     delete (rm);

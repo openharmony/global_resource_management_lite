@@ -21,15 +21,8 @@
 #include "auto_mutex.h"
 #include "hap_manager.h"
 #include "hilog_wrapper.h"
-#include "lock.h"
 #include "utils/errors.h"
 #include "utils/string_utils.h"
-
-//#ifdef __cplusplus
-//#if __cplusplus
-//extern "C" {
-//#endif
-//#endif // __cplusplus
 
 using namespace OHOS::Global::Resource;
 
@@ -119,7 +112,7 @@ int32_t GLOBAL_GetRegion(char *region, uint8_t len)
         return SYS_ERROR;
     }
     if (strncpy_s(region, len, g_resConfig->GetLocaleInfo()->GetRegion(),
-                  strlen(g_resConfig->GetLocaleInfo()->GetRegion())) != EOK) {
+        strlen(g_resConfig->GetLocaleInfo()->GetRegion())) != EOK) {
         return SYS_ERROR;
     }
     return OK;
@@ -214,9 +207,3 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
 
     return GetValue(idItem, value);
 }
-
-//#ifdef __cplusplus
-//#if __cplusplus
-//}
-//#endif
-//#endif // __cplusplus

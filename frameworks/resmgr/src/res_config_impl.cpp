@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 #include "res_config_impl.h"
+
 #include "locale_info.h"
-#include "res_locale.h"
 #include "locale_matcher.h"
+#include "res_locale.h"
 #include "utils/utils.h"
+
 namespace OHOS {
 namespace Global {
 namespace Resource {
@@ -25,7 +27,7 @@ ResConfigImpl::ResConfigImpl()
       direction_(DIRECTION_NOT_SET),
       screenDensity_(SCREEN_DENSITY_NOT_SET),
       deviceType_(DEVICE_NOT_SET),
-      isCompletedScript_(false),localeInfo_(nullptr)
+      isCompletedScript_(false), localeInfo_(nullptr)
 {}
 
 RState ResConfigImpl::SetLocaleInfo(const char *language,
@@ -52,7 +54,8 @@ RState ResConfigImpl::SetLocaleInfo(const char *language,
                 return NOT_ENOUGH_MEM;
             }
         }
-        LocaleInfo *tempLocale = new(std::nothrow) LocaleInfo(resLocale->GetLanguage(), resLocale->GetScript(), resLocale->GetRegion());
+        LocaleInfo *tempLocale = new(std::nothrow) LocaleInfo(resLocale->GetLanguage(),
+            resLocale->GetScript(), resLocale->GetRegion());
         if (tempLocale == nullptr) {
             state = NOT_ENOUGH_MEM;
             delete resLocale;
@@ -157,7 +160,7 @@ bool ResConfigImpl::Copy(ResConfig &other)
 {
     bool isSuccess = this->CopyLocale(other);
     if (!isSuccess) {
-       return false;
+        return false;
     }
     if (this->GetDeviceType() != other.GetDeviceType()) {
         this->SetDeviceType(other.GetDeviceType());
