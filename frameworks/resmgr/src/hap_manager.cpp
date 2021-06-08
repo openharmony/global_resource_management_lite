@@ -39,7 +39,7 @@ bool HapManager::Init()
     return true;
 }
 
-std::string convertToPluralStr(int idxRet)
+std::string ConvertToPluralStr(int idxRet)
 {
     switch (idxRet) {
         case OHOS::I18N::PluralRuleType::ZERO:
@@ -102,7 +102,7 @@ std::string HapManager::GetPluralRulesAndSelect(int quantity)
         plurRulesCache_.push_back(plPair);
     }
     int idxRet = pluralFormat->GetPluralRuleIndex(quantity, status);
-    return convertToPluralStr(idxRet);
+    return ConvertToPluralStr(idxRet);
 }
 
 const IdItem* HapManager::FindResourceById(uint32_t id)

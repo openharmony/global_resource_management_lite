@@ -14,7 +14,7 @@
 import("//build/lite/config/component/lite_component.gni")
 import("//build/lite/config/test.gni")
 
-unittest("ResmgrTest") {
+unittest("ResmgrSmallTest") {
   output_extension = "bin"
 
   sources = [
@@ -22,11 +22,11 @@ unittest("ResmgrTest") {
     "unittest/lite/common/hap_manager_test.cpp",
     "unittest/lite/common/hap_parser_test.cpp",
     "unittest/lite/common/hap_resource_test.cpp",
-    "unittest/lite/common/locale_info_test.cpp",
     "unittest/lite/common/locale_matcher_test.cpp",
     "unittest/lite/common/res_config_impl_test.cpp",
     "unittest/lite/common/res_config_test.cpp",
     "unittest/lite/common/res_desc_test.cpp",
+    "unittest/lite/common/res_locale_test.cpp",
     "unittest/lite/common/resource_manager_performance_test.cpp",
     "unittest/lite/common/resource_manager_test.cpp",
     "unittest/lite/common/string_utils_test.cpp",
@@ -36,13 +36,12 @@ unittest("ResmgrTest") {
   include_dirs = [
     "unittest/lite/common",
     "//base/global/resmgr_lite/frameworks/resmgr/include",
-    "//base/global/resmgr_lite/interfaces/innerkits/include",
     "//base/global/i18n_lite/interfaces/kits/i18n/include/",
   ]
 
-  deps = [ "//base/global/resmgr_lite/frameworks/resmgr:global_resmgr" ]
+  deps = [ "//base/global/resmgr_lite/frameworks/resmgr:global_resmgr_small" ]
 }
 
 group("unittest") {
-  deps = [ ":ResmgrTest" ]
+  deps = [ ":ResmgrSmallTest" ]
 }

@@ -12,7 +12,7 @@
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
 
-shared_library("global_resmgr") {
+shared_library("global_resmgr_small") {
     sources = [
         "src/global.cpp",
         "src/hap_manager.cpp",
@@ -34,7 +34,6 @@ shared_library("global_resmgr") {
         "include",
         "//third_party/zlib",
         "//third_party/zlib/contrib/minizip",
-        "//base/global/resmgr_lite/interfaces/innerkits/include",
         "//utils/native/lite/include",
         "//utils/native/lite/memory",
         "//third_party/bounds_checking_function/include",

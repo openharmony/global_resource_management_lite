@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "locale_info_test.h"
+#include "res_locale_test.h"
 
 #include <chrono>
 #include <climits>
