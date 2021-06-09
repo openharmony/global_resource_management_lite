@@ -50,6 +50,6 @@ shared_library("global_resmgr_small") {
 
 lite_component("global_manager_lite") {
     features = [
-        ":global_resmgr",
+        ":global_resmgr_small",
     ]
 }
