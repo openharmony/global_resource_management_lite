@@ -17,54 +17,95 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
-global_sources = [
-  "src/global.c",
-  "src/global_utils.c",
-]
-
-config("global_resmgr_config") {
-  include_dirs = [
-    "include",
-    "//base/global/resmgr_lite/interfaces/innerkits/include",
-    "//utils/native/lite/include",
-    "//third_party/bounds_checking_function/include",
-  ]
-}
-
-config("global_public_config") {
-  include_dirs = [
-    "//base/global/resmgr_lite/frameworks/resmgr_lite/include",
-    "//base/global/resmgr_lite/interfaces/innerkits/include",
-  ]
-}
-
-config("global_resmgr_mingw_config") {
-  cflags = [
-    "-D_INC_STRING_S",
-    "-D_INC_WCHAR_S",
-    "-D_SECIMP=//",
-    "-D_STDIO_S_DEFINED",
-    "-D_INC_STDIO_S",
-    "-D_INC_STDLIB_S",
-    "-D_INC_MEMORY_S",
-  ]
-}
-
-if (defined(ohos_lite)) {
+if (is_small_system) {
   shared_library("global_resmgr") {
-    sources = global_sources
-    configs += [ ":global_resmgr_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+    sources = [
+      "src/global.cpp",
+      "src/hap_manager.cpp",
+      "src/hap_resource.cpp",
+      "src/likely_subtags_key_data.cpp",
+      "src/likely_subtags_value_data.cpp",
+      "src/locale_matcher.cpp",
+      "src/lock.cpp",
+      "src/res_config_impl.cpp",
+      "src/res_desc.cpp",
+      "src/res_locale.cpp",
+      "src/resource_manager_impl.cpp",
+      "src/utils/hap_parser.cpp",
+      "src/utils/string_utils.cpp",
+      "src/utils/utils.cpp",
+    ]
+
+    include_dirs = [
+      "include",
+      "//third_party/zlib",
+      "//third_party/zlib/contrib/minizip",
+      "//utils/native/lite/include",
+      "//utils/native/lite/memory",
+      "//third_party/bounds_checking_function/include",
+      "//base/global/i18n_lite/interfaces/kits/i18n/include/",
+    ]
+    public_deps = [
+      "//base/global/i18n_lite/frameworks/i18n:global_i18n",
+      "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+      "//build/lite/config/component/zlib:zlib_shared",
+      "//third_party/bounds_checking_function:libsec_shared",
+    ]
   }
 
   lite_component("global_manager_lite") {
     features = [ ":global_resmgr" ]
   }
 } else {
-  ohos_static_library("global_resmgr_simulator") {
-    sources = global_sources
-    public_configs = [ ":global_public_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_static" ]
-    configs = [ ":global_resmgr_mingw_config" ]
+  global_sources = [
+    "src/global.c",
+    "src/global_utils.c",
+  ]
+
+  config("global_resmgr_config") {
+    include_dirs = [
+      "include",
+      "//base/global/resmgr_lite/interfaces/innerkits/include",
+      "//utils/native/lite/include",
+      "//third_party/bounds_checking_function/include",
+    ]
+  }
+
+  config("global_public_config") {
+    include_dirs = [
+      "//base/global/resmgr_lite/frameworks/resmgr_lite/include",
+      "//base/global/resmgr_lite/interfaces/innerkits/include",
+    ]
+  }
+
+  config("global_resmgr_mingw_config") {
+    cflags = [
+      "-D_INC_STRING_S",
+      "-D_INC_WCHAR_S",
+      "-D_SECIMP=//",
+      "-D_STDIO_S_DEFINED",
+      "-D_INC_STDIO_S",
+      "-D_INC_STDLIB_S",
+      "-D_INC_MEMORY_S",
+    ]
+  }
+
+  if (defined(ohos_lite)) {
+    shared_library("global_resmgr") {
+      sources = global_sources
+      configs += [ ":global_resmgr_config" ]
+      deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+    }
+
+    lite_component("global_manager_lite") {
+      features = [ ":global_resmgr" ]
+    }
+  } else {
+    ohos_static_library("global_resmgr_simulator") {
+      sources = global_sources
+      public_configs = [ ":global_public_config" ]
+      deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+      configs = [ ":global_resmgr_mingw_config" ]
+    }
   }
 }
