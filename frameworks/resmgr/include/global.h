@@ -33,7 +33,6 @@ extern "C" {
 #define MAX_LANGUAGE_LENGTH   4
 #define MAX_REGION_LENGTH     4
 
-
 int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value);
 int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value);
 void GLOBAL_ConfigLanguage(const char *appLanguage);
