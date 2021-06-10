@@ -127,14 +127,14 @@ int32_t GetValue(const IdItem *idItem, char **value)
         }
         ret.append("]");
         *value = (char *)malloc(ret.size() + 1);
-        *value[ret.size()] = '\0';
+        (*value)[ret.size()] = '\0';
         if (*value == nullptr || strcpy_s(*value, ret.size() + 1, ret.c_str()) != EOK) {
             FreeValue(value);
             return SYS_ERROR;
         }
     } else {
         *value = (char *)malloc(idItem->valueLen_ + 1);
-        *value[idItem->valueLen_] = '\0';
+        (*value)[idItem->valueLen_] = '\0';
         if (*value == nullptr || strcpy_s(*value, idItem->valueLen_ + 1, idItem->value_.c_str()) != EOK) {
             FreeValue(value);
             return SYS_ERROR;
