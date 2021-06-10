@@ -15,7 +15,7 @@ import("//build/lite/config/component/lite_component.gni")
 import("//build/lite/config/test.gni")
 
 if (is_small_system) {
-  unittest("ResmgrSmallTest") {
+  unittest("ResmgrTest") {
     output_extension = "bin"
 
     sources = [
