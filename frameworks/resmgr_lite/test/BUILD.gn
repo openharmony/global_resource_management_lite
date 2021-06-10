@@ -37,6 +37,7 @@ if (is_small_system) {
     include_dirs = [
       "unittest/lite/common",
       "//base/global/resmgr_lite/frameworks/resmgr_lite/include",
+      "//base/global/resmgr_lite/interfaces/innerkits/include",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
 

@@ -43,6 +43,7 @@ if (is_small_system) {
       "//utils/native/lite/include",
       "//utils/native/lite/memory",
       "//third_party/bounds_checking_function/include",
+      "//base/global/resmgr_lite/interfaces/innerkits/include",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
     public_deps = [
