@@ -17,7 +17,7 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
-if (is_small_system) {
+if (ohos_kernel_type == "liteos_a") {
   shared_library("global_resmgr") {
     sources = [
       "src/global.cpp",
