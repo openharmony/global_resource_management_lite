@@ -60,9 +60,9 @@ void GlobalTest::TearDown()
     // step 4: input testcase teardown step
 }
 
-int GetResId(std::string name, ResType resType)
+int GetResId(const std::string &name, ResType resType)
 {
-    ResConfigImpl *rc = new ResConfigImpl;
+    auto rc = new ResConfigImpl;
     rc->SetLocaleInfo("en", nullptr, "US");
     std::string resPath = FormatFullPath(g_resFilePath);
     const char *path = resPath.c_str();
@@ -82,6 +82,45 @@ int GetResId(std::string name, ResType resType)
  */
 HWTEST_F(GlobalTest, GlobalFuncTest001, TestSize.Level1)
 {
+    char lan[10];
+    char region[10];
+
+    GLOBAL_ConfigLanguage("en-Latn-US");
+    int32_t ret = GLOBAL_GetLanguage(lan, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("en"), lan);
+    ret = GLOBAL_GetRegion(region, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("US"), region);
+
+    GLOBAL_ConfigLanguage("en_Latn_US");
+    ret = GLOBAL_GetLanguage(lan, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("en"), lan);
+    ret = GLOBAL_GetRegion(region, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("US"), region);
+
+    GLOBAL_ConfigLanguage("en-US");
+    ret = GLOBAL_GetLanguage(lan, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("en"), lan);
+    ret = GLOBAL_GetRegion(region, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("US"), region);
+
+    GLOBAL_ConfigLanguage("en_US");
+    ret = GLOBAL_GetLanguage(lan, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("en"), lan);
+    ret = GLOBAL_GetRegion(region, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("US"), region);
+
+    GLOBAL_ConfigLanguage("en");
+    ret = GLOBAL_GetLanguage(lan, 10);
+    ASSERT_EQ(OK, ret);
+    ASSERT_EQ(std::string("en"), lan);
 }
 
 /*
@@ -91,13 +130,29 @@ HWTEST_F(GlobalTest, GlobalFuncTest001, TestSize.Level1)
  */
 HWTEST_F(GlobalTest, GlobalFuncTest002, TestSize.Level1)
 {
+    GLOBAL_ConfigLanguage("en_Latn_US");
+    char *values = nullptr;
+    int32_t ret = GLOBAL_GetValueByName("app_name", FormatFullPath(g_resFilePath).c_str(), &values);
+    // when ret != OK , values has been already freed.
+    ASSERT_EQ(OK, ret);
+    EXPECT_EQ(std::string("App Name"), values);
+    free(values);
 }
 
 /*
  * @tc.name: GlobalFuncTest001
- * @tc.desc: Test GLOBAL_GetValueByName function, file case.
+ * @tc.desc: Test GLOBAL_GetValueById function, file case.
  * @tc.type: FUNC
  */
 HWTEST_F(GlobalTest, GlobalFuncTest003, TestSize.Level1)
 {
+    GLOBAL_ConfigLanguage("en_Latn_US");
+    char *values = nullptr;
+    int id = GetResId("app_name", ResType::STRING);
+    ASSERT_TRUE(id > 0);
+    int32_t ret = GLOBAL_GetValueById(static_cast<uint32_t>(id), FormatFullPath(g_resFilePath).c_str(), &values);
+    // when ret != OK , values has been already freed.
+    ASSERT_EQ(OK, ret);
+    EXPECT_EQ(std::string("App Name"), values);
+    free(values);
 }
