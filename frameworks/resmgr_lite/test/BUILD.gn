@@ -14,7 +14,7 @@
 import("//build/lite/config/component/lite_component.gni")
 import("//build/lite/config/test.gni")
 
-if (is_small_system) {
+if (ohos_kernel_type == "liteos_a") {
   unittest("ResmgrTest") {
     output_extension = "bin"
 
