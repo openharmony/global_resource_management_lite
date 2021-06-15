@@ -138,7 +138,7 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest001, TestSize.Level1)
 
 /*
  * load a hap, set config en_US
- * @tc.name:
+ * @tc.name: HapResourceFuncTest002
  * @tc.desc: Test Load & GetIdValues & GetIdValuesByName function, file case.
  * @tc.type: FUNC
  */
@@ -211,7 +211,7 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest002, TestSize.Level1)
 
 /*
  * load a hap, get a value which is ref
- * @tc.name:
+ * @tc.name: HapResourceFuncTest003
  * @tc.desc: Test GetIdValuesByName function, file case.
  * @tc.type: FUNC
  */
@@ -284,8 +284,7 @@ ResDesc *LoadFromHap(const char *hapPath, const ResConfigImpl *defaultConfig, bo
 }
 
 /*
- *
- * @tc.name:
+ * @tc.name: HapResourceFuncTest004
  * @tc.desc: Test HapParser::ReadIndexFromFile function, file case.
  * @tc.type: FUNC
  */

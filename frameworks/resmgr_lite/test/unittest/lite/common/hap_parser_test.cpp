@@ -112,7 +112,7 @@ HWTEST_F(HapParserTest, HapParserFuncTest001, TestSize.Level1)
 
 /*
  * @tc.name: GetDeviceType
- * @tc.desc: Test
+ * @tc.desc: Test GetDeviceType
  * @tc.type: FUNC
  */
 HWTEST_F(HapParserTest, HapParserFuncTest002, TestSize.Level1)
@@ -128,7 +128,7 @@ HWTEST_F(HapParserTest, HapParserFuncTest002, TestSize.Level1)
 
 /*
  * @tc.name: GetScreenDensity
- * @tc.desc: Test
+ * @tc.desc: Test GetScreenDensity
  * @tc.type: FUNC
  */
 HWTEST_F(HapParserTest, HapParserFuncTest003, TestSize.Level1)
@@ -144,7 +144,7 @@ HWTEST_F(HapParserTest, HapParserFuncTest003, TestSize.Level1)
 
 /*
  * @tc.name: ToFolderPath
- * @tc.desc: Test
+ * @tc.desc: Test ToFolderPath
  * @tc.type: FUNC
  */
 HWTEST_F(HapParserTest, HapParserFuncTest004, TestSize.Level1)

@@ -59,7 +59,7 @@ void ResDescTest::TearDown()
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResDescFuncTest001
  * @tc.desc: Test IsRef function, non file case.
  * @tc.type: FUNC
  */

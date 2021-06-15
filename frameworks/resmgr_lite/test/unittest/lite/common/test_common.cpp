@@ -70,6 +70,9 @@ void PrintVectorString(const std::vector<std::string> &value)
 ResConfig *CreateResConfig(const char *language, const char *script, const char *region)
 {
     ResConfig *resConfig = CreateResConfig();
+    if (resConfig == nullptr) {
+        return nullptr;
+    }
     resConfig->SetLocaleInfo(language, script, region);
     return resConfig;
 }
