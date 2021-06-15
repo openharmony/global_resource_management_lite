@@ -363,6 +363,30 @@ LocaleInfo* BuildFromString(const char* str, char sep, RState& rState)
 
 LocaleInfo* BuildFromParts(const char* language, const char* script, const char* region, RState& rState)
 {
+    size_t len = Utils::StrLen(language);
+    if (len == 0) {
+        rState = INVALID_BCP47_LANGUAGE_SUBTAG;
+        return nullptr;
+    }
+    if (LocaleMatcher::IsLanguageTag(language, len) == false) {
+        rState = INVALID_BCP47_LANGUAGE_SUBTAG;
+        return nullptr;
+    }
+
+    len = Utils::StrLen(script);
+    if (len > 0) {
+        if (LocaleMatcher::IsScriptTag(script, len) == 0) {
+            rState = INVALID_BCP47_SCRIPT_SUBTAG;
+            return nullptr;
+        }
+    }
+    len = Utils::StrLen(region);
+    if (len > 0) {
+        if (LocaleMatcher::IsRegionTag(region, len) == 0) {
+            rState = INVALID_BCP47_REGION_SUBTAG;
+            return nullptr;
+        }
+    }
     LocaleInfo *localeInfo = new(std::nothrow) LocaleInfo(language, script, region);
     if (localeInfo == nullptr) {
         rState = ERROR;

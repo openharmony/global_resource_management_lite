@@ -98,6 +98,10 @@ void ResourceManagerTest::AddResource(const char *language, const char *script, 
 {
     if (language != nullptr || region != nullptr) {
         auto rc = CreateResConfig();
+        if (rc == nullptr) {
+            EXPECT_TRUE(false);
+            return;
+        }
         rc->SetLocaleInfo(language, script, region);
         rm->UpdateResConfig(*rc);
         delete rc;
@@ -158,7 +162,7 @@ void ResourceManagerTest::TearDown(void)
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerAddResourceTest001
  * @tc.desc: Test AddResource function, file case.
  * @tc.type: FUNC
  */
@@ -170,7 +174,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerAddResourceTest001, TestSize.Level1
 };
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerAddResourceTest002
  * @tc.desc: Test AddResource function, file case.
  * @tc.type: FUNC
  */
@@ -183,7 +187,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerAddResourceTest002, TestSize.Level1
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerAddResourceTest003
  * @tc.desc: Test AddResource function, file case.
  * @tc.type: FUNC
  */
@@ -198,7 +202,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerAddResourceTest003, TestSize.Level1
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerUpdateResConfigTest001
  * @tc.desc: Test UpdateResConfig function
  * @tc.type: FUNC
  */
@@ -207,6 +211,10 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest001, TestSize.Le
     // success cases
     RState state;
     ResConfig *rc = CreateResConfig();
+    if (rc == nullptr) {
+        EXPECT_TRUE(false);
+        return;
+    }
     rc->SetLocaleInfo("en", nullptr, "US");
     rc->SetDeviceType(DeviceType::DEVICE_CAR);
     state = rm->UpdateResConfig(*rc);
@@ -215,7 +223,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest001, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerUpdateResConfigTest002
  * @tc.desc: Test UpdateResConfig function
  * @tc.type: FUNC
  */
@@ -224,13 +232,17 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest002, TestSize.Le
     // error cases
     RState state;
     ResConfig *rc = CreateResConfig();
+    if (rc == nullptr) {
+        EXPECT_TRUE(false);
+        return;
+    }
     state = rm->UpdateResConfig(*rc);
     delete rc;
     EXPECT_EQ(LOCALEINFO_IS_NULL, state);
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerUpdateResConfigTest003
  * @tc.desc: Test UpdateResConfig function
  * @tc.type: FUNC
  */
@@ -239,6 +251,10 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest003, TestSize.Le
     // error cases
     RState state;
     ResConfig *rc = CreateResConfig();
+    if (rc == nullptr) {
+        EXPECT_TRUE(false);
+        return;
+    }
     rc->SetLocaleInfo(nullptr, nullptr, "US");
     state = rm->UpdateResConfig(*rc);
     delete rc;
@@ -247,7 +263,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest003, TestSize.Le
 
 /*
  * load a hap, defaultConfig set to en, then switch to zh
- * @tc.name:
+ * @tc.name: ResourceManagerUpdateResConfigTest004
  * @tc.desc: Test UpdateResConfig function
  * @tc.type: FUNC
  */
@@ -257,6 +273,10 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest004, TestSize.Le
     bool ret = true;
     RState state;
     ResConfig *rc = CreateResConfig();
+    if (rc == nullptr) {
+        EXPECT_TRUE(false);
+        return;
+    }
     rc->SetLocaleInfo("en", nullptr, nullptr);
     state = rm->UpdateResConfig(*rc);
     EXPECT_EQ(SUCCESS, state);
@@ -279,7 +299,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest004, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerUpdateResConfigTest005
  * @tc.desc: Test UpdateResConfig function
  * @tc.type: FUNC
  */
@@ -293,6 +313,10 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest005, TestSize.Le
     ((ResourceManagerImpl *)rm)->hapManager_->hapResources_.push_back(hapResource);
     RState state;
     ResConfig *rc = CreateResConfig();
+    if (rc == nullptr) {
+        EXPECT_TRUE(false);
+        return;
+    }
     rc->SetLocaleInfo("en", nullptr, "US");
     state = rm->UpdateResConfig(*rc);
     delete rc;
@@ -300,7 +324,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest005, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetResConfigTest001
  * @tc.desc: Test GetResConfig function
  * @tc.type: FUNC
  */
@@ -316,7 +340,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetResConfigTest001, TestSize.Level
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetResConfigTest002
  * @tc.desc: Test GetResConfig function
  * @tc.type: FUNC
  */
@@ -326,6 +350,10 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetResConfigTest002, TestSize.Level
     RState state;
     {
         ResConfig *rc = CreateResConfig();
+        if (rc == nullptr) {
+            EXPECT_TRUE(false);
+            return;
+        }
         rc->SetLocaleInfo("en", nullptr, "US");
         rc->SetDeviceType(DeviceType::DEVICE_CAR);
         state = rm->UpdateResConfig(*rc);
@@ -340,7 +368,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetResConfigTest002, TestSize.Level
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByIdTest001
  * @tc.desc: Test GetStringById function
  * @tc.type: FUNC
  */
@@ -358,7 +386,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByIdTest001, TestSize.Leve
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByIdTest002
  * @tc.desc: Test GetStringById function
  * @tc.type: FUNC
  */
@@ -376,7 +404,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByIdTest002, TestSize.Leve
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByIdTest003
  * @tc.desc: Test GetStringById function
  * @tc.type: FUNC
  */
@@ -390,7 +418,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByIdTest003, TestSize.Leve
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByNameTest001
  * @tc.desc: Test GetStringByName function
  * @tc.type: FUNC
  */
@@ -408,7 +436,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByNameTest001, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByNameTest002
  * @tc.desc: Test GetStringByName function
  * @tc.type: FUNC
  */
@@ -426,7 +454,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByNameTest002, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringByNameTest003
  * @tc.desc: Test GetStringByName function
  * @tc.type: FUNC
  */
@@ -440,7 +468,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringByNameTest003, TestSize.Le
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringFormatByIdTest001
  * @tc.desc: Test GetStringFormatById function
  * @tc.type: FUNC
  */
@@ -458,7 +486,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringFormatByIdTest001, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringFormatByIdTest002
  * @tc.desc: Test GetStringFormatById function
  * @tc.type: FUNC
  */
@@ -472,7 +500,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringFormatByIdTest002, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringFormatByNameTest001
  * @tc.desc: Test GetStringFormatByName function
  * @tc.type: FUNC
  */
@@ -488,7 +516,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringFormatByNameTest001, TestS
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringFormatByNameTest002
  * @tc.desc: Test GetStringFormatByName function
  * @tc.type: FUNC
  */
@@ -502,7 +530,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringFormatByNameTest002, TestS
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringArrayByIdTest001
  * @tc.desc: Test GetStringArrayById function, file case.
  * @tc.type: FUNC
  */
@@ -528,7 +556,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringArrayByIdTest001, TestSize
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringArrayByIdTest002
  * @tc.desc: Test GetStringArrayById function, file case.
  * @tc.type: FUNC
  */
@@ -545,7 +573,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringArrayByIdTest002, TestSize
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringArrayByNameTest001
  * @tc.desc: Test GetStringArrayByName function, file case.
  * @tc.type: FUNC
  */
@@ -564,7 +592,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringArrayByNameTest001, TestSi
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetStringArrayByNameTest002
  * @tc.desc: Test GetStringArrayByName function, file case.
  * @tc.type: FUNC
  */
@@ -581,7 +609,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetStringArrayByNameTest002, TestSi
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByIdTest001
  * @tc.desc: Test GetPatternById function, file case.
  * @tc.type: FUNC
  */
@@ -601,7 +629,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByIdTest002
  * @tc.desc: Test GetPatternById function, file case.
  * @tc.type: FUNC
  */
@@ -621,7 +649,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByIdTest003
  * @tc.desc: Test GetPatternById function, file case.
  * @tc.type: FUNC
  */
@@ -640,9 +668,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest003, TestSize.Lev
     PrintMapString(outValue);
 }
 
-
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByIdTest004
  * @tc.desc: Test GetPatternById function, file case.
  * @tc.type: FUNC
  */
@@ -659,7 +686,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest004, TestSize.Lev
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByNameTest001
  * @tc.desc: Test GetPatternByName function, file case.
  * @tc.type: FUNC
  */
@@ -677,7 +704,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByNameTest001, TestSize.L
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByNameTest002
  * @tc.desc: Test GetPatternByName function, file case.
  * @tc.type: FUNC
  */
@@ -695,7 +722,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByNameTest002, TestSize.L
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByNameTest003
  * @tc.desc: Test GetPatternByName function, file case.
  * @tc.type: FUNC
  */
@@ -712,9 +739,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByNameTest003, TestSize.L
     PrintMapString(outValue);
 }
 
-
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPatternByNameTest004
  * @tc.desc: Test GetPatternByName function, file case.
  * @tc.type: FUNC
  */
@@ -731,7 +757,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByNameTest004, TestSize.L
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdTest001
  * @tc.desc: Test GetPluralStringById function, file case.
  * @tc.type: FUNC
  */
@@ -747,7 +773,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdTest001, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdTest002
  * @tc.desc: Test GetPluralStringById function, file case.
  * @tc.type: FUNC
  */
@@ -763,7 +789,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdTest002, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdTest003
  * @tc.desc: Test GetPluralStringById function, file case.
  * @tc.type: FUNC
  */
@@ -785,7 +811,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdTest003, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdTest004
  * @tc.desc: Test GetPluralStringById function, file case.
  * @tc.type: FUNC
  */
@@ -808,7 +834,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdTest004, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdTest005
  * @tc.desc: Test GetPluralStringById function, file case.
  * @tc.type: FUNC
  */
@@ -823,7 +849,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdTest005, TestSiz
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByNameTest001
  * @tc.desc: Test GetPluralStringByName function, file case.
  * @tc.type: FUNC
  */
@@ -839,7 +865,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByNameTest001, TestS
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByNameTest002
  * @tc.desc: Test GetPluralStringByName function, file case.
  * @tc.type: FUNC
  */
@@ -854,7 +880,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByNameTest002, TestS
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdFormatTest001
  * @tc.desc: Test GetPluralStringByIdFormat function, file case.
  * @tc.type: FUNC
  */
@@ -870,7 +896,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdFormatTest001, T
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByIdFormatTest002
  * @tc.desc: Test GetPluralStringByIdFormat function, file case.
  * @tc.type: FUNC
  */
@@ -885,7 +911,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByIdFormatTest002, T
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByNameFormatTest001
  * @tc.desc: Test GetPluralStringByNameFormat function, file case.
  * @tc.type: FUNC
  */
@@ -901,7 +927,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByNameFormatTest001,
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerGetPluralStringByNameFormatTest002
  * @tc.desc: Test GetPluralStringByNameFormat function, file case.
  * @tc.type: FUNC
  */
@@ -916,8 +942,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPluralStringByNameFormatTest002,
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetThemeByIdTest001
+ * @tc.desc: Test GetThemeById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByIdTest001, TestSize.Level1)
@@ -934,8 +960,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByIdTest001, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetThemeByIdTest002
+ * @tc.desc: Test GetThemeById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByIdTest002, TestSize.Level1)
@@ -949,8 +975,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByIdTest002, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetThemeByNameTest001
+ * @tc.desc: Test GetThemeByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByNameTest001, TestSize.Level1)
@@ -969,8 +995,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByNameTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetThemeByNameTest002
+ * @tc.desc: Test GetThemeByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByNameTest002, TestSize.Level1)
@@ -984,8 +1010,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetThemeByNameTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetBooleanByIdTest001
+ * @tc.desc: Test GetBooleanById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByIdTest001, TestSize.Level1)
@@ -1008,8 +1034,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByIdTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetBooleanByIdTest002
+ * @tc.desc: Test GetBooleanById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByIdTest002, TestSize.Level1)
@@ -1023,8 +1049,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByIdTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetBooleanByNameTest001
+ * @tc.desc: Test GetBooleanByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByNameTest001, TestSize.Level1)
@@ -1043,8 +1069,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByNameTest001, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetBooleanByNameTest002
+ * @tc.desc: Test GetBooleanByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByNameTest002, TestSize.Level1)
@@ -1058,8 +1084,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetBooleanByNameTest002, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntegerByIdTest001
+ * @tc.desc: Test GetIntegerById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByIdTest001, TestSize.Level1)
@@ -1082,8 +1108,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByIdTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntegerByIdTest002
+ * @tc.desc: Test GetIntegerById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByIdTest002, TestSize.Level1)
@@ -1097,8 +1123,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByIdTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntegerByNameTest001
+ * @tc.desc: Test GetIntegerByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByNameTest001, TestSize.Level1)
@@ -1117,8 +1143,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByNameTest001, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntegerByNameTest002
+ * @tc.desc: Test GetIntegerByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByNameTest002, TestSize.Level1)
@@ -1132,8 +1158,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntegerByNameTest002, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetFloatByIdTest001
+ * @tc.desc: Test GetFloatById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByIdTest001, TestSize.Level1)
@@ -1156,8 +1182,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByIdTest001, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetFloatByIdTest002
+ * @tc.desc: Test GetFloatById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByIdTest002, TestSize.Level1)
@@ -1171,8 +1197,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByIdTest002, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetFloatByNameTest001
+ * @tc.desc: Test GetFloatByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByNameTest001, TestSize.Level1)
@@ -1191,8 +1217,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByNameTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetFloatByNameTest002
+ * @tc.desc: Test GetFloatByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByNameTest002, TestSize.Level1)
@@ -1206,8 +1232,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetFloatByNameTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntArrayByIdTest001
+ * @tc.desc: Test GetIntArrayById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByIdTest001, TestSize.Level1)
@@ -1227,8 +1253,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByIdTest001, TestSize.Le
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntArrayByIdTest002
+ * @tc.desc: Test GetIntArrayById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByIdTest002, TestSize.Level1)
@@ -1242,8 +1268,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByIdTest002, TestSize.Le
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntArrayByNameTest001
+ * @tc.desc: Test GetIntArrayByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByNameTest001, TestSize.Level1)
@@ -1261,8 +1287,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByNameTest001, TestSize.
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetIntArrayByNameTest002
+ * @tc.desc: Test GetIntArrayByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByNameTest002, TestSize.Level1)
@@ -1276,8 +1302,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetIntArrayByNameTest002, TestSize.
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetColorByIdTest001
+ * @tc.desc: Test GetColorById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByIdTest001, TestSize.Level1)
@@ -1300,8 +1326,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByIdTest001, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetColorByIdTest002
+ * @tc.desc: Test GetColorById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByIdTest002, TestSize.Level1)
@@ -1315,8 +1341,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByIdTest002, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetColorByNameTest001
+ * @tc.desc: Test GetColorByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByNameTest001, TestSize.Level1)
@@ -1335,8 +1361,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByNameTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetColorByNameTest002
+ * @tc.desc: Test GetColorByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByNameTest002, TestSize.Level1)
@@ -1350,8 +1376,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetColorByNameTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetProfileByIdTest001
+ * @tc.desc: Test GetProfileById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByIdTest001, TestSize.Level1)
@@ -1374,8 +1400,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByIdTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetProfileByIdTest002
+ * @tc.desc: Test GetProfileById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByIdTest002, TestSize.Level1)
@@ -1389,8 +1415,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByIdTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetProfileByNameTest001
+ * @tc.desc: Test GetProfileByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByNameTest001, TestSize.Level1)
@@ -1411,8 +1437,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByNameTest001, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetProfileByNameTest002
+ * @tc.desc: Test GetProfileByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByNameTest002, TestSize.Level1)
@@ -1426,8 +1452,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetProfileByNameTest002, TestSize.L
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetMediaByIdTest001
+ * @tc.desc: Test GetMediaById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByIdTest001, TestSize.Level1)
@@ -1450,8 +1476,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByIdTest001, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetMediaByIdTest002
+ * @tc.desc: Test GetMediaById
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByIdTest002, TestSize.Level1)
@@ -1465,8 +1491,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByIdTest002, TestSize.Level
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetMediaByNameTest001
+ * @tc.desc: Test GetMediaByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByNameTest001, TestSize.Level1)
@@ -1487,8 +1513,8 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByNameTest001, TestSize.Lev
 }
 
 /*
- * @tc.name:
- * @tc.desc:
+ * @tc.name: ResourceManagerGetMediaByNameTest002
+ * @tc.desc: Test GetMediaByName
  * @tc.type: FUNC
  */
 HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByNameTest002, TestSize.Level1)
@@ -1502,7 +1528,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetMediaByNameTest002, TestSize.Lev
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerResolveReferenceTest001
  * @tc.desc: Test ResolveReference function, file case.
  * @tc.type: FUNC
  */
@@ -1591,7 +1617,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveReferenceTest001, TestSize.L
 }
 
 /*
- * @tc.name:
+ * @tc.name: ResourceManagerResolveParentReferenceTest001
  * @tc.desc: Test ResolveParentReference function, file case.
  * @tc.type: FUNC
  */
@@ -1644,7 +1670,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveParentReferenceTest001, Test
 
 /*
  * test res with same name in different resType
- * @tc.name:
+ * @tc.name: ResourceManagerSameNameTest001
  * @tc.desc: Test GetStringByName & GetBooleanByName & GetIntegerByName function, file case.
  * @tc.type: FUNC
  */
