@@ -18,9 +18,6 @@
 #include <fstream>
 #include <iostream>
 
-#include <fstream>
-#include <iostream>
-
 #include "hap_parser.h"
 #include "hilog_wrapper.h"
 #include "locale_matcher.h"
