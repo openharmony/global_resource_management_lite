@@ -27,7 +27,7 @@ class ResConfig {
 public:
     virtual RState SetLocaleInfo(const char *language, const char *script, const char *region) = 0;
 
-    virtual RState SetLocaleInfo(LocaleInfo& localeInfo);
+    virtual RState SetLocaleInfo(LocaleInfo& localeInfo) = 0;
 
     virtual void SetDeviceType(DeviceType deviceType) = 0;
 

@@ -31,7 +31,8 @@ ResConfigImpl::ResConfigImpl()
 {}
 RState ResConfigImpl::SetLocaleInfo(LocaleInfo& localeInfo)
 {
-    this->SetLocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
+    return this->SetLocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
+
 }
 RState ResConfigImpl::SetLocaleInfo(const char *language,
     const char *script,
