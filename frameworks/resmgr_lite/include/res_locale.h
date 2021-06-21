@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_RESOURCE_MANAGER_LOCALEINFO_IMPL_H
-#define OHOS_RESOURCE_MANAGER_LOCALEINFO_IMPL_H
+#ifndef OHOS_RESOURCE_MANAGER_RES_LOCALE_H
+#define OHOS_RESOURCE_MANAGER_RES_LOCALE_H
 #include <cstdint>
 #include <cstddef>
 #include "rstate.h"
@@ -42,17 +42,17 @@ public:
 
     ResLocale();
 
-    RState CopyFromLocaleInfo(const LocaleInfo* other);
+    RState CopyFromLocaleInfo(const LocaleInfo *other);
 
-    RState Copy(const ResLocale* other);
+    RState Copy(const ResLocale *other);
 
     static const LocaleInfo* GetDefault();
 
-    static bool UpdateDefault(const LocaleInfo& LocaleInfo, bool needNotify);
+    static bool UpdateDefault(const LocaleInfo& localeInfo, bool needNotify);
 
-    static ResLocale* BuildFromString(const char* bcp47String, char sep, RState& rState);
+    static ResLocale* BuildFromString(const char *bcp47String, char sep, RState& rState);
 
-    static ResLocale* BuildFromParts(const char* language, const char* script, const char* region, RState& rState);
+    static ResLocale* BuildFromParts(const char *language, const char *script, const char *region, RState& rState);
 
     ~ResLocale();
 
@@ -67,26 +67,26 @@ public:
     static constexpr size_t MIN_BCP47_STR_LEN = 2;
 
 private:
-    RState SetLanguage(const char* language, size_t len);
+    RState SetLanguage(const char *language, size_t len);
 
-    RState SetScript(const char* script, size_t len);
+    RState SetScript(const char *script, size_t len);
 
-    RState SetRegion(const char* region, size_t len);
+    RState SetRegion(const char *region, size_t len);
 
-    static ResLocale* DoParse(const char* bcp47String, char sep, RState& rState);
-    
+    static ResLocale* DoParse(const char *bcp47String, char sep, RState& rState);
+
     static ResLocale* CreateResLocale(ParseResult& parseResult, RState& rState);
 
-    RState Init(const char* language, size_t languageLen, const char* script, size_t scriptLen,
-        const char* region, size_t regionLen);
+    RState Init(const char *language, size_t languageLen, const char *script, size_t scriptLen,
+        const char *region, size_t regionLen);
 
-    const char* language_;
+    const char *language_;
 
-    const char* region_;
+    const char *region_;
 
-    const char* script_;
+    const char *script_;
 
-    static LocaleInfo* defaultLocale_;
+    static LocaleInfo *defaultLocale_;
 
     static Lock lock_;
 
@@ -96,4 +96,3 @@ private:
 } // namespace Global
 } // namespace OHOS
 #endif
-

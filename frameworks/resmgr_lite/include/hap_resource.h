@@ -17,10 +17,10 @@
 
 #include "res_desc.h"
 #include "res_config_impl.h"
-#include <string>
-#include <vector>
 #include <map>
+#include <string>
 #include <time.h>
+#include <vector>
 
 namespace OHOS {
 namespace Global {

@@ -31,14 +31,6 @@ HapManager::HapManager(ResConfigImpl *resConfig)
 {
 }
 
-bool HapManager::icuInitialized = HapManager::Init();
-
-bool HapManager::Init()
-{
-    // OHOS::I18N does not need init
-    return true;
-}
-
 std::string ConvertToPluralStr(int idxRet)
 {
     switch (idxRet) {
@@ -105,7 +97,7 @@ std::string HapManager::GetPluralRulesAndSelect(int quantity)
     return ConvertToPluralStr(idxRet);
 }
 
-const IdItem* HapManager::FindResourceById(uint32_t id)
+const IdItem *HapManager::FindResourceById(uint32_t id)
 {
     auto qualifierValue = FindQualifierValueById(id);
     if (qualifierValue == nullptr) {
@@ -114,7 +106,7 @@ const IdItem* HapManager::FindResourceById(uint32_t id)
     return qualifierValue->GetIdItem();
 }
 
-const IdItem* HapManager::FindResourceByName(const char *name, const ResType resType)
+const IdItem *HapManager::FindResourceByName(const char *name, const ResType resType)
 {
     auto qualifierValue = FindQualifierValueByName(name, resType);
     if (qualifierValue == nullptr) {
@@ -144,13 +136,12 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueByName(
             if (bestResConfig == nullptr) {
                 bestIndex = i;
                 bestResConfig = resConfig;
+            } else if (bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
+                continue;
             } else {
-                if (bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
-                    continue;
-                } else {
-                    bestResConfig = resConfig;
-                    bestIndex = i;
-                }
+                bestResConfig = resConfig;
+                bestIndex = i;
+                
             }
         }
     }
@@ -269,7 +260,7 @@ bool HapManager::AddResourcePath(const char *path)
     if (pResource == nullptr) {
         return false;
     }
-    this->hapResources_.push_back((HapResource *) pResource);
+    this->hapResources_.push_back((HapResource *)pResource);
     this->loadedHapPaths_.push_back(sPath);
     return true;
 }
@@ -288,7 +279,7 @@ RState HapManager::ReloadAll()
             }
             return HAP_INIT_FAILED;
         }
-        newResources.push_back((HapResource *) pResource);
+        newResources.push_back((HapResource *)pResource);
     }
     for (size_t i = 0; i < hapResources_.size(); ++i) {
         delete (hapResources_[i]);

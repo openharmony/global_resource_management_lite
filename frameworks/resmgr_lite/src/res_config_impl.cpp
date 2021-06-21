@@ -29,7 +29,10 @@ ResConfigImpl::ResConfigImpl()
       deviceType_(DEVICE_NOT_SET),
       isCompletedScript_(false), localeInfo_(nullptr)
 {}
-
+RState ResConfigImpl::SetLocaleInfo(LocaleInfo& localeInfo)
+{
+    this->SetLocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
+}
 RState ResConfigImpl::SetLocaleInfo(const char *language,
     const char *script,
     const char *region)
@@ -134,7 +137,7 @@ bool ResConfigImpl::CopyLocale(ResConfig &other)
         }
     }
     if (needCopy) {
-        ResLocale* temp = new(std::nothrow) ResLocale;
+        ResLocale *temp = new(std::nothrow) ResLocale;
         if (temp == nullptr) {
             return false;
         }
@@ -143,7 +146,7 @@ bool ResConfigImpl::CopyLocale(ResConfig &other)
             delete temp;
             return false;
         }
-        LocaleInfo* tempLocale = new(std::nothrow) LocaleInfo(*other.GetLocaleInfo());
+        LocaleInfo *tempLocale = new(std::nothrow) LocaleInfo(*other.GetLocaleInfo());
         if (tempLocale == nullptr) {
             delete tempLocale;
             delete temp;
@@ -297,7 +300,7 @@ bool ResConfigImpl::IsMoreSpecificThan(const ResConfigImpl *other) const
 
 ResConfig *CreateResConfig()
 {
-    ResConfigImpl* temp = new(std::nothrow) ResConfigImpl;
+    ResConfigImpl *temp = new(std::nothrow) ResConfigImpl;
     return temp;
 }
 } // namespace Resource

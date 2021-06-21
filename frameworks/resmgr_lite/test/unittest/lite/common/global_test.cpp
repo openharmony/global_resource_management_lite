@@ -124,7 +124,7 @@ HWTEST_F(GlobalTest, GlobalFuncTest001, TestSize.Level1)
 }
 
 /*
- * @tc.name: GlobalFuncTest001
+ * @tc.name: GlobalFuncTest002
  * @tc.desc: Test GLOBAL_GetValueByName function, file case.
  * @tc.type: FUNC
  */
@@ -133,14 +133,14 @@ HWTEST_F(GlobalTest, GlobalFuncTest002, TestSize.Level1)
     GLOBAL_ConfigLanguage("en_Latn_US");
     char *values = nullptr;
     int32_t ret = GLOBAL_GetValueByName("app_name", FormatFullPath(g_resFilePath).c_str(), &values);
-    // when ret != OK , values has been already freed.
+    // when ret != OK , values has been freed.
     ASSERT_EQ(OK, ret);
     EXPECT_EQ(std::string("App Name"), values);
     free(values);
 }
 
 /*
- * @tc.name: GlobalFuncTest001
+ * @tc.name: GlobalFuncTest003
  * @tc.desc: Test GLOBAL_GetValueById function, file case.
  * @tc.type: FUNC
  */
@@ -151,7 +151,7 @@ HWTEST_F(GlobalTest, GlobalFuncTest003, TestSize.Level1)
     int id = GetResId("app_name", ResType::STRING);
     ASSERT_TRUE(id > 0);
     int32_t ret = GLOBAL_GetValueById(static_cast<uint32_t>(id), FormatFullPath(g_resFilePath).c_str(), &values);
-    // when ret != OK , values has been already freed.
+    // when ret != OK , values has been freed.
     ASSERT_EQ(OK, ret);
     EXPECT_EQ(std::string("App Name"), values);
     free(values);

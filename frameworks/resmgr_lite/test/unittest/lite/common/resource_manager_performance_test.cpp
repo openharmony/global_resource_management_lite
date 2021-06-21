@@ -50,7 +50,7 @@ public:
 
 int ResourceManagerPerformanceTest::GetResId(std::string name, ResType resType) const
 {
-    auto idv = ((ResourceManagerImpl *) rm)->hapManager_->GetResourceListByName(name.c_str(), resType);
+    auto idv = ((ResourceManagerImpl *)rm)->hapManager_->GetResourceListByName(name.c_str(), resType);
     if (idv == nullptr) {
         return -1;
     }

@@ -84,7 +84,7 @@ uint64_t SearchParentLocale(uint64_t encodedLocale, const ResLocale *request)
  * @param len
  * @param encodedLocale
  */
-void FindTrackPath(uint64_t *result, size_t len, uint64_t encodedLocale, const ResLocale *request)
+void FindTrackPath(const ResLocale *request, size_t len, uint64_t encodedLocale, uint64_t *result)
 {
     uint64_t currentEncodedLocale = encodedLocale;
     size_t i = 0;
@@ -237,7 +237,7 @@ size_t ComputeTrackPathDistance(const uint64_t *requestPaths,
 
 int8_t CompareRegionWhenQaag(const ResLocale *current,
     const ResLocale *other,
-    const ResLocale *request) 
+    const ResLocale *request)
 {
     if ((request != nullptr) && (Utils::EncodeLocale(request->GetLanguage(), request->GetScript(),
         nullptr) == LocaleMatcher::EN_QAAG_ENCODE)) {
@@ -410,12 +410,12 @@ int8_t CompareWhenRegionIsNull(uint16_t currentEncodedRegion, uint16_t otherEnco
 }
 
 int8_t CompareDistance(uint64_t currentEncodedLocale, uint64_t otherEncodedLocale,
-    const uint64_t *requestEncodedTrackPath, const ResLocale* request)
+    const uint64_t *requestEncodedTrackPath, const ResLocale *request)
 {
     uint64_t currentEncodedTrackPath[LocaleMatcher::TRACKPATH_ARRAY_SIZE] = {0, 0, 0, 0, 0};
-    FindTrackPath(currentEncodedTrackPath, LocaleMatcher::TRACKPATH_ARRAY_SIZE, currentEncodedLocale, request);
+    FindTrackPath(request, LocaleMatcher::TRACKPATH_ARRAY_SIZE, currentEncodedLocale, currentEncodedTrackPath);
     uint64_t otherEncodedTrackPath[LocaleMatcher::TRACKPATH_ARRAY_SIZE] = {0, 0, 0, 0, 0};
-    FindTrackPath(otherEncodedTrackPath, LocaleMatcher::TRACKPATH_ARRAY_SIZE, otherEncodedLocale, request);
+    FindTrackPath(request, LocaleMatcher::TRACKPATH_ARRAY_SIZE, otherEncodedLocale, otherEncodedTrackPath);
     const size_t currentDistance = ComputeTrackPathDistance(
         requestEncodedTrackPath, currentEncodedTrackPath, LocaleMatcher::TRACKPATH_ARRAY_SIZE);
     const size_t targetDistance = ComputeTrackPathDistance(
@@ -473,7 +473,7 @@ int8_t CompareRegion(const ResLocale *current,
     uint64_t requestEncodedLocale = Utils::EncodeLocale(
         request->GetLanguage(), nullptr, request->GetRegion());
     uint64_t requestEncodedTrackPath[LocaleMatcher::TRACKPATH_ARRAY_SIZE] = {0, 0, 0, 0, 0};
-    FindTrackPath(requestEncodedTrackPath, LocaleMatcher::TRACKPATH_ARRAY_SIZE, requestEncodedLocale, request);
+    FindTrackPath(request, LocaleMatcher::TRACKPATH_ARRAY_SIZE, requestEncodedLocale, requestEncodedTrackPath);
     uint64_t currentEncodedLocale = Utils::EncodeLocale(
         request->GetLanguage(), nullptr, (current == nullptr) ? nullptr : current->GetRegion());
     uint64_t otherEncodedLocale = Utils::EncodeLocale(
@@ -558,12 +558,12 @@ int8_t CompareLanguageIgnoreOldNewCode(const ResLocale *current, const ResLocale
     return -1;
 }
 
-bool IsSimilarToUsEnglish(const ResLocale* localeInfo)
+bool IsSimilarToUsEnglish(const ResLocale *localeInfo)
 {
-    uint64_t localeEncode = Utils::EncodeLocale("en", nullptr, 
+    uint64_t localeEncode = Utils::EncodeLocale("en", nullptr,
         (localeInfo == nullptr) ? nullptr : localeInfo->GetRegion());
     uint64_t loclaeEncodedTrackPath[LocaleMatcher::TRACKPATH_ARRAY_SIZE] = {0, 0, 0, 0, 0};
-    FindTrackPath(loclaeEncodedTrackPath, LocaleMatcher::TRACKPATH_ARRAY_SIZE, localeEncode, nullptr);
+    FindTrackPath(nullptr, LocaleMatcher::TRACKPATH_ARRAY_SIZE, localeEncode, loclaeEncodedTrackPath);
     uint8_t len = LocaleMatcher::TRACKPATH_ARRAY_SIZE;
     for (uint8_t i = 0; i < len; ++i) {
         if (loclaeEncodedTrackPath[i] == Utils::EncodeLocale("en", nullptr, nullptr)) {
@@ -587,10 +587,10 @@ bool CompareRegionWhenLangIsNotEqual(const ResLocale *current,
         // when request is en-us,empty region is better
         if ((Utils::EncodeRegion(request->GetRegion())) == Utils::EncodeRegion("US")) {
             if (current != nullptr) {
-                return (current->GetRegion() == nullptr) || 
+                return (current->GetRegion() == nullptr) ||
                             ((Utils::EncodeRegion(current->GetRegion())) == Utils::EncodeRegion("US"));
             } else {
-                return !(other->GetRegion() == nullptr || 
+                return !(other->GetRegion() == nullptr ||
                             ((Utils::EncodeRegion(other->GetRegion())) == Utils::EncodeRegion("US")));
             }
         } else if (IsSimilarToUsEnglish(request)) {
