@@ -32,9 +32,9 @@ static Lock g_lock;
 
 static void FreeValue(char **value)
 {
-    if (*value != NULL) {
+    if (*value != nullptr) {
         free(*value);
-        *value = NULL;
+        *value = nullptr;
     }
 }
 
@@ -196,7 +196,7 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
 
     const IdItem *idItem = nullptr;
     for (int i = 0; i < ResType::MAX_RES_TYPE; ++i) {
-        idItem = hapManager.FindResourceByName(name, (ResType) i);
+        idItem = hapManager.FindResourceByName(name, (ResType)i);
         if (idItem != nullptr) {
             break;
         }

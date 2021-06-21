@@ -108,8 +108,8 @@ RState ResLocale::SetScript(const char *script, size_t len)
     return SUCCESS;
 }
 
-RState ResLocale::Init(const char* language, size_t languageLen, const char* script, size_t scriptLen,
-    const char* region, size_t regionLen)
+RState ResLocale::Init(const char *language, size_t languageLen, const char *script, size_t scriptLen,
+    const char *region, size_t regionLen)
 {
     RState r = this->SetLanguage(language, languageLen);
     if (r != SUCCESS) {
@@ -129,7 +129,7 @@ RState ResLocale::Init(const char* language, size_t languageLen, const char* scr
 RState ResLocale::CopyFromLocaleInfo(const LocaleInfo *other)
 {
     return this->Init(other->GetLanguage(), Utils::StrLen(other->GetLanguage()), other->GetScript(),
-        Utils::StrLen(other->GetScript()), other->GetRegion(), Utils::StrLen(other->GetRegion()));    
+        Utils::StrLen(other->GetScript()), other->GetRegion(), Utils::StrLen(other->GetRegion())); 
 }
 
 RState ResLocale::Copy(const ResLocale *other)
@@ -167,7 +167,7 @@ RState ProcessSubtag(const char *curPos,  int32_t subTagLen, uint16_t& nextType,
         nextType = ResLocale::REGION_TYPE;
         return SUCCESS;
     }
-    if ((ResLocale::REGION_TYPE & nextType) && LocaleMatcher::IsRegionTag(curPos, subTagLen)) { 
+    if ((ResLocale::REGION_TYPE & nextType) && LocaleMatcher::IsRegionTag(curPos, subTagLen)) {
         r.tempRegion = curPos;
         r.regionTagLen = subTagLen;
         nextType = ResLocale::END_TYPE;
@@ -176,7 +176,7 @@ RState ProcessSubtag(const char *curPos,  int32_t subTagLen, uint16_t& nextType,
     return ERROR;
 }
 
-void CheckArg(const char *str, char sep, RState &rState)
+void CheckArg(char sep, RState &rState)
 {
     rState = SUCCESS;
     if (sep != DASH_SEP && sep != UNDERLINE_SEP) {
@@ -184,7 +184,7 @@ void CheckArg(const char *str, char sep, RState &rState)
     }
 }
 
-ResLocale* ResLocale::CreateResLocale(ParseResult& r, RState& rState)
+ResLocale *ResLocale::CreateResLocale(ParseResult& r, RState& rState)
 {
     ResLocale *resLocale = new(std::nothrow) ResLocale;
     if (resLocale == nullptr) {
@@ -224,7 +224,7 @@ ResLocale *ResLocale::DoParse(const char *str, char sep, RState &rState)
             rState = ProcessSubtag(curPos, subTagLen, nextType, r);
             if (rState == SUCCESS) {
                 continue;
-            }            
+            }
             rState = INVALID_BCP47_LANGUAGE_SUBTAG;
             return nullptr;
         }
@@ -250,7 +250,7 @@ ResLocale *ResLocale::DoParse(const char *str, char sep, RState &rState)
 
 ResLocale *ResLocale::BuildFromString(const char *str, char sep, RState &rState)
 {
-    CheckArg(str, sep, rState);
+    CheckArg(sep, rState);
     if (rState != SUCCESS) {
         return nullptr;
     }
@@ -328,13 +328,13 @@ const LocaleInfo *ResLocale::GetDefault()
 bool ResLocale::UpdateDefault(const LocaleInfo& localeInfo, bool needNotify)
 {
     AutoMutex mutex(ResLocale::lock_);
-    LocaleInfo* temp = new(std::nothrow) LocaleInfo(localeInfo.GetLanguage(),
+    LocaleInfo *temp = new(std::nothrow) LocaleInfo(localeInfo.GetLanguage(),
         localeInfo.GetScript(), localeInfo.GetRegion());
     if (temp == nullptr) {
         return false;
     }
     delete ResLocale::defaultLocale_;
-    ResLocale::defaultLocale_ = temp;    
+    ResLocale::defaultLocale_ = temp;
     return true;
 };
 
@@ -345,9 +345,9 @@ ResLocale::~ResLocale()
     delete this->region_;
 }
 
-LocaleInfo* BuildFromString(const char* str, char sep, RState& rState)
+LocaleInfo *BuildFromString(const char *str, char sep, RState& rState)
 {
-    ResLocale* resLocale = ResLocale::BuildFromString(str, sep, rState);
+    ResLocale *resLocale = ResLocale::BuildFromString(str, sep, rState);
     if (rState == SUCCESS) {
         LocaleInfo *localeInfo = new(std::nothrow) LocaleInfo(resLocale->GetLanguage(),
             resLocale->GetScript(), resLocale->GetRegion());
@@ -361,7 +361,7 @@ LocaleInfo* BuildFromString(const char* str, char sep, RState& rState)
     return nullptr;
 };
 
-LocaleInfo* BuildFromParts(const char* language, const char* script, const char* region, RState& rState)
+LocaleInfo *BuildFromParts(const char *language, const char *script, const char *region, RState& rState)
 {
     size_t len = Utils::StrLen(language);
     if (len == 0) {
@@ -395,7 +395,7 @@ LocaleInfo* BuildFromParts(const char* language, const char* script, const char*
     return localeInfo;
 }
 
-const LocaleInfo* GetSysDefault()
+const LocaleInfo *GetSysDefault()
 {
     return ResLocale::GetDefault();
 }
@@ -412,11 +412,11 @@ void FindAndSort(std::string localeStr, std::vector<std::string>& candidateLocal
     }
     std::vector<ResLocale*> tempCandidate;
     RState state = SUCCESS;
-    ResLocale* currentLocale = ResLocale::BuildFromString(localeStr.c_str(), DASH_SEP, state);
+    ResLocale *currentLocale = ResLocale::BuildFromString(localeStr.c_str(), DASH_SEP, state);
     LocaleMatcher::Normalize(currentLocale);
     std::vector<std::string>::const_iterator iter;
     for (iter = candidateLocale.cbegin(); iter != candidateLocale.cend(); iter++) {
-        ResLocale* ResLocale = ResLocale::BuildFromString(iter->c_str(), DASH_SEP, state);
+        ResLocale *ResLocale = ResLocale::BuildFromString(iter->c_str(), DASH_SEP, state);
         if (state == SUCCESS) {
             LocaleMatcher::Normalize(ResLocale);
             bool isMatch = LocaleMatcher::Match(currentLocale, ResLocale);
@@ -439,7 +439,7 @@ void FindAndSort(std::string localeStr, std::vector<std::string>& candidateLocal
     for (std::size_t i = 0; i < len - 1; i++) {
         for (std::size_t j = 0; j < len - 1 - i; j++) {
             if (LocaleMatcher::IsMoreSuitable(tempCandidate.at(j), tempCandidate.at(j + 1), currentLocale) <= 0) {
-                ResLocale* temp = tempCandidate.at(j + 1);
+                ResLocale *temp = tempCandidate.at(j + 1);
                 tempCandidate.at(j + 1) = tempCandidate.at(j);
                 tempCandidate.at(j) = temp;
                 std::string tempStr = outValue.at(j + 1);

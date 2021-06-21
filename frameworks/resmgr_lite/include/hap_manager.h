@@ -37,7 +37,7 @@ public:
 
     void GetResConfig(ResConfig& resConfig);
 
-    bool AddResource(const char* path);
+    bool AddResource(const char *path);
 
     const IdItem *FindResourceById(uint32_t id);
 
@@ -56,17 +56,13 @@ private:
 
     const HapResource::IdValues *GetResourceList(uint32_t ident) const;
 
-    const HapResource::IdValues *GetResourceListByName(const char* name, const ResType resType) const;
+    const HapResource::IdValues *GetResourceListByName(const char *name, const ResType resType) const;
 
-    bool AddResourcePath(const char* path);
+    bool AddResourcePath(const char *path);
 
     // when resConfig_ updated we must call ReloadAll()
     RState ReloadAll();
-
-    static bool Init();
-
-    static bool icuInitialized;
-
+    
     // app res config
     ResConfigImpl *resConfig_;
 

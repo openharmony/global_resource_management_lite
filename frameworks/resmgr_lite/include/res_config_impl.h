@@ -14,9 +14,9 @@
  */
 #ifndef OHOS_RESOURCE_MANAGER_RESCONFIG_IMPL_H
 #define OHOS_RESOURCE_MANAGER_RESCONFIG_IMPL_H
+#include <stdint.h>
 #include "locale_info.h"
 #include "res_locale.h"
-#include <stdint.h>
 #include "res_common.h"
 #include "res_config.h"
 using OHOS::I18N::LocaleInfo;
@@ -30,6 +30,8 @@ public:
     bool IsMoreSuitable(const ResConfigImpl *other, const ResConfigImpl *request) const;
 
     RState SetLocaleInfo(const char *language, const char *script, const char *region);
+
+    RState SetLocaleInfo(LocaleInfo& localeInfo);
 
     void SetDeviceType(DeviceType deviceType);
 
