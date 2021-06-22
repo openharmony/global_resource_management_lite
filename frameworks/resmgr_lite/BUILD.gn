@@ -17,10 +17,30 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
-global_sources = [
-  "src/global.c",
-  "src/global_utils.c",
-]
+global_sources = []
+if (ohos_kernel_type == "liteos_a") {
+  global_sources += [
+    "src/global.cpp",
+    "src/hap_manager.cpp",
+    "src/hap_resource.cpp",
+    "src/likely_subtags_key_data.cpp",
+    "src/likely_subtags_value_data.cpp",
+    "src/locale_matcher.cpp",
+    "src/lock.cpp",
+    "src/res_config_impl.cpp",
+    "src/res_desc.cpp",
+    "src/res_locale.cpp",
+    "src/resource_manager_impl.cpp",
+    "src/utils/hap_parser.cpp",
+    "src/utils/string_utils.cpp",
+    "src/utils/utils.cpp",
+  ]
+} else {
+  global_sources += [
+    "src/global.c",
+    "src/global_utils.c",
+  ]
+}
 
 config("global_resmgr_config") {
   include_dirs = [
@@ -29,6 +49,15 @@ config("global_resmgr_config") {
     "//utils/native/lite/include",
     "//third_party/bounds_checking_function/include",
   ]
+
+  if (ohos_kernel_type == "liteos_a") {
+    include_dirs += [
+      "//third_party/zlib",
+      "//third_party/zlib/contrib/minizip",
+      "//utils/native/lite/memory",
+      "//base/global/i18n_lite/interfaces/kits/i18n/include/",
+    ]
+  }
 }
 
 config("global_public_config") {
@@ -55,6 +84,13 @@ if (defined(ohos_lite)) {
     sources = global_sources
     configs += [ ":global_resmgr_config" ]
     deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+    if (ohos_kernel_type == "liteos_a") {
+      public_deps = [
+        "//base/global/i18n_lite/frameworks/i18n:global_i18n",
+        "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+        "//build/lite/config/component/zlib:zlib_shared",
+      ]
+    }
   }
 
   lite_component("global_manager_lite") {
