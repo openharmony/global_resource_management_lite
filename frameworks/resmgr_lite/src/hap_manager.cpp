@@ -141,7 +141,6 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueByName(
             } else {
                 bestResConfig = resConfig;
                 bestIndex = i;
-                
             }
         }
     }
