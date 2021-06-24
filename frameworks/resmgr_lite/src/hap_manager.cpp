@@ -82,6 +82,7 @@ std::string HapManager::GetPluralRulesAndSelect(int quantity)
         }
         if (status != OHOS::I18N::I18nStatus::ISUCCESS) {
             HILOG_ERROR("PluralFormat init failed");
+            delete pluralFormat;
             return defaultRet;
         }
         // after pluralFormat created, we add it to cache, if > 3 delete oldest one
