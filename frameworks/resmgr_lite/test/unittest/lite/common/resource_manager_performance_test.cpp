@@ -42,6 +42,9 @@ public:
 
     void TearDown();
 
+    ResourceManagerPerformanceTest() : rm(nullptr)
+    {}
+
 public:
     ResourceManager *rm;
 
