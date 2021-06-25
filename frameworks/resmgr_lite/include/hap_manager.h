@@ -62,7 +62,7 @@ private:
 
     // when resConfig_ updated we must call ReloadAll()
     RState ReloadAll();
-    
+
     // app res config
     ResConfigImpl *resConfig_;
 

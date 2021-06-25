@@ -29,11 +29,12 @@ ResConfigImpl::ResConfigImpl()
       deviceType_(DEVICE_NOT_SET),
       isCompletedScript_(false), localeInfo_(nullptr)
 {}
+
 RState ResConfigImpl::SetLocaleInfo(LocaleInfo& localeInfo)
 {
     return this->SetLocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
-
 }
+
 RState ResConfigImpl::SetLocaleInfo(const char *language,
     const char *script,
     const char *region)
