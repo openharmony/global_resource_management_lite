@@ -21,6 +21,7 @@ int LocaleInfoFindAndSortTest002();
 int LocaleInfoFindAndSortTest003();
 int LocaleInfoFindAndSortTest004();
 int LocaleInfoFindAndSortTest005();
+int LocaleInfoUpdateSysDefaultTest001();
 int LocaleInfoGetSysDefaultTest001();
 int LocaleInfoGetLanguageTest001();
 int LocaleInfoGetRegionTest001();
