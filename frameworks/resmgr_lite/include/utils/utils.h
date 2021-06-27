@@ -28,17 +28,9 @@ public:
 
     static bool IsNumericString(const char *s, int32_t len);
 
-    static void ToLower(char *s, int32_t len);
-
     static bool IsStrEmpty(const char *s);
 
     static size_t StrLen(const char *s);
-
-    static int32_t FindIndex(const char * const *list,
-                             size_t listLen,
-                             const char *key,
-                             int32_t keyLen,
-                             bool isCaseSensitive);
 
     static uint16_t EncodeLanguage(const char *language);
 
@@ -57,8 +49,6 @@ public:
     static uint64_t EncodeLocale(const char *language,
                                  const char *script,
                                  const char *region);
-
-    static uint64_t EncodeLocaleByResLocale(const ResLocale *locale);
 
     static RState ConvertColorToUInt32(const char *s, uint32_t &outValue);
 

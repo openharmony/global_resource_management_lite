@@ -19,7 +19,6 @@
 #include "res_config_impl.h"
 #include <map>
 #include <string>
-#include <time.h>
 #include <vector>
 
 namespace OHOS {

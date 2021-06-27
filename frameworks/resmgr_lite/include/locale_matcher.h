@@ -33,7 +33,7 @@ public:
 
     static bool IsRegionTag(const char *str, int32_t len);
 
-    static bool Normalize(ResLocale *ResLocale);
+    static bool Normalize(ResLocale *resLocale);
 
     static int8_t IsMoreSpecificThan(const ResLocale *current, const ResLocale *target);
 

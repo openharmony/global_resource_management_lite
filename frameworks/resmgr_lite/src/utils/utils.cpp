@@ -66,17 +66,6 @@ void Utils::DecodeScript(uint32_t encodeScript, char *outValue)
     outValue[3] = (encodeScript & 0x000000FF);
 }
 
-void Utils::ToLower(char *s, int32_t len)
-{
-    if (s == nullptr) {
-        return;
-    }
-    int32_t i = 0;
-    for (i = 0; i < len; ++i) {
-        *(s + i) = tolower(*(s + i));
-    }
-};
-
 bool Utils::IsStrEmpty(const char *s)
 {
     return (s == nullptr || *s == '\0');
@@ -90,42 +79,12 @@ size_t Utils::StrLen(const char *s)
     return strlen(s);
 }
 
-int32_t Utils::FindIndex(const char * const *list,
-                         size_t listLen,
-                         const char *key,
-                         int32_t keyLen,
-                         bool isCaseSensitive)
-{
-    if (list == nullptr || key == nullptr) {
-        return -1;
-    }
-    if (listLen <= 0)
-        return -1;
-    if (keyLen < 0) {
-        keyLen = strlen(key);
-    }
-    for (size_t i = 0; i < listLen; ++i) {
-        if (Utils::StrCompare(*(list + i), key, keyLen, isCaseSensitive)) {
-            return i;
-        }
-    }
-    return -1;
-};
-
 uint16_t Utils::EncodeLanguage(const char *language)
 {
     if (Utils::IsStrEmpty(language)) {
         return NULL_LANGUAGE;
     }
     return Utils::EncodeLanguageOrRegion(language, 'a');
-}
-
-uint64_t Utils::EncodeLocaleByResLocale(const ResLocale *locale)
-{
-    if (locale == nullptr) {
-        return NULL_LOCALE;
-    }
-    return Utils::EncodeLocale(locale->GetLanguage(), locale->GetScript(), locale->GetRegion());
 }
 
 /**
