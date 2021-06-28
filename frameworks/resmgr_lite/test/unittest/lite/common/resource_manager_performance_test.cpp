@@ -44,7 +44,7 @@ public:
 
     ResourceManagerPerformanceTest() : rm(nullptr)
     {}
-    
+
     ~ResourceManagerPerformanceTest()
     {}
 
@@ -128,7 +128,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest001, 
         delete tmpRm;
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 9000);
 };
 
@@ -163,7 +163,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest002, 
     delete tmpRm;
     delete rc;
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -196,7 +196,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest003, 
     }
     delete rc;
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -232,7 +232,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest004, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -261,7 +261,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest005, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -290,7 +290,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest006, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -326,7 +326,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest007, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -355,7 +355,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest008, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -383,7 +383,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest009, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -408,7 +408,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest010, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -443,7 +443,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest011, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -472,7 +472,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest012, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -504,7 +504,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest013, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -533,7 +533,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest014, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -565,7 +565,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest015, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -594,7 +594,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest016, 
         }
     }
     average = total / (1000.0 * count);
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -622,7 +622,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest017, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -647,7 +647,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest018, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -675,7 +675,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest019, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -700,7 +700,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest020, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -728,7 +728,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest021, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -753,7 +753,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest022, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -781,7 +781,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest023, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -806,7 +806,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest024, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -834,7 +834,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest025, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -859,7 +859,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest026, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -887,7 +887,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest027, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -912,7 +912,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest028, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -940,7 +940,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest029, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -965,7 +965,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest030, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -993,7 +993,7 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest031, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
 
@@ -1018,6 +1018,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest032, 
         total += std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
     }
     average = total / 1000.0;
-    HILOG_INFO("avg cost: %f us", average);
+    HILOG_DEBUG("avg cost: %f us", average);
     EXPECT_LT(average, 500);
 };
