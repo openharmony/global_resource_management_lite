@@ -44,6 +44,9 @@ public:
 
     ResourceManagerPerformanceTest() : rm(nullptr)
     {}
+    
+    ~ResourceManagerPerformanceTest()
+    {}
 
 public:
     ResourceManager *rm;
