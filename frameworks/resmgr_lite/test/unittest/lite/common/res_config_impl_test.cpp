@@ -303,6 +303,197 @@ HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest017, TestSize.Level1)
 };
 
 /*
+ * @tc.name: ResConfigImplMatchTest018
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest018, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", "Latn", nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", "Qaag", nullptr);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest019
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest019, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDeviceType(DeviceType::DEVICE_CAR);
+    other->SetDeviceType(DeviceType::DEVICE_CAR);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest020
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest020, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDeviceType(DeviceType::DEVICE_CAR);
+    other->SetDeviceType(DeviceType::DEVICE_PC);
+    EXPECT_FALSE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest021
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest021, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    other->SetDeviceType(DeviceType::DEVICE_PC);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest022
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest022, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDeviceType(DeviceType::DEVICE_PC);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest023
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest023, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest024
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest024, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    other->SetDirection(Direction::DIRECTION_VERTICAL);
+    EXPECT_FALSE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest025
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest025, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest026
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest026, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_VERTICAL);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest027
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest027, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_VERTICAL);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDirection(Direction::DIRECTION_VERTICAL);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest028
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest028, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_VERTICAL);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    EXPECT_TRUE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
+ * @tc.name: ResConfigImplMatchTest029
+ * @tc.desc: Test ResConfig Match
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplMatchTest029, TestSize.Level1)
+{
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, nullptr);
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, nullptr);
+    current->SetDirection(Direction::DIRECTION_VERTICAL);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    EXPECT_FALSE(current->Match(other));
+    delete current;
+    delete other;
+};
+
+/*
  * @tc.name: ResConfigImplIsMoreSuitableTest001
  * @tc.desc: Test ResConfig IsMoreSuitable
  * @tc.type: FUNC
@@ -397,8 +588,8 @@ HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest006, TestSize.Level1)
     ResConfigImpl *request = CreateResConfigImpl("es", nullptr, "AR");
     ResConfigImpl *current = CreateResConfigImpl("es", nullptr, "419");
     ResConfigImpl *other = CreateResConfigImpl("es", nullptr, "419");
-    EXPECT_FALSE(current->IsMoreSuitable(other, request));
-    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_TRUE(other->IsMoreSuitable(current, request));
     delete request;
     delete current;
     delete other;
@@ -975,6 +1166,227 @@ HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest040, TestSize.Level1)
     ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
     ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "CN");
     ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "GB");
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest041
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest041, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest042
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest042, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest043
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest043, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    request->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    other->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest044
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest044, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    request->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    other->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest045
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest045, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    request->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_XLDPI);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    other->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_XXLDPI);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest046
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest046, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    request->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_MDPI);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    other->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_SDPI);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest047
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest047, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    request->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    request->SetDeviceType(DeviceType::DEVICE_PHONE);
+    request->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_LDPI);
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_XXXLDPI);
+    other->SetDeviceType(DeviceType::DEVICE_PHONE);
+    other->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    other->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_SDPI);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest048
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest048, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    current->SetDeviceType(DeviceType::DEVICE_PHONE);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest049
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest049, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    current->SetDirection(Direction::DIRECTION_HORIZONTAL);
+    EXPECT_TRUE(current->IsMoreSuitable(other, request));
+    EXPECT_FALSE(other->IsMoreSuitable(current, request));
+    delete request;
+    delete current;
+    delete other;
+}
+
+/*
+ * @tc.name: ResConfigImplIsMoreSuitableTest050
+ * @tc.desc: Test ResConfig IsMoreSuitable
+ * @tc.type: FUNC
+ */
+HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest050, TestSize.Level1)
+{
+    ResConfigImpl *request = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *current = CreateResConfigImpl("en", nullptr, "US");
+    ResConfigImpl *other = CreateResConfigImpl("en", nullptr, "US");
+    current->SetScreenDensity(ScreenDensity::SCREEN_DENSITY_SDPI);
     EXPECT_TRUE(current->IsMoreSuitable(other, request));
     EXPECT_FALSE(other->IsMoreSuitable(current, request));
     delete request;
