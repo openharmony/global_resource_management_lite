@@ -319,19 +319,9 @@ bool CompareScript(const ResLocale *current, const ResLocale *other)
         }
     }
     bool compareRegion = false;
-    if (current == nullptr || (current->GetScript() == nullptr)) {
+    if ((currentEncodedScript == LocaleMatcher::NULL_SCRIPT) || (otherEncodedScript== LocaleMatcher::NULL_SCRIPT)) {
     // if request script is null, region must be same
         compareRegion = true;
-    } else {
-        if (other == nullptr) {
-            compareRegion = true;
-        } else {
-            if (other->GetScript() == nullptr) {
-                if (currentEncodedScript == LocaleMatcher::NULL_SCRIPT) {
-                    compareRegion = true;
-                }
-            }
-        }
     }
     if (compareRegion) {
         uint16_t currentRegionEncode = Utils::EncodeRegionByResLocale(current);
@@ -555,7 +545,10 @@ int8_t CompareLanguageIgnoreOldNewCode(const ResLocale *current, const ResLocale
     if ((currentLanguageEncode == requestLanguageEncode) && (otherLanguageEncode != requestLanguageEncode)) {
         return 1;
     }
-    return -1;
+    if ((otherLanguageEncode == requestLanguageEncode) && (currentLanguageEncode != requestLanguageEncode)) {
+        return -1;
+    }
+    return 0;
 }
 
 bool IsSimilarToUsEnglish(const ResLocale *localeInfo)
