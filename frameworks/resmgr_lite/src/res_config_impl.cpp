@@ -248,7 +248,6 @@ bool ResConfigImpl::IsMoreSuitable(const ResConfigImpl *other,
             }
             return (thisDistance >= otherDistance);
         }
-        return true;
     }
     return this->IsMoreSpecificThan(other);
 }
