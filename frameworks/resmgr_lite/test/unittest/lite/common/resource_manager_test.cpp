@@ -46,6 +46,9 @@ public:
     ResourceManagerTest() : rm(nullptr)
     {}
 
+    ~ResourceManagerTest()
+    {}
+
 public:
     ResourceManager *rm;
 

@@ -416,18 +416,18 @@ void FindAndSort(std::string localeStr, std::vector<std::string>& candidateLocal
     LocaleMatcher::Normalize(currentLocale);
     std::vector<std::string>::const_iterator iter;
     for (iter = candidateLocale.cbegin(); iter != candidateLocale.cend(); iter++) {
-        ResLocale *ResLocale = ResLocale::BuildFromString(iter->c_str(), DASH_SEP, state);
+        ResLocale *resLocale = ResLocale::BuildFromString(iter->c_str(), DASH_SEP, state);
         if (state == SUCCESS) {
-            LocaleMatcher::Normalize(ResLocale);
-            bool isMatch = LocaleMatcher::Match(currentLocale, ResLocale);
+            LocaleMatcher::Normalize(resLocale);
+            bool isMatch = LocaleMatcher::Match(currentLocale, resLocale);
             if (isMatch) {
-                tempCandidate.push_back(ResLocale);
+                tempCandidate.push_back(resLocale);
                 outValue.push_back(*iter);
             } else {
-                delete ResLocale;
+                delete resLocale;
             }
         } else {
-            delete ResLocale;
+            delete resLocale;
         }
     }
     // sort

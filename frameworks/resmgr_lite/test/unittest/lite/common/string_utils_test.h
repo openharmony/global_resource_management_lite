@@ -17,7 +17,5 @@
 #define RESOURCE_MANAGER_STRING_UTILS_TEST_H
 
 int StringUtilsFuncTest001();
-int StringUtilsFuncTest002();
-int StringUtilsFuncTest003();
 
 #endif
