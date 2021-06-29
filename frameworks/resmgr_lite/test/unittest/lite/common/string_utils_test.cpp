@@ -17,13 +17,9 @@
 
 #include <climits>
 #include <gtest/gtest.h>
-#include <locale_info.h>
-#include <plural_format.h>
 #include <types.h>
 
-#include "resource_manager.h"
 #include "test_common.h"
-#include "utils/date_utils.h"
 #include "utils/string_utils.h"
 
 using namespace OHOS::Global::Resource;
@@ -62,43 +58,16 @@ void StringUtilsTest::TearDown()
     // step 4: input testcase teardown step
 }
 
-std::string ConvertToPluralStr(int idxRet)
-{
-    switch (idxRet) {
-        case OHOS::I18N::PluralRuleType::ZERO:
-            return "zero";
-        case OHOS::I18N::PluralRuleType::ONE:
-            return "one";
-        case OHOS::I18N::PluralRuleType::TWO:
-            return "two";
-        case OHOS::I18N::PluralRuleType::FEW:
-            return "few";
-        case OHOS::I18N::PluralRuleType::MANY:
-            return "many";
-        case OHOS::I18N::PluralRuleType::OTHER:
-        default:
-            return "other";
-    }
-}
 /*
- * @tc.name: StringUtilsFuncTest003
- * @tc.desc: Test icu function, none file case.
+ * @tc.name: StringUtilsFuncTest001
+ * @tc.desc: Test FormatString, none file case.
  * @tc.type: FUNC
  */
-HWTEST_F(StringUtilsTest, StringUtilsFuncTest003, TestSize.Level1)
+HWTEST_F(StringUtilsTest, StringUtilsFuncTest001, TestSize.Level1)
 {
-    auto rm = CreateResourceManager(); // just for icu init data
-    OHOS::I18N::LocaleInfo locale("am", "", "");
-    I18nStatus status = I18nStatus::ISUCCESS;
-    PluralFormat formatter(locale, status);
+    std::string result = FormatString("%d", 10001);
+    EXPECT_EQ("10001", result);
 
-    int numbers[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 23, 55, 500, 1000};
-
-    int size = sizeof(numbers) / sizeof(numbers[0]);
-    for (int i = 0; i < size; ++i) {
-        int us = formatter.GetPluralRuleIndex(numbers[i], status);
-        std::string converted = ConvertToPluralStr(us);
-        HILOG_DEBUG("%d con: %s", numbers[i], converted.c_str());
-    }
-    delete (rm);
+    result = FormatString("I'm %s, I'm %d", "cici", 5);
+    EXPECT_EQ("I'm cici, I'm 5", result);
 }
