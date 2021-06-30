@@ -32,7 +32,7 @@ namespace Global {
 namespace Resource {
 std::string FormatFullPath(const char *fileRelativePath)
 {
-    const char *value = "/data/test";
+    const char *value = "/storage/data";
     std::string result(value);
     result.append("/");
     result.append(fileRelativePath);
