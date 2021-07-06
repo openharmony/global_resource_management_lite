@@ -18,7 +18,7 @@ if (defined(ohos_lite)) {
 }
 
 global_sources = []
-if (ohos_kernel_type == "liteos_a") {
+if (defined(ohos_lite) && ohos_kernel_type == "liteos_a") {
   global_sources += [
     "src/global.cpp",
     "src/hap_manager.cpp",
@@ -50,7 +50,7 @@ config("global_resmgr_config") {
     "//third_party/bounds_checking_function/include",
   ]
 
-  if (ohos_kernel_type == "liteos_a") {
+  if (defined(ohos_lite) && ohos_kernel_type == "liteos_a") {
     include_dirs += [
       "//third_party/zlib",
       "//third_party/zlib/contrib/minizip",
