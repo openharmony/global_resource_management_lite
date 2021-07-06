@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Huawei Device Co., Ltd.
+ * Copyright (c) 2020-2021 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +24,78 @@ extern "C" {
 #endif
 #endif // __cplusplus
 
+#define SCRIPT_LENGTH         4
 #define LOCALE_ELEMENT_NUM 3
+#ifdef I18N_PRODUCT
+#define PATH_MAX 1024
+#endif
+typedef enum KeyType {
+    LANGUAGES   = 0,
+    REGION      = 1,
+    RESOLUTION  = 2,
+    ORIENTATION = 3,
+    DEVICETYPE  = 4,
+    SCRIPT      = 5,
+    KEY_TYPE_MAX
+} KeyType;
+
+typedef enum ResType {
+    VALUES    = 0,
+    ANIMATION = 1,
+    DRAWABLE  = 2,
+    LAYOUT    = 3,
+    MENU      = 4,
+    MIPMAP    = 5,
+    RAW       = 6,
+    XML       = 7,
+
+    INTEGER          = 8,
+    STRING           = 9,
+    STRINGARRAY      = 10,
+    INTARRAY         = 11,
+    BOOLEAN_         = 12,
+    DIMEN            = 13,
+    COLOR            = 14,
+    ID               = 15,
+    THEME            = 16,
+    PLURALS          = 17,
+    MY_FLOAT         = 18,
+    MEDIA            = 19,
+    PROF             = 20,
+    SVG              = 21,
+    INVALID_RES_TYPE = -1
+} ResType;
+
+typedef struct KeyParam {
+    KeyType type;
+    uint32_t value;
+} KeyParam;
+
+typedef struct Key {
+    uint32_t offset;
+    uint32_t keysCount;
+    KeyParam *keyParams;
+} Key;
+
+typedef struct IdParam {
+    uint32_t id;
+    uint32_t offset;
+} IdParam;
+
+typedef struct IdHeader {
+    uint32_t count;
+    IdParam *idParams;
+} IdHeader;
+
+typedef struct IdItem {
+    uint32_t size;
+    ResType resType;
+    uint32_t id;
+    uint16_t valueLen;
+    char *value;
+    uint16_t nameLen;
+    char *name;
+} IdItem;
 
 typedef struct GlobalUtilsImpl {
     uint32_t (*GetOffsetByLocale)(const char *path, const char *locale, uint32_t length);
