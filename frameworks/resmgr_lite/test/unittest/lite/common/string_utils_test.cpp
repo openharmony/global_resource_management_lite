@@ -19,7 +19,6 @@
 #include <gtest/gtest.h>
 #include <types.h>
 #include <thread>
-#include <condition_variable>
 
 #include "auto_mutex.h"
 #include "test_common.h"
@@ -103,7 +102,7 @@ void TestThread(int* num, int threadNum, Lock* lock)
 HWTEST_F(StringUtilsTest, LockFuncTest001, TestSize.Level1)
 {
     int num = 0;
-    int threadNum = 50;
+    int threadNum = 3;
     int result = num + threadNum;
     Lock lock = Lock();
     TestThread(&num, threadNum, &lock);
