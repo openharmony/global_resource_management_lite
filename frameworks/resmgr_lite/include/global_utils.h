@@ -26,9 +26,7 @@ extern "C" {
 
 #define SCRIPT_LENGTH         4
 #define LOCALE_ELEMENT_NUM 3
-#ifdef I18N_PRODUCT
-#define PATH_MAX 1024
-#endif
+
 typedef enum KeyType {
     LANGUAGES   = 0,
     REGION      = 1,
