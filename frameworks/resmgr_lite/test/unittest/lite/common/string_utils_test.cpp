@@ -17,8 +17,8 @@
 
 #include <climits>
 #include <gtest/gtest.h>
-#include <types.h>
 #include <thread>
+#include <types.h>
 
 #include "auto_mutex.h"
 #include "test_common.h"
@@ -91,7 +91,6 @@ void TestThread(int* num, int threadNum, Lock* lock)
     for (auto &thread : threads) {
         thread.join();
     }
-
 }
 
 /*
