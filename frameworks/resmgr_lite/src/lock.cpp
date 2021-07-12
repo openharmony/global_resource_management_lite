@@ -14,22 +14,28 @@
  */
 #include "lock.h"
 
+#include <mutex>
+
 namespace OHOS {
 namespace Global {
 namespace Resource {
-Lock::Lock()
+Lock::Lock():mtx(new std::mutex)
 {}
 
 Lock::~Lock()
-{}
+{
+    delete mtx;
+}
 
 bool Lock::lock()
 {
+    (this->mtx)->lock();
     return true;
 }
 
 bool Lock::unlock()
 {
+    this->mtx->unlock();
     return true;
 }
 } // namespace Resource
