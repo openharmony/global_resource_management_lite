@@ -19,23 +19,23 @@
 namespace OHOS {
 namespace Global {
 namespace Resource {
-Lock::Lock():mtx(new std::mutex)
+Lock::Lock():mtx_(new std::mutex)
 {}
 
 Lock::~Lock()
 {
-    delete mtx;
+    delete mtx_;
 }
 
 bool Lock::lock()
 {
-    (this->mtx)->lock();
+    this->mtx_->lock();
     return true;
 }
 
 bool Lock::unlock()
 {
-    this->mtx->unlock();
+    this->mtx_->unlock();
     return true;
 }
 } // namespace Resource
