@@ -30,7 +30,7 @@ public:
     bool unlock();
 
 private:
-   std::mutex* mtx;
+   std::mutex* mtx_;
 };
 } // namespace Resource
 } // namespace Global
