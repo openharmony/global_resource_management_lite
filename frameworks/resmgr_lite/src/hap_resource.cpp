@@ -96,12 +96,12 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
         HILOG_ERROR("file size is zero");
         return nullptr;
     }
-    std::ifstream inFile2(path, std::ios::binary | std::ios::in);
     void *buf = malloc(bufLen);
     if (buf == nullptr) {
         HILOG_ERROR("Error allocating memory");
         return nullptr;
     }
+    std::ifstream inFile2(path, std::ios::binary | std::ios::in);
     inFile2.read((char *)buf, bufLen);
     inFile2.close();
 

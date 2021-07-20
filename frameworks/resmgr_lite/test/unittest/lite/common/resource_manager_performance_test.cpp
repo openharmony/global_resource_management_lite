@@ -130,12 +130,12 @@ int TestLoadFromIndex(const char *filePath)
         HILOG_ERROR("file size is zero");
         return -1;
     }
-    std::ifstream inFile2(path, std::ios::binary | std::ios::in);
     void *buf = malloc(bufLen);
     if (buf == nullptr) {
         HILOG_ERROR("Error allocating memory");
         return -1;
     }
+    std::ifstream inFile2(path, std::ios::binary | std::ios::in);
     inFile2.read((char *)buf, bufLen);
     inFile2.close();
 
