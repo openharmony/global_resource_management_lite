@@ -92,6 +92,10 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
     inFile.seekg(0, std::ios::end);
     size_t bufLen = inFile.tellg();
     inFile.close();
+    if (bufLen <= 0) {
+        HILOG_ERROR("file size is zero");
+        return nullptr;
+    }
     std::ifstream inFile2(path, std::ios::binary | std::ios::in);
     void *buf = malloc(bufLen);
     if (buf == nullptr) {
