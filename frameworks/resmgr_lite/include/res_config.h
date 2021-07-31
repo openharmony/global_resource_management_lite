@@ -19,6 +19,7 @@
 #include "locale_info.h"
 #include "res_common.h"
 #include "rstate.h"
+
 using OHOS::I18N::LocaleInfo;
 namespace OHOS {
 namespace Global {
@@ -27,7 +28,7 @@ class ResConfig {
 public:
     virtual RState SetLocaleInfo(const char *language, const char *script, const char *region) = 0;
 
-    virtual RState SetLocaleInfo(LocaleInfo& localeInfo) = 0;
+    virtual RState SetLocaleInfo(LocaleInfo &localeInfo) = 0;
 
     virtual void SetDeviceType(DeviceType deviceType) = 0;
 
@@ -43,21 +44,22 @@ public:
 
     virtual DeviceType GetDeviceType() const = 0;
 
-    virtual bool Copy(ResConfig& other) = 0;
+    virtual bool Copy(ResConfig &other) = 0;
 
     virtual ~ResConfig() {}
 };
+
 ResConfig *CreateResConfig();
 
-const LocaleInfo* GetSysDefault();
+const LocaleInfo *GetSysDefault();
 
-void UpdateSysDefault(const LocaleInfo& localeInfo, bool needNotify);
+void UpdateSysDefault(const LocaleInfo &localeInfo, bool needNotify);
 
-LocaleInfo* BuildFromString(const char *str, char sep, RState& rState);
+LocaleInfo *BuildFromString(const char *str, char sep, RState &rState);
 
-LocaleInfo* BuildFromParts(const char *language, const char *script, const char *region, RState& rState);
+LocaleInfo *BuildFromParts(const char *language, const char *script, const char *region, RState &rState);
 
-void FindAndSort(std::string localeStr, std::vector<std::string>& candidateLocale, std::vector<std::string>& outValue);
+void FindAndSort(std::string localeStr, std::vector<std::string> &candidateLocale, std::vector<std::string> &outValue);
 } // namespace Resource
 } // namespace Global
 } // namespace OHOS
