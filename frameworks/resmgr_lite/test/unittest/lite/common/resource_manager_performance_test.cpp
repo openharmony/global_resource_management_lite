@@ -116,34 +116,34 @@ int TestLoadFromIndex(const char *filePath)
     unsigned long long total = 0;
     double average = 0;
     std::string pstr = FormatFullPath(filePath);
-    const char *path = pstr.c_str();
 
     auto start = std::chrono::high_resolution_clock::now();
-    std::ifstream inFile(path, std::ios::binary | std::ios::in);
+    std::ifstream inFile(pstr.c_str(), std::ios::binary | std::ios::in);
     if (!inFile.good()) {
         return -1;
     }
     inFile.seekg(0, std::ios::end);
     size_t bufLen = inFile.tellg();
-    inFile.close();
     if (bufLen <= 0) {
         HILOG_ERROR("file size is zero");
+        inFile.close();
         return -1;
     }
     void *buf = malloc(bufLen);
     if (buf == nullptr) {
         HILOG_ERROR("Error allocating memory");
+        inFile.close();
         return -1;
     }
-    std::ifstream inFile2(path, std::ios::binary | std::ios::in);
-    inFile2.read((char *)buf, bufLen);
-    inFile2.close();
+    inFile.seekg(0, std::ios::beg);
+    inFile.read((char *)buf, bufLen);
+    inFile.close();
 
     auto end = std::chrono::high_resolution_clock::now();
     auto readFilecost = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
     g_logLevel = LOG_DEBUG;
-    HILOG_DEBUG("read index file cost 001: %d us", readFilecost);
+    HILOG_DEBUG("read index file cost 001: %lld us", readFilecost);
     g_logLevel = LOG_INFO;
 
     for (int k = 0; k < 1000; ++k) {
@@ -154,7 +154,7 @@ int TestLoadFromIndex(const char *filePath)
             free(buf);
             return -1;
         }
-        int32_t out = HapParser::ParseResHex((char *) buf, bufLen, *resDesc, nullptr);
+        int32_t out = HapParser::ParseResHex((char *)buf, bufLen, *resDesc, nullptr);
         if (out != OK) {
             delete (resDesc);
             free(buf);
@@ -164,7 +164,7 @@ int TestLoadFromIndex(const char *filePath)
             HILOG_DEBUG("ParseResHex success:\n%s", resDesc->ToString().c_str());
         }
 
-        HapResource *pResource = new(std::nothrow) HapResource(std::string(path), 0, nullptr, resDesc);
+        HapResource *pResource = new(std::nothrow) HapResource(pstr, 0, nullptr, resDesc);
         if (pResource == nullptr) {
             HILOG_ERROR("new HapResource failed when LoadFromIndex");
             delete (resDesc);
