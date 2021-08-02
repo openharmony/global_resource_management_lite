@@ -153,7 +153,7 @@ const char *ResLocale::GetScript() const
     return this->script_;
 }
 
-RState ProcessSubtag(const char *curPos,  int32_t subTagLen, uint16_t& nextType, ParseResult& r)
+RState ProcessSubtag(const char *curPos, int32_t subTagLen, uint16_t &nextType, ParseResult &r)
 {
     if ((ResLocale::LANG_TYPE & nextType) && (LocaleMatcher::IsLanguageTag(curPos, subTagLen))) {
         r.tempLanguage = curPos;
@@ -184,7 +184,7 @@ void CheckArg(char sep, RState &rState)
     }
 }
 
-ResLocale *ResLocale::CreateResLocale(ParseResult& r, RState& rState)
+ResLocale *ResLocale::CreateResLocale(ParseResult &r, RState &rState)
 {
     ResLocale *resLocale = new(std::nothrow) ResLocale;
     if (resLocale == nullptr) {
@@ -325,7 +325,7 @@ const LocaleInfo *ResLocale::GetDefault()
     return ResLocale::defaultLocale_;
 }
 
-bool ResLocale::UpdateDefault(const LocaleInfo& localeInfo, bool needNotify)
+bool ResLocale::UpdateDefault(const LocaleInfo &localeInfo, bool needNotify)
 {
     AutoMutex mutex(ResLocale::lock_);
     LocaleInfo *temp = new(std::nothrow) LocaleInfo(localeInfo.GetLanguage(),
@@ -345,7 +345,7 @@ ResLocale::~ResLocale()
     delete this->region_;
 }
 
-LocaleInfo *BuildFromString(const char *str, char sep, RState& rState)
+LocaleInfo *BuildFromString(const char *str, char sep, RState &rState)
 {
     ResLocale *resLocale = ResLocale::BuildFromString(str, sep, rState);
     if (rState == SUCCESS) {
@@ -361,7 +361,7 @@ LocaleInfo *BuildFromString(const char *str, char sep, RState& rState)
     return nullptr;
 };
 
-LocaleInfo *BuildFromParts(const char *language, const char *script, const char *region, RState& rState)
+LocaleInfo *BuildFromParts(const char *language, const char *script, const char *region, RState &rState)
 {
     size_t len = Utils::StrLen(language);
     if (len == 0) {
@@ -400,17 +400,17 @@ const LocaleInfo *GetSysDefault()
     return ResLocale::GetDefault();
 }
 
-void UpdateSysDefault(const LocaleInfo& localeInfo, bool needNotify)
+void UpdateSysDefault(const LocaleInfo &localeInfo, bool needNotify)
 {
     ResLocale::UpdateDefault(localeInfo, needNotify);
 }
 
-void FindAndSort(std::string localeStr, std::vector<std::string>& candidateLocale, std::vector<std::string>& outValue)
+void FindAndSort(std::string localeStr, std::vector<std::string> &candidateLocale, std::vector<std::string> &outValue)
 {
     if (candidateLocale.size() == 0) {
         return;
     }
-    std::vector<ResLocale*> tempCandidate;
+    std::vector<ResLocale *> tempCandidate;
     RState state = SUCCESS;
     ResLocale *currentLocale = ResLocale::BuildFromString(localeStr.c_str(), DASH_SEP, state);
     LocaleMatcher::Normalize(currentLocale);

@@ -30,7 +30,7 @@ ResConfigImpl::ResConfigImpl()
       isCompletedScript_(false), localeInfo_(nullptr)
 {}
 
-RState ResConfigImpl::SetLocaleInfo(LocaleInfo& localeInfo)
+RState ResConfigImpl::SetLocaleInfo(LocaleInfo &localeInfo)
 {
     return this->SetLocaleInfo(localeInfo.GetLanguage(), localeInfo.GetScript(), localeInfo.GetRegion());
 }
@@ -181,8 +181,7 @@ bool ResConfigImpl::Copy(ResConfig &other)
 
 bool ResConfigImpl::Match(const ResConfigImpl *other) const
 {
-    if (LocaleMatcher::Match(this->resLocale_, other->GetResLocale()) ==
-        false) {
+    if (LocaleMatcher::Match(this->resLocale_, other->GetResLocale()) == false) {
         return false;
     }
     if (this->direction_ != DIRECTION_NOT_SET &&
