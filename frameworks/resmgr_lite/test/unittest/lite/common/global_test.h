@@ -19,5 +19,6 @@
 int GlobalFuncTest001();
 int GlobalFuncTest002();
 int GlobalFuncTest003();
+int GlobalFuncTest004();
 
 #endif
