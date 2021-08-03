@@ -144,10 +144,11 @@ int32_t GetValue(const IdItem *idItem, char **value)
 
 int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
 {
+    bool resConfigSet = true;
     if (g_resConfig == nullptr || g_resConfig->GetLocaleInfo() == nullptr
         || g_resConfig->GetLocaleInfo()->GetLanguage() == nullptr) {
-        HILOG_WARN("GLOBAL_GetValueById language is null");
-        return SYS_ERROR;
+        HILOG_WARN("GLOBAL_GetValueById language is null, use default");
+        resConfigSet = false;
     }
     ResConfigImpl *resConfig = new(std::nothrow) ResConfigImpl;
     if (resConfig == nullptr) {
@@ -155,7 +156,9 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
         return SYS_ERROR;
     }
     HapManager hapManager(resConfig);
-    hapManager.UpdateResConfig(*g_resConfig);
+    if (resConfigSet) {
+        hapManager.UpdateResConfig(*g_resConfig);
+    }
 
     bool ret = hapManager.AddResource(path);
     if (!ret) {
@@ -173,10 +176,11 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
 
 int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
 {
+    bool resConfigSet = true;
     if (g_resConfig == nullptr || g_resConfig->GetLocaleInfo() == nullptr
         || g_resConfig->GetLocaleInfo()->GetLanguage() == nullptr) {
-        HILOG_WARN("GLOBAL_GetValueByName language is null");
-        return SYS_ERROR;
+        HILOG_WARN("GLOBAL_GetValueByName language is null, use default");
+        resConfigSet = false;
     }
 
     ResConfigImpl *resConfig = new(std::nothrow) ResConfigImpl;
@@ -185,7 +189,9 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
         return SYS_ERROR;
     }
     HapManager hapManager(resConfig);
-    hapManager.UpdateResConfig(*g_resConfig);
+    if (resConfigSet) {
+        hapManager.UpdateResConfig(*g_resConfig);
+    }
 
     bool ret = hapManager.AddResource(path);
     if (!ret) {
