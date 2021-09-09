@@ -352,7 +352,7 @@ ResLocale::~ResLocale()
 
     if (this->region_ != nullptr) {
         delete[] this->region_;
-        this->region_ = nullptr
+        this->region_ = nullptr;
     }
 }
 
