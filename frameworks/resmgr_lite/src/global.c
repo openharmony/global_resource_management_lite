@@ -173,8 +173,7 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
     }
 
     char *locales[] = {tempLocale, ""};
-    int count = sizeof(locales) / sizeof(const char *);
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < 2; i++) { // 2 current language and the default.
         if (GLOBAL_GetValueByIdInternal(id, path, locales[i], value) == MC_SUCCESS) {
             return MC_SUCCESS;
         }
@@ -245,8 +244,7 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
     }
 
     char *locales[] = {tempLocale, ""};
-    int count = sizeof(locales) / sizeof(const char *);
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < 2; i++) { // 2 current language and the default.
         if (GLOBAL_GetValueByNameInternal(name, path, locales[i], value) == MC_SUCCESS) {
             return MC_SUCCESS;
         }
