@@ -38,6 +38,7 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value);
 void GLOBAL_ConfigLanguage(const char *appLanguage);
 int32_t GLOBAL_GetLanguage(char *language, uint8_t len);
 int32_t GLOBAL_GetRegion(char *region, uint8_t len);
+int32_t GLOBAL_IsRTL(void);
 
 #ifdef __cplusplus
 #if __cplusplus
