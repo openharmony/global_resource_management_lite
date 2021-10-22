@@ -35,6 +35,7 @@
 
 #define MAX_LOCALE_LENGTH 13
 #define UI_LOCALE_ELEMENT_NUM 2
+#define MAX_SCRIPT_LENGTH 5
 static char g_locale[MAX_LOCALE_LENGTH] = {0};
 
 void GLOBAL_ConfigLanguage(const char *appLanguage)
@@ -70,6 +71,39 @@ int32_t GLOBAL_GetLanguage(char *language, uint8_t len)
 
     // language must be the element 0;
     return (strncpy_s(language, len, localeArray[0], MAX_LANGUAGE_LENGTH - 1) != EOK) ? MC_FAILURE : MC_SUCCESS;
+}
+
+int32_t GLOBAL_IsRTL(void)
+{
+    char *localeArray[LOCALE_ELEMENT_NUM] = { NULL };
+    char tempLocale[MAX_LOCALE_LENGTH] = { '\0' };
+    int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
+    if (ret != EOK) {
+        return 0;
+    }
+    int32_t count = 0;
+    ret = GetGlobalUtilsImpl()->SplitLocale(tempLocale, localeArray, &count);
+    if (ret == MC_FAILURE || count != UI_LOCALE_ELEMENT_NUM) {
+        return 0;
+    }
+    char script[MAX_SCRIPT_LENGTH] = { 0 };
+    if (strncpy_s(script, MAX_SCRIPT_LENGTH, localeArray[1], MAX_SCRIPT_LENGTH - 1) != EOK) {
+        return 0;
+    }
+    // if script is set and script != arab or script != hebr, return false;
+    if ((script != NULL) && (strlen(script) == MAX_SCRIPT_LENGTH - 1) &&
+        (strcmp(script, "Arab") != 0) && (strcmp(script, "Hebr") != 0)) {
+        return 0;
+    }
+    char language[MAX_LANGUAGE_LENGTH] = { 0 };
+    if (strncpy_s(language, MAX_LANGUAGE_LENGTH, localeArray[0], MAX_LANGUAGE_LENGTH - 1) != EOK) {
+        return 0;
+    }
+    if ((strcmp(language, "fa") == 0) || (strcmp(language, "ar") == 0) || (strcmp(language, "ur") == 0) ||
+        (strcmp(language, "ug") == 0) || (strcmp(language, "he") == 0) || (strcmp(language, "iw") == 0)) {
+        return 1;
+    }
+    return 0;
 }
 
 int32_t GLOBAL_GetRegion(char *region, uint8_t len)
