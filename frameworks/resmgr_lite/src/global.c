@@ -91,7 +91,7 @@ int32_t GLOBAL_IsRTL(void)
         return 0;
     }
     // if script is set and script != arab or script != hebr, return false;
-    if ((script != NULL) && (strlen(script) == MAX_SCRIPT_LENGTH - 1) &&
+    if ((strlen(script) == MAX_SCRIPT_LENGTH - 1) &&
         (strcmp(script, "Arab") != 0) && (strcmp(script, "Hebr") != 0)) {
         return 0;
     }
