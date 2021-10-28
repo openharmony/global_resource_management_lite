@@ -28,6 +28,7 @@
 #include <unistd.h>
 
 #define MAX_ID_ITEM_NUM    0x7F
+#define MAX_RES_CONFIG_NUM 0xFFFF
 #define MAX_ITEM_LENGTH    0xFF
 
 enum LocaleIndex {
@@ -367,7 +368,7 @@ static uint32_t GetOffsetByLocale(const char *path, const char *locale, uint32_t
         return INVALID_OFFSET;
     }
     uint32_t resConfigNum = GetDefaultOffsetValue(file);
-    if (resConfigNum == 0) {
+    if (resConfigNum == 0 || resConfigNum > MAX_RES_CONFIG_NUM) {
         close(file);
         return INVALID_OFFSET;
     }
