@@ -80,16 +80,24 @@ config("global_resmgr_mingw_config") {
 }
 
 if (defined(ohos_lite)) {
-  shared_library("global_resmgr") {
-    sources = global_sources
-    configs += [ ":global_resmgr_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
-    if (ohos_kernel_type == "liteos_a") {
-      public_deps = [
-        "//base/global/i18n_lite/frameworks/i18n:global_i18n",
-        "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-        "//build/lite/config/component/zlib:zlib_shared",
-      ]
+  if (ohos_kernel_type == "liteos_m") {
+    static_library("global_resmgr") {
+      sources = global_sources
+      public_configs = [ ":global_resmgr_config" ]
+      deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+    }
+  } else {
+    shared_library("global_resmgr") {
+      sources = global_sources
+      configs += [ ":global_resmgr_config" ]
+      deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+      if (ohos_kernel_type == "liteos_a") {
+        public_deps = [
+          "//base/global/i18n_lite/frameworks/i18n:global_i18n",
+          "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+          "//build/lite/config/component/zlib:zlib_shared",
+        ]
+      }
     }
   }
 
