@@ -67,8 +67,8 @@ std::string KeyParam::GetDeviceTypeStr() const
             case DeviceType::DEVICE_CAR:
                 ret = std::string(CAR_STR);
                 break;
-            case DeviceType::DEVICE_PC:
-                ret = std::string(PC_STR);
+            case DeviceType::DEVICE_PAD:
+                ret = std::string(PAD_STR);
                 break;
             case DeviceType::DEVICE_TV:
                 ret = std::string(TV_STR);

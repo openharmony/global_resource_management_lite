@@ -450,8 +450,8 @@ DeviceType HapParser::GetDeviceType(uint32_t value)
     DeviceType deviceType = DEVICE_NOT_SET;
     if (value == DEVICE_CAR) {
         deviceType = DEVICE_CAR;
-    } else if (value == DEVICE_PC) {
-        deviceType = DEVICE_PC;
+    } else if (value == DEVICE_PAD) {
+        deviceType = DEVICE_PAD;
     } else if (value == DEVICE_PHONE) {
         deviceType = DEVICE_PHONE;
     } else if (value == DEVICE_TABLET) {
