@@ -29,7 +29,7 @@ static const char *HORIZONTAL = "horizontal";
 static const char *PHONE_STR = "phone";
 static const char *TABLET_STR = "tablet";
 static const char *CAR_STR = "car";
-static const char *PC_STR = "pc";
+static const char *PAD_STR = "pad";
 static const char *TV_STR = "tv";
 static const char *WEARABLE_STR = "wearable";
 
@@ -90,7 +90,7 @@ enum DeviceType {
     DEVICE_PHONE    = 0,
     DEVICE_TABLET   = 1,
     DEVICE_CAR      = 2,
-    DEVICE_PC       = 3,
+    DEVICE_PAD      = 3,
     DEVICE_TV       = 4,
     DEVICE_WEARABLE = 6,
 };
