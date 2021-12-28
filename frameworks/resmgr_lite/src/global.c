@@ -205,9 +205,9 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
     if (ret != EOK) {
         return MC_FAILURE;
     }
-
-    char *locales[] = {tempLocale, ""};
-    for (int i = 0; i < 2; i++) { // 2 means two locales
+    char emptyPath[1] = { '\0' };
+    char *locales[] = {tempLocale, emptyPath};
+    for (int i = 0; i < 2; i++) { // 2 current language and the default.
         if (GLOBAL_GetValueByIdInternal(id, path, locales[i], value) == MC_SUCCESS) {
             return MC_SUCCESS;
         }
@@ -276,9 +276,9 @@ int32_t GLOBAL_GetValueByName(const char *name, const char *path, char **value)
     if (ret != EOK) {
         return MC_FAILURE;
     }
-
-    char *locales[] = {tempLocale, ""};
-    for (int i = 0; i < 2; i++) { // 2 means two locales
+    char emptyPath[1] = { '\0' };
+    char *locales[] = {tempLocale, emptyPath};
+    for (int i = 0; i < 2; i++) { // 2 current language and the default.
         if (GLOBAL_GetValueByNameInternal(name, path, locales[i], value) == MC_SUCCESS) {
             return MC_SUCCESS;
         }
