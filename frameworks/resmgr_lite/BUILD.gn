@@ -23,8 +23,6 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_a") {
     "src/global.cpp",
     "src/hap_manager.cpp",
     "src/hap_resource.cpp",
-    "src/likely_subtags_key_data.cpp",
-    "src/likely_subtags_value_data.cpp",
     "src/locale_matcher.cpp",
     "src/lock.cpp",
     "src/res_config_impl.cpp",
