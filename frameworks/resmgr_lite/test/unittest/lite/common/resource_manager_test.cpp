@@ -29,7 +29,7 @@
 
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
-
+namespace {
 static const int NON_EXIST_ID = 1111;
 
 static const char *g_nonExistName = "non_existent_name";
@@ -1700,4 +1700,5 @@ HWTEST_F(ResourceManagerTest, ResourceManagerSameNameTest001, TestSize.Level1)
     state = rm->GetIntegerByName("same_name", outValueI);
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_EQ(999, outValueI);
+}
 }
