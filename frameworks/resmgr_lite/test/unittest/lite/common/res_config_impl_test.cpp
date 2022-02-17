@@ -23,7 +23,7 @@
 
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
-
+namespace {
 class ResConfigImplTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
@@ -1392,4 +1392,5 @@ HWTEST_F(ResConfigImplTest, ResConfigImplIsMoreSuitableTest050, TestSize.Level1)
     delete request;
     delete current;
     delete other;
+}
 }

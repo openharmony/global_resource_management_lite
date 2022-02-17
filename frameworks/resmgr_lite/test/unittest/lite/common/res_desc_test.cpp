@@ -23,7 +23,7 @@
 
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
-
+namespace {
 class ResDescTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
@@ -153,4 +153,5 @@ HWTEST_F(ResDescTest, ResDescFuncTest002, TestSize.Level1)
     TestKeyParam(KeyType::SCREEN_DENSITY, ScreenDensity::SCREEN_DENSITY_XXLDPI, RE_480_STR);
     TestKeyParam(KeyType::SCREEN_DENSITY, ScreenDensity::SCREEN_DENSITY_XXXLDPI, RE_640_STR);
     TestKeyParam(KeyType::SCREEN_DENSITY, ScreenDensity::SCREEN_DENSITY_NOT_SET, "not_screen_density");
+}
 }

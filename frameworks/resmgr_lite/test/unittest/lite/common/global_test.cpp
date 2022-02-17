@@ -27,7 +27,7 @@
 
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
-
+namespace {
 class GlobalTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
@@ -173,4 +173,5 @@ HWTEST_F(GlobalTest, GlobalFuncTest004, TestSize.Level1)
     ASSERT_EQ(OK, ret);
     EXPECT_EQ(std::string("App Name"), values);
     free(values);
+}
 }

@@ -24,7 +24,7 @@
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
 using namespace OHOS::I18N;
-
+namespace {
 class StringUtilsTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
@@ -103,4 +103,5 @@ HWTEST_F(StringUtilsTest, LockFuncTest001, TestSize.Level1)
     Lock lock = Lock();
     TestThread(&num, threadNum, &lock);
     EXPECT_EQ(result, num);
+}
 }
