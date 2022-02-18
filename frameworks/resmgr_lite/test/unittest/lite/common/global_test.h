@@ -16,9 +16,9 @@
 #ifndef RESOURCE_MANAGER_GLOBAL_TEST_H
 #define RESOURCE_MANAGER_GLOBAL_TEST_H
 
-int GlobalFuncTest001();
-int GlobalFuncTest002();
-int GlobalFuncTest003();
-int GlobalFuncTest004();
+int GlobalFuncTest001(void);
+int GlobalFuncTest002(void);
+int GlobalFuncTest003(void);
+int GlobalFuncTest004(void);
 
 #endif

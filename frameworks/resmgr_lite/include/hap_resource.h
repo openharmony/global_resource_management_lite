@@ -15,12 +15,12 @@
 #ifndef RESOURCE_MANAGER_HAPRESOURCE_H
 #define RESOURCE_MANAGER_HAPRESOURCE_H
 
-#include "res_desc.h"
-#include "res_config_impl.h"
 #include <map>
 #include <string>
 #include <time.h>
 #include <vector>
+#include "res_desc.h"
+#include "res_config_impl.h"
 
 namespace OHOS {
 namespace Global {

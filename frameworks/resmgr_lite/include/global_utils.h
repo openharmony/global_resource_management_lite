@@ -114,7 +114,7 @@ typedef struct LocaleItem {
 
 GlobalUtilsImpl *GetGlobalUtilsImpl(void);
 
-#define MC_FAILURE -1
+#define MC_FAILURE (-1)
 #define MC_SUCCESS 0
 
 #ifdef __cplusplus
