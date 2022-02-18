@@ -26,7 +26,7 @@
 
 using namespace OHOS::Global::Resource;
 using namespace testing::ext;
-
+namespace {
 class HapParserTest : public testing::Test {
 public:
     static void SetUpTestCase(void);
@@ -180,4 +180,5 @@ HWTEST_F(HapParserTest, HapParserFuncTest004, TestSize.Level1)
     for (auto kp = keyParams.begin(); kp != keyParams.end(); kp++) {
         delete *kp;
     }
+}
 }
