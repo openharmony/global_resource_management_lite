@@ -133,16 +133,17 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueByName(
     for (i = 0; i < len; i++) {
         HapResource::ValueUnderQualifierDir *path = paths[i];
         const ResConfigImpl *resConfig = path->GetResConfig();
-        if (this->resConfig_->Match(resConfig)) {
-            if (bestResConfig == nullptr) {
-                bestIndex = i;
-                bestResConfig = resConfig;
-            } else if (bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
-                continue;
-            } else {
-                bestResConfig = resConfig;
-                bestIndex = i;
-            }
+        if (!this->resConfig_->Match(resConfig)) {
+            continue;
+        }
+        if (bestResConfig == nullptr) {
+            bestIndex = i;
+            bestResConfig = resConfig;
+            continue;
+        }
+        if (!bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
+            bestResConfig = resConfig;
+            bestIndex = i;
         }
     }
     return paths[bestIndex];
@@ -164,18 +165,17 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueById(ui
     for (i = 0; i < len; i++) {
         HapResource::ValueUnderQualifierDir *path = paths[i];
         const ResConfigImpl *resConfig = path->GetResConfig();
-        if (this->resConfig_->Match(resConfig)) {
-            if (bestResConfig == nullptr) {
-                bestIndex = i;
-                bestResConfig = resConfig;
-            } else {
-                if (bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
-                    continue;
-                } else {
-                    bestResConfig = resConfig;
-                    bestIndex = i;
-                }
-            }
+        if (!this->resConfig_->Match(resConfig)) {
+            continue;
+        }
+        if (bestResConfig == nullptr) {
+            bestIndex = i;
+            bestResConfig = resConfig;
+            continue;
+        }
+        if (!bestResConfig->IsMoreSuitable(resConfig, currentResConfig)) {
+            bestResConfig = resConfig;
+            bestIndex = i;
         }
     }
     return paths[bestIndex];

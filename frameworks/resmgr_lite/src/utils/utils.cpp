@@ -197,40 +197,33 @@ uint16_t Utils::EncodeLanguageOrRegion(const char *str, char base)
 
 bool Utils::StrCompare(const char *left, const char *right, size_t len, bool isCaseSensitive)
 {
-    if (left == nullptr) {
-        if (right == nullptr) {
+    if (left == nullptr && right == nullptr) {
+        return true;
+    }
+    if (left == nullptr || right == nullptr) {
+        return false;
+    }
+    int rc;
+    unsigned char c1, c2;
+    while (len--) {
+        c1 = (unsigned char)*left;
+        c2 = (unsigned char)*right;
+        if (c1 == 0 && c2 == 0) {
             return true;
-        } else {
+        }
+        if (c1 == 0 || c2 == 0) {
             return false;
         }
-    } else if (right == nullptr) {
-        return false;
-    } else {
-        int rc;
-        unsigned char c1, c2;
-        while (len--) {
-            c1 = (unsigned char)*left;
-            c2 = (unsigned char)*right;
-            if (c1 == 0) {
-                if (c2 == 0) {
-                    return true;
-                }
-                return false;
-            } else if (c2 == 0) {
-                return false;
-            } else {
-                if (isCaseSensitive) {
-                    rc = (int)(c1) - (int)(c2);
-                } else {
-                    rc = tolower(c1) - tolower(c2);
-                }
-                if (rc != 0) {
-                    return false;
-                }
-            }
-            ++left;
-            ++right;
+        if (isCaseSensitive) {
+            rc = (int)(c1) - (int)(c2);
+        } else {
+            rc = tolower(c1) - tolower(c2);
         }
+        if (rc != 0) {
+            return false;
+        }
+        ++left;
+        ++right;
     }
     return true;
 }
@@ -274,7 +267,7 @@ RState Utils::ConvertColorToUInt32(const char *s, uint32_t &outValue)
     RState parseState = SUCCESS;
     size_t len = strlen(s);
     if (*s == '#') {
-        if (len == 4) {
+        if (len == 4) { // 4 means #rgb
             color |= 0xFF000000;
             color |= ParseHex(s[1], parseState) << 20;
             color |= ParseHex(s[1], parseState) << 16;
@@ -282,7 +275,7 @@ RState Utils::ConvertColorToUInt32(const char *s, uint32_t &outValue)
             color |= ParseHex(s[2], parseState) << 8;
             color |= ParseHex(s[3], parseState) << 4;
             color |= ParseHex(s[3], parseState);
-        } else if (len == 5) {
+        } else if (len == 5) { // 5 means #argb
             color |= ParseHex(s[1], parseState) << 28;
             color |= ParseHex(s[1], parseState) << 24;
             color |= ParseHex(s[2], parseState) << 20;
@@ -291,7 +284,7 @@ RState Utils::ConvertColorToUInt32(const char *s, uint32_t &outValue)
             color |= ParseHex(s[3], parseState) << 8;
             color |= ParseHex(s[4], parseState) << 4;
             color |= ParseHex(s[4], parseState);
-        } else if (len == 7) {
+        } else if (len == 7) { // 7 means #rrggbb
             color |= 0xFF000000;
             color |= ParseHex(s[1], parseState) << 20;
             color |= ParseHex(s[2], parseState) << 16;
@@ -299,7 +292,7 @@ RState Utils::ConvertColorToUInt32(const char *s, uint32_t &outValue)
             color |= ParseHex(s[4], parseState) << 8;
             color |= ParseHex(s[5], parseState) << 4;
             color |= ParseHex(s[6], parseState);
-        } else if (len == 9) {
+        } else if (len == 9) { // 9 means #aarrggbb
             color |= ParseHex(s[1], parseState) << 28;
             color |= ParseHex(s[2], parseState) << 24;
             color |= ParseHex(s[3], parseState) << 20;
