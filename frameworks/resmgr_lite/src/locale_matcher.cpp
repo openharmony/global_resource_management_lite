@@ -232,7 +232,7 @@ size_t ComputeTrackPathDistance(const uint64_t *requestPaths,
             }
         }
     }
-    return   len * 2;
+    return len * 2;
 }
 
 int8_t CompareRegionWhenQaag(const ResLocale *current,
@@ -269,6 +269,7 @@ bool CompareLanguage(const ResLocale *current, const ResLocale *other)
         Utils::EncodeLanguageByResLocale(current);
     uint16_t otherEncodedLanguage = Utils::EncodeLanguageByResLocale(
         other);
+    // 0-4 NEW/OLD language code means iw/he,tl/fil,ji/yi,jw/jv,in/id
     return ((currentEncodedLanguage == otherEncodedLanguage) ||
         ((currentEncodedLanguage == NEW_LANGUAGES_CODES[0])
             && (otherEncodedLanguage == OLD_LANGUAGES_CODES[0])) ||
@@ -687,9 +688,11 @@ bool LocaleMatcher::IsRegionTag(const char *str, int32_t len)
     if (len < 0) {
         len = strlen(str);
     }
+    // region is 2 letters if is alpha string
     if (len == 2 && Utils::IsAlphaString(str, len)) {
         return true;
     }
+    // region is 3 letters if is numeric string
     if (len == 3 && Utils::IsNumericString(str, len)) {
         return true;
     }

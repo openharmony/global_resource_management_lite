@@ -17,7 +17,6 @@
 #define RESOURCE_MANAGER_DATEUTILS_H
 
 #include <sys/time.h>
-#include <unistd.h>
 #include "common.h"
 
 namespace OHOS {

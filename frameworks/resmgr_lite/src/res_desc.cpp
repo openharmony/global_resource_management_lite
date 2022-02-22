@@ -13,9 +13,6 @@
  * limitations under the License.
  */
 #include "res_desc.h"
-
-#include <cstdlib>
-
 #include "hilog_wrapper.h"
 #include "securec.h"
 #include "utils/common.h"
@@ -91,7 +88,9 @@ const std::string KeyParam::ConvertToStr() const
             HILOG_ERROR("memcpy_s error : %d", eret);
         }
         int j = 0;
+        // 4 means langauages/region/script key value max length
         for (int i = 0; i < 4; ++i) {
+            // 3 means reverse temp value to temp2
             if (tmp[3 - i]) {
                 tmp2[j++] = tmp[3 - i];
             }
@@ -145,6 +144,8 @@ bool IdItem::HaveParent() const
     if (!(resType_ == THEME || resType_ == PATTERN)) {
         return false;
     }
+    // the values_ storage map(key, value) and parent ref
+    // if have parent, size would be odd number
     return (values_.size() % 2 == 1);
 }
 
@@ -156,6 +157,7 @@ bool IdItem::IsRef(const std::string &value, ResType &resType, int &id)
         return false;
     }
     auto index = value.find(":");
+    // there are atleast one letter between '$' and ':'
     if (index == std::string::npos || index < 2) {
         return false;
     }
