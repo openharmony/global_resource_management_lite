@@ -240,6 +240,7 @@ RState ResourceManagerImpl::GetPluralString(const HapResource::ValueUnderQualifi
     size_t startIdx = 0;
     size_t loop = idItem->values_.size() / 2;
     for (size_t i = 0; i < loop; ++i) {
+        // 2 means key and value appear in pairs
         std::string key(idItem->values_[startIdx + i * 2]);
         std::string value(idItem->values_[startIdx + i * 2 + 1]);
         auto iter = map.find(key);
@@ -331,18 +332,20 @@ RState ResourceManagerImpl::ResolveParentReference(const IdItem *idItem, std::ma
         // this make sure child covers parent
         size_t loop = currItem->values_.size() / 2;
         for (size_t i = 0; i < loop; ++i) {
+            // 2 means key and value appear in pairs
             std::string key(currItem->values_[startIdx + i * 2]);
             std::string value(currItem->values_[startIdx + i * 2 + 1]);
             auto iter = outValue.find(key);
-            if (iter == outValue.end()) {
-                std::string resolvedValue;
-                RState rrRet = ResolveReference(value, resolvedValue);
-                if (rrRet != SUCCESS) {
-                    HILOG_ERROR("ResolveReference failed, value:%s", value.c_str());
-                    return ERROR;
-                }
-                outValue[key] = resolvedValue;
+            if (iter != outValue.end()) {
+                continue;
             }
+            std::string resolvedValue;
+            RState rrRet = ResolveReference(value, resolvedValue);
+            if (rrRet != SUCCESS) {
+                HILOG_ERROR("ResolveReference failed, value:%s", value.c_str());
+                return ERROR;
+            }
+            outValue[key] = resolvedValue;
         }
         if (haveParent) {
             // get parent

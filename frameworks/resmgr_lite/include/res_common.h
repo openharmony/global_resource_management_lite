@@ -16,8 +16,6 @@
 #ifndef OHOS_RES_COMMON_H
 #define OHOS_RES_COMMON_H
 
-#include <stdint.h>
-
 namespace OHOS {
 namespace Global {
 namespace Resource {
