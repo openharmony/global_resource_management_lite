@@ -70,7 +70,7 @@ HapResource::~HapResource()
 {
     delete (resDesc_);
     std::map<uint32_t, IdValues *>::iterator iter;
-    for (iter = idValuesMap_.begin(); iter != idValuesMap_.end(); iter++) {
+    for (iter = idValuesMap_.begin(); iter != idValuesMap_.end(); ++iter) {
         IdValues *ptr = iter->second;
         delete (ptr);
     }
@@ -90,7 +90,7 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
         return nullptr;
     }
     inFile.seekg(0, std::ios::end);
-    size_t bufLen = inFile.tellg();
+    int bufLen = inFile.tellg();
     if (bufLen <= 0) {
         HILOG_ERROR("file size is zero");
         inFile.close();

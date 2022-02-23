@@ -628,6 +628,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest001, TestSize.Lev
     RState state;
 
     id = GetResId("base", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     state = rm->GetPatternById(id, outValue);
     ASSERT_EQ(SUCCESS, state);
     ASSERT_EQ(static_cast<size_t>(3), outValue.size());
@@ -648,6 +649,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest002, TestSize.Lev
     RState state;
 
     id = GetResId("child", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     state = rm->GetPatternById(id, outValue);
     ASSERT_EQ(SUCCESS, state);
     ASSERT_EQ(static_cast<size_t>(4), outValue.size());
@@ -668,6 +670,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetPatternByIdTest003, TestSize.Lev
     RState state;
 
     id = GetResId("ccchild", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     state = rm->GetPatternById(id, outValue);
     ASSERT_EQ(SUCCESS, state);
     ASSERT_EQ(static_cast<size_t>(5), outValue.size());
@@ -1636,6 +1639,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveParentReferenceTest001, Test
     RState ret;
 
     id = GetResId("base", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     idItem = ((ResourceManagerImpl *)rm)->hapManager_->FindResourceById(id);
     ASSERT_TRUE(idItem != nullptr);
     ret = ((ResourceManagerImpl *)rm)->ResolveParentReference(idItem, outValue);
@@ -1644,6 +1648,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveParentReferenceTest001, Test
 
     HILOG_DEBUG("=====");
     id = GetResId("child", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     idItem = ((ResourceManagerImpl *)rm)->hapManager_->FindResourceById(id);
     ASSERT_TRUE(idItem != nullptr);
     ret = ((ResourceManagerImpl *)rm)->ResolveParentReference(idItem, outValue);
@@ -1652,6 +1657,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveParentReferenceTest001, Test
 
     HILOG_DEBUG("=====");
     id = GetResId("ccchild", ResType::PATTERN);
+    ASSERT_TRUE(id > 0);
     idItem = ((ResourceManagerImpl *)rm)->hapManager_->FindResourceById(id);
     ASSERT_TRUE(idItem != nullptr);
     ret = ((ResourceManagerImpl *)rm)->ResolveParentReference(idItem, outValue);
