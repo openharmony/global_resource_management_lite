@@ -52,9 +52,7 @@ if (values != NULL) {
 
 [Globalization subsystem](https://gitee.com/openharmony/docs/blob/master/en/readme/globalization.md)
 
-global\_resmgr\_lite
+**global\_resmgr\_lite**
 
 [global\_i18n\_lite](https://gitee.com/openharmony/global_i18n_lite/blob/master/README.md)
-
-[global\_cust\_lite](https://gitee.com/openharmony/global_cust_lite/blob/master/README.md)
 
