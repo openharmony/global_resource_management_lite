@@ -76,14 +76,15 @@ static int32_t Split(const char *src, const char *separator, char **dest, int32_
     if (src == NULL || src[0] == '\0' || separator == NULL || separator[0] == '\0' || dest == NULL || num == NULL) {
         return MC_FAILURE;
     }
-    next = strtok((char *)src, separator);
+    char *temp = NULL;
+    next = strtok_r((char *)src, separator, &temp);
     while (next != NULL) {
         if (count >= LOCALE_ELEMENT_NUM) {
             return MC_FAILURE;
         }
         *dest++ = next;
         ++count;
-        next = strtok(NULL, separator);
+        next = strtok_r(NULL, separator, &temp);
     }
     *num = count;
     return MC_SUCCESS;
