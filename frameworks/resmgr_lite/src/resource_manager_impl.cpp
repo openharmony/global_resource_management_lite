@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -227,7 +227,7 @@ RState ResourceManagerImpl::GetPluralStringByNameFormat(std::string &outValue, c
 RState ResourceManagerImpl::GetPluralString(const HapResource::ValueUnderQualifierDir *vuqd,
     int quantity, std::string &outValue)
 {
-// not found or type invalid
+    // not found or type invalid
     if (vuqd == nullptr) {
         return NOT_FOUND;
     }
@@ -575,6 +575,9 @@ RState ResourceManagerImpl::GetRawFile(const HapResource::ValueUnderQualifierDir
     std::string &outValue)
 {
     // not found or type invalid
+    if (vuqd == nullptr) {
+        return NOT_FOUND;
+    }
     const IdItem *idItem = vuqd->GetIdItem();
     if (idItem == nullptr || idItem->resType_ != resType) {
         return NOT_FOUND;
