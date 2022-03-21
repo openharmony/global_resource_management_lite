@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -119,20 +119,23 @@ int32_t GLOBAL_GetRegion(char *region, uint8_t len)
 
 int32_t GetValue(const IdItem *idItem, char **value)
 {
+    if (idItem == nullptr) {
+        return SYS_ERROR;
+    }
     if (idItem->isArray_) {
         std::string ret("[");
         for (size_t i = 0; i < idItem->values_.size(); ++i) {
             ret.append(FormatString("'%s',", idItem->values_[i].c_str()));
         }
         ret.append("]");
-        *value = (char *)malloc(ret.size() + 1);
+        *value = static_cast<char *>(malloc(ret.size() + 1));
         if (*value == nullptr || strcpy_s(*value, ret.size() + 1, ret.c_str()) != EOK) {
             FreeValue(value);
             return SYS_ERROR;
         }
         (*value)[ret.size()] = '\0';
     } else {
-        *value = (char *)malloc(idItem->valueLen_ + 1);
+        *value = static_cast<char *>(malloc(idItem->valueLen_ + 1));
         if (*value == nullptr || strcpy_s(*value, idItem->valueLen_ + 1, idItem->value_.c_str()) != EOK) {
             FreeValue(value);
             return SYS_ERROR;
