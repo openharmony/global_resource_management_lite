@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -103,7 +103,7 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
         return nullptr;
     }
     inFile.seekg(0, std::ios::beg);
-    inFile.read((char *)buf, bufLen);
+    inFile.read(static_cast<char *>(buf), bufLen);
     inFile.close();
 
     HILOG_DEBUG("extract success, bufLen:%d", bufLen);
@@ -114,7 +114,7 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
         free(buf);
         return nullptr;
     }
-    int32_t out = HapParser::ParseResHex((char *)buf, bufLen, *resDesc, defaultConfig);
+    int32_t out = HapParser::ParseResHex(static_cast<char *>(buf), bufLen, *resDesc, defaultConfig);
     if (out != OK) {
         delete (resDesc);
         free(buf);
