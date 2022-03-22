@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -181,6 +181,9 @@ bool ResConfigImpl::Copy(ResConfig &other)
 
 bool ResConfigImpl::Match(const ResConfigImpl *other) const
 {
+    if (other == nullptr) {
+        return false;
+    }
     if (LocaleMatcher::Match(this->resLocale_, other->GetResLocale()) == false) {
         return false;
     }
@@ -209,7 +212,7 @@ bool ResConfigImpl::Match(const ResConfigImpl *other) const
 bool ResConfigImpl::IsMoreSuitable(const ResConfigImpl *other,
     const ResConfigImpl *request) const
 {
-    if (request != nullptr) {
+    if (request != nullptr && other != nullptr) {
         int8_t result =
             LocaleMatcher::IsMoreSuitable(this->GetResLocale(), other->GetResLocale(),
                                           request->GetResLocale());

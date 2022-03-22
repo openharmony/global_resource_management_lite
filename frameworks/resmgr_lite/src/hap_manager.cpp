@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Huawei Device Co., Ltd.
+ * Copyright (c) 2021-2022 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -260,7 +260,7 @@ bool HapManager::AddResourcePath(const char *path)
     if (pResource == nullptr) {
         return false;
     }
-    this->hapResources_.push_back((HapResource *)pResource);
+    this->hapResources_.push_back(const_cast<HapResource *>(pResource));
     this->loadedHapPaths_.push_back(sPath);
     return true;
 }
@@ -274,12 +274,12 @@ RState HapManager::ReloadAll()
     for (size_t i = 0; i < hapResources_.size(); ++i) {
         const HapResource *pResource = HapResource::LoadFromIndex(hapResources_[i]->GetIndexPath().c_str(), resConfig_);
         if (pResource == nullptr) {
-            for (size_t i = 0; i < newResources.size(); ++i) {
-                delete (newResources[i]);
+            for (size_t j = 0; j < newResources.size(); ++j) {
+                delete (newResources[j]);
             }
             return HAP_INIT_FAILED;
         }
-        newResources.push_back((HapResource *)pResource);
+        newResources.push_back(const_cast<HapResource *>(pResource));
     }
     for (size_t i = 0; i < hapResources_.size(); ++i) {
         delete (hapResources_[i]);
