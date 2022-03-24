@@ -29,16 +29,46 @@ class ResConfigImpl : public ResConfig {
 public:
     ResConfigImpl();
 
+    /**
+     * Whether the this resConfig more match request resConfig
+     * @param other the other resConfig
+     * @param request  the request resConfig
+     * @return true if this resConfig more match request resConfig than other resConfig, else false
+     */
     bool IsMoreSuitable(const ResConfigImpl *other, const ResConfigImpl *request) const;
 
+    /**
+     * Set locale information
+     * @param language the locale language
+     * @param script  the locale script
+     * @param region  the locale region
+     * @return SUCCESS if set locale information success, else false
+     */
     RState SetLocaleInfo(const char *language, const char *script, const char *region);
-
+    
+    /**
+     * Set locale information
+     * @param localeInfo the localeInfo
+     * @return SUCCESS if set locale information success, else false
+     */
     RState SetLocaleInfo(LocaleInfo &localeInfo);
 
+    /**
+     * Set resConfig device type
+     * @param deviceType the device type
+     */
     void SetDeviceType(DeviceType deviceType);
 
+    /**
+     * Set resConfig direction
+     * @param direction the resConfig direction
+     */
     void SetDirection(Direction direction);
 
+    /**
+     * Set resConfig screenDensity
+     * @param screenDensity the resConfig screenDensity
+     */
     void SetScreenDensity(ScreenDensity screenDensity);
 
     const LocaleInfo *GetLocaleInfo() const;
@@ -51,12 +81,29 @@ public:
 
     DeviceType GetDeviceType() const;
 
+    /**
+     * Whether this resConfig match other resConfig
+     * @param other the other resConfig
+     * @return true if this resConfig match other resConfig, else false
+     */
     bool Match(const ResConfigImpl *other) const;
 
+    /**
+     * Copy this resConfig match other resConfig
+     * @param other the other resConfig
+     * @return true if copy other resConfig to this resConfig success, else false
+     */
     bool Copy(ResConfig &other);
 
+    /**
+     * Complete the local script
+     */
     void CompleteScript();
 
+    /**
+     * Whether the script completed
+     * @return true if copy other resConfig to this resConfig success, else false
+     */
     bool IsCompletedScript() const;
 
     virtual ~ResConfigImpl();
