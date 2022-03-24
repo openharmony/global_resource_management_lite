@@ -385,7 +385,7 @@ LocaleInfo *BuildFromParts(const char *language, const char *script, const char 
         rState = INVALID_BCP47_LANGUAGE_SUBTAG;
         return nullptr;
     }
-    if (LocaleMatcher::IsLanguageTag(language, len) == false) {
+    if (!(LocaleMatcher::IsLanguageTag(language, len))) {
         rState = INVALID_BCP47_LANGUAGE_SUBTAG;
         return nullptr;
     }
