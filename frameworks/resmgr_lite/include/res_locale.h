@@ -45,16 +45,41 @@ public:
 
     ResLocale();
 
+    /**
+     * Copy from other LocaleInfo to this
+     * @param other the other LocaleInfo copy to this localeInfo
+     * @return SUCCESS if copy other LocaleInfo success, else ERROR
+     */
     RState CopyFromLocaleInfo(const LocaleInfo *other);
 
+    /**
+     * Copy from other ResLocale to this
+     * @param other the other ResLocale copy to this ResLocale
+     * @return SUCCESS if copy other ResLocale success, else ERROR
+     */
     RState Copy(const ResLocale *other);
 
     static const LocaleInfo *GetDefault();
 
     static bool UpdateDefault(const LocaleInfo &localeInfo, bool needNotify);
 
+    /**
+     * Build resLocal from string
+     * @param bcp47String the target string
+     * @param sep the parse string position
+     * @param rState the parse status
+     * @return the resLocal after parse bcp47String
+     */
     static ResLocale *BuildFromString(const char *bcp47String, char sep, RState &rState);
 
+    /**
+     * Build resLocal from parts
+     * @param language the resLocal language
+     * @param script the resLocal script
+     * @param region the resLocal region
+     * @param rState the Build status
+     * @return the resLocal after Build resLocal from parts if success, else return nullptr
+     */
     static ResLocale *BuildFromParts(const char *language, const char *script, const char *region, RState &rState);
 
     ~ResLocale();
