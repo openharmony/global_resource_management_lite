@@ -29,24 +29,71 @@ namespace Global {
 namespace Resource {
 class HapManager {
 public:
+    /**
+     * The constructor of HapManager
+     */
     explicit HapManager(ResConfigImpl *resConfig);
 
+    /**
+     * The destructor of HapManager
+     */
     ~HapManager();
 
+    /**
+     * Update the resConfig
+     * @param resConfig the resource config
+     * @return the resConfig after update
+     */
     RState UpdateResConfig(ResConfig &resConfig);
 
+    /**
+     * Get the resConfig
+     * @param resConfig the resource config
+     */
     void GetResConfig(ResConfig &resConfig);
 
+    /**
+     * Add resource path to hap paths
+     * @param path the resource path
+     * @return true if add resource path success, else false
+     */
     bool AddResource(const char *path);
 
+    /**
+     * Find resource by resource id
+     * @param id the resource id
+     * @return the resources corresponding resource id
+     */
     const IdItem *FindResourceById(uint32_t id);
 
+    /**
+     * Find resource by resource name
+     * @param name the resource name
+     * @param resType the resource type
+     * @return the resources corresponding resource name
+     */
     const IdItem *FindResourceByName(const char *name, const ResType resType);
 
+    /**
+     * Find best resource path by resource id
+     * @param id the resource id
+     * @return the best resource path
+     */
     const HapResource::ValueUnderQualifierDir *FindQualifierValueById(uint32_t id);
 
+    /**
+     * Find best resource path by resource name
+     * @param name the resource name
+     * @param resType the resource type
+     * @return the best resource path
+     */
     const HapResource::ValueUnderQualifierDir *FindQualifierValueByName(const char *name, const ResType resType);
 
+    /**
+     * Get the language pluralRule corresponding to quantity
+     * @param quantity the language quantity
+     * @return the language pluralRule corresponding to quantity
+     */
     std::string GetPluralRulesAndSelect(int quantity);
 
 private:

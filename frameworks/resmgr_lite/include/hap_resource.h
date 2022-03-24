@@ -43,20 +43,29 @@ public:
      */
     static const HapResource *LoadFromIndex(const char *path, const ResConfigImpl *defaultConfig, bool system = false);
 
+    /**
+     * The destructor of HapResource
+     */
     ~HapResource();
 
+    /**
+     * Get the resource.index file path
+     */
     inline const std::string GetIndexPath() const
     {
         return indexPath_;
     }
 
+    /**
+     * Get the resource path
+     */
     inline const std::string GetResourcePath() const
     {
         return resourcePath_;
     }
 
     /**
-     * describe limitpath and value under the path
+     * Describe limitpath and value under the path
      */
     class ValueUnderQualifierDir {
     public:
@@ -133,10 +142,27 @@ public:
         std::vector<ValueUnderQualifierDir *> limitPaths_;
     };
 
+    /**
+     * Get the resource value by resource id
+     * @param id the resource id
+     * @return the rsource value corresponding id
+     */
     const IdValues *GetIdValues(const uint32_t id) const;
 
+    /**
+     * Get the resource value by resource name
+     * @param name the resource name
+     * @param resType the resource type
+     * @return the rsource value corresponding resource name
+     */
     const IdValues *GetIdValuesByName(const std::string name, const ResType resType) const;
 
+    /**
+     * Get the resource id by resource name
+     * @param name the resource name
+     * @param resType the resource type
+     * @return the resource id corresponding resource name
+     */
     int GetIdByName(const char *name, const ResType resType) const;
 
     size_t IdSize() const
