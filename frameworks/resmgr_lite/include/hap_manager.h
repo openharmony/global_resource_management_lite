@@ -42,7 +42,7 @@ public:
     /**
      * Update the resConfig
      * @param resConfig the resource config
-     * @return the resConfig after update
+     * @return SUCCESS if the resConfig updated success, else HAP_INIT_FAILED
      */
     RState UpdateResConfig(ResConfig &resConfig);
 
@@ -62,7 +62,7 @@ public:
     /**
      * Find resource by resource id
      * @param id the resource id
-     * @return the resources corresponding resource id
+     * @return the resources related to resource id
      */
     const IdItem *FindResourceById(uint32_t id);
 
@@ -70,7 +70,7 @@ public:
      * Find resource by resource name
      * @param name the resource name
      * @param resType the resource type
-     * @return the resources corresponding resource name
+     * @return the resources related to resource name
      */
     const IdItem *FindResourceByName(const char *name, const ResType resType);
 
@@ -90,9 +90,9 @@ public:
     const HapResource::ValueUnderQualifierDir *FindQualifierValueByName(const char *name, const ResType resType);
 
     /**
-     * Get the language pluralRule corresponding to quantity
+     * Get the language pluralRule related to quantity
      * @param quantity the language quantity
-     * @return the language pluralRule corresponding to quantity
+     * @return the language pluralRule related to quantity
      */
     std::string GetPluralRulesAndSelect(int quantity);
 

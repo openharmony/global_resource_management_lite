@@ -30,7 +30,7 @@ public:
     ResConfigImpl();
 
     /**
-     * Whether the this resConfig more match request resConfig
+     * Whether this resConfig more match request resConfig
      * @param other the other resConfig
      * @param request  the request resConfig
      * @return true if this resConfig more match request resConfig than other resConfig, else false
@@ -89,7 +89,7 @@ public:
     bool Match(const ResConfigImpl *other) const;
 
     /**
-     * Copy this resConfig match other resConfig
+     * Copy other resConfig to this resConfig
      * @param other the other resConfig
      * @return true if copy other resConfig to this resConfig success, else false
      */
@@ -101,8 +101,8 @@ public:
     void CompleteScript();
 
     /**
-     * Whether the script completed
-     * @return true if copy other resConfig to this resConfig success, else false
+     * Whether this resLocal script completed
+     * @return true if resLocal script completed, else false
      */
     bool IsCompletedScript() const;
 

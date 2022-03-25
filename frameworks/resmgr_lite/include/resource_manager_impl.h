@@ -53,8 +53,8 @@ public:
     virtual void GetResConfig(ResConfig &resConfig);
 
     /**
-     * Get string resource by Id
-     * @param id the resource Id
+     * Get string resource by id
+     * @param id the resource id
      * @param outValue the string resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
      */
@@ -85,7 +85,7 @@ public:
     virtual RState GetStringFormatByName(std::string &outValue, const char *name, ...);
 
     /**
-     * Get the ResType is STRINGARRAY resource by resource id
+     * Get the STRINGARRAY resource by resource id
      * @param id the resource id
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -93,7 +93,7 @@ public:
     virtual RState GetStringArrayById(uint32_t id, std::vector<std::string> &outValue);
 
     /**
-     * Get the ResType is STRINGARRAY resource by resource name
+     * Get the STRINGARRAY resource by resource name
      * @param name the resource name
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -101,7 +101,7 @@ public:
     virtual RState GetStringArrayByName(const char *name, std::vector<std::string> &outValue);
 
     /**
-     * Get the ResType is PATTERN resource by resource id
+     * Get the PATTERN resource by resource id
      * @param id the resource id
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -109,7 +109,7 @@ public:
     virtual RState GetPatternById(uint32_t id, std::map<std::string, std::string> &outValue);
 
     /**
-     * Get the ResType is PATTERN resource by resource name
+     * Get the PATTERN resource by resource name
      * @param name the resource name
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -153,7 +153,7 @@ public:
     virtual RState GetPluralStringByNameFormat(std::string &outValue, const char *name, int quantity, ...);
 
     /**
-     * Get the ResType is THEME resource by resource id
+     * Get the THEME resource by resource id
      * @param id the resource id
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -161,7 +161,7 @@ public:
     virtual RState GetThemeById(uint32_t id, std::map<std::string, std::string> &outValue);
 
     /**
-     * Get the ResType is THEME resource by resource name
+     * Get the THEME resource by resource name
      * @param name the resource name
      * @param outValue the resource write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -169,7 +169,7 @@ public:
     virtual RState GetThemeByName(const char *name, std::map<std::string, std::string> &outValue);
 
     /**
-     * Get the ResType is BOOLEAN resource by resource id
+     * Get the BOOLEAN resource by resource id
      * @param id the resource id
      * @param outValue the obtain boolean value write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -177,7 +177,7 @@ public:
     virtual RState GetBooleanById(uint32_t id, bool &outValue);
 
     /**
-     * Get the ResType is BOOLEAN resource by resource name
+     * Get the BOOLEAN resource by resource name
      * @param name the resource name
      * @param outValue the obtain boolean value write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -185,7 +185,7 @@ public:
     virtual RState GetBooleanByName(const char *name, bool &outValue);
 
     /**
-     * Get the ResType is INTEGER resource by resource id
+     * Get the INTEGER resource by resource id
      * @param id the resource id
      * @param outValue the obtain Integer value write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -193,7 +193,7 @@ public:
     virtual RState GetIntegerById(uint32_t id, int &outValue);
 
     /**
-     * Get the ResType is INTEGER resource by resource name
+     * Get the INTEGER resource by resource name
      * @param name the resource name
      * @param outValue the obtain Integer value write to
      * @return SUCCESS if resource path exist, else NOT_FOUND
@@ -201,7 +201,7 @@ public:
     virtual RState GetIntegerByName(const char *name, int &outValue);
 
     /**
-     * Get the ResType is FLOAT resource by resource id
+     * Get the FLOAT resource by resource id
      * @param id the resource id
      * @param outValue the obtain float value write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -209,7 +209,7 @@ public:
     virtual RState GetFloatById(uint32_t id, float &outValue);
 
     /**
-     * Get the ResType is FLOAT resource by resource name
+     * Get the FLOAT resource by resource name
      * @param name the resource name
      * @param outValue the obtain float value write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -217,7 +217,7 @@ public:
     virtual RState GetFloatByName(const char *name, float &outValue);
 
     /**
-     * Get the ResType is INTARRAY resource by resource id
+     * Get the INTARRAY resource by resource id
      * @param id the resource id
      * @param outValue the obtain resource value convert to vector<int> write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -225,7 +225,7 @@ public:
     virtual RState GetIntArrayById(uint32_t id, std::vector<int> &outValue);
 
     /**
-     * Get the ResType is INTARRAY resource by resource name
+     * Get the NTARRAY resource by resource name
      * @param name the resource name
      * @param outValue the obtain resource value convert to vector<int> write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -233,7 +233,7 @@ public:
     virtual RState GetIntArrayByName(const char *name, std::vector<int> &outValue);
 
     /**
-     * Get the ResType is COLOR resource by resource id
+     * Get the COLOR resource by resource id
      * @param id the resource id
      * @param outValue the obtain resource value convert to uint32_t write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -241,7 +241,7 @@ public:
     virtual RState GetColorById(uint32_t id, uint32_t &outValue);
 
     /**
-     * Get the ResType is COLOR resource by resource name
+     * Get the COLOR resource by resource name
      * @param name the resource name
      * @param outValue the obtain resource value convert to uint32_t write to
      * @return SUCCESS if resource exist, else NOT_FOUND
@@ -249,34 +249,34 @@ public:
     virtual RState GetColorByName(const char *name, uint32_t &outValue);
 
     /**
-     * Get the ResType is PROF resource by resource id
+     * Get the PROF resource by resource id
      * @param id the resource id
      * @param outValue the obtain resource path write to
-     * @return SUCCESS if resource path exist, else NOT_FOUND
+     * @return SUCCESS if resource exist, else NOT_FOUND
      */
     virtual RState GetProfileById(uint32_t id, std::string &outValue);
 
     /**
-     * Get the ResType is PROF resource by resource name
+     * Get the PROF resource by resource name
      * @param name the resource name
      * @param outValue the obtain resource path write to
-     * @return SUCCESS if resource path exist, else NOT_FOUND
+     * @return SUCCESS if resource exist, else NOT_FOUND
      */
     virtual RState GetProfileByName(const char *name, std::string &outValue);
 
     /**
-     * Get the ResType is MEDIA resource by resource id
+     * Get the MEDIA resource by resource id
      * @param id the resource id
      * @param outValue the obtain resource path write to
-     * @return SUCCESS if resource path exist, else NOT_FOUND
+     * @return SUCCESS if resource exist, else NOT_FOUND
      */
     virtual RState GetMediaById(uint32_t id, std::string &outValue);
 
     /**
-     * Get the ResType is PROF resource by resource name
+     * Get the MEDIA resource by resource name
      * @param name the resource name
      * @param outValue the obtain resource path write to
-     * @return SUCCESS if resource path exist, else NOT_FOUND
+     * @return SUCCESS if resource exist, else NOT_FOUND
      */
     virtual RState GetMediaByName(const char *name, std::string &outValue);
 
