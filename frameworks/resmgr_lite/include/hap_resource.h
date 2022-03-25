@@ -145,7 +145,7 @@ public:
     /**
      * Get the resource value by resource id
      * @param id the resource id
-     * @return the rsource value corresponding id
+     * @return the resource value related to id
      */
     const IdValues *GetIdValues(const uint32_t id) const;
 
@@ -153,7 +153,7 @@ public:
      * Get the resource value by resource name
      * @param name the resource name
      * @param resType the resource type
-     * @return the rsource value corresponding resource name
+     * @return the resource value related to resource name
      */
     const IdValues *GetIdValuesByName(const std::string name, const ResType resType) const;
 
@@ -161,7 +161,7 @@ public:
      * Get the resource id by resource name
      * @param name the resource name
      * @param resType the resource type
-     * @return the resource id corresponding resource name
+     * @return the resource id related to resource name
      */
     int GetIdByName(const char *name, const ResType resType) const;
 

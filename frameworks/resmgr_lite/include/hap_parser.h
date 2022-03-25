@@ -65,7 +65,7 @@ public:
     /**
      * Create resource config from KeyParams
      * @param keyParams the keyParams contain type and value
-     * @return the resource config corresponding the keyParams
+     * @return the resource config related to the keyParams
      */
     static ResConfigImpl *CreateResConfigFromKeyParams(const std::vector<KeyParam *> &keyParams);
 
@@ -79,14 +79,14 @@ public:
     /**
      * Get screen density
      * @param value the type of screen density
-     * @return the screen density corresponding the value
+     * @return the screen density related to the value
      */
     static ScreenDensity GetScreenDensity(uint32_t value);
 
     /**
      * Get device type
      * @param value the type of device
-     * @return the device type corresponding the value
+     * @return the device type related to the value
      */
     static DeviceType GetDeviceType(uint32_t value);
 
