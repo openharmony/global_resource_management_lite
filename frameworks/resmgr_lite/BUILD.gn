@@ -43,7 +43,7 @@ if (defined(ohos_lite) && ohos_kernel_type == "liteos_a") {
 config("global_resmgr_config") {
   include_dirs = [
     "include",
-    "//base/global/resmgr_lite/interfaces/innerkits/include",
+    "//base/global/resource_management_lite/interfaces/innerkits/include",
     "//utils/native/lite/include",
     "//third_party/bounds_checking_function/include",
   ]
@@ -60,8 +60,8 @@ config("global_resmgr_config") {
 
 config("global_public_config") {
   include_dirs = [
-    "//base/global/resmgr_lite/frameworks/resmgr_lite/include",
-    "//base/global/resmgr_lite/interfaces/innerkits/include",
+    "//base/global/resource_management_lite/frameworks/resmgr_lite/include",
+    "//base/global/resource_management_lite/interfaces/innerkits/include",
   ]
 }
 

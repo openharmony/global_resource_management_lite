@@ -35,12 +35,12 @@ if (ohos_kernel_type == "liteos_a") {
 
     include_dirs = [
       "unittest/lite/common",
-      "//base/global/resmgr_lite/frameworks/resmgr_lite/include",
-      "//base/global/resmgr_lite/interfaces/innerkits/include",
+      "//base/global/resource_management_lite/frameworks/resmgr_lite/include",
+      "//base/global/resource_management_lite/interfaces/innerkits/include",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
 
-    deps = [ "//base/global/resmgr_lite/frameworks/resmgr_lite:global_resmgr" ]
+    deps = [ "//base/global/resource_management_lite/frameworks/resmgr_lite:global_resmgr" ]
     output_dir = "$root_out_dir/test/unittest/global"
   }
 
