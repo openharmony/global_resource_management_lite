@@ -16,14 +16,14 @@ The directory structure for the resource management module is as follows:
 
 ```
 /base/global/
-├── resmgr_lite                # Code repository for the resource management module
-│   ├──  frameworks            # Core code of the resource management module
-│   │   ├── resmgr_lite        # Core code for resource parsing
-│   │   │   ├── include        # Header files of the resource management module
-│   │   │   ├── src            # Implementation code of the resource management module
-│   │   │   └── test           # Test code
-│   ├──  interfaces            # APIs of the resource management module
-│   │   └── innerkits          # APIs of the resource management module for internal subsystems
+├── resource_management_lite                # Code repository for the resource management module
+│   ├──  frameworks                         # Core code of the resource management module
+│   │   ├── resource_management_lite        # Core code for resource parsing
+│   │   │   ├── include                     # Header files of the resource management module
+│   │   │   ├── src                         # Implementation code of the resource management module
+│   │   │   └── test                        # Test code
+│   ├──  interfaces                         # APIs of the resource management module
+│   │   └── innerkits                       # APIs of the resource management module for internal subsystems
 ```
 
 ## Usage<a name="section17235135618274"></a>
