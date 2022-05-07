@@ -36,7 +36,7 @@ if (ohos_kernel_type == "liteos_a") {
     include_dirs = [
       "unittest/lite/common",
       "//base/global/resource_management_lite/frameworks/resmgr_lite/include",
-      "//base/global/resource_management_lite/interfaces/innerkits/include",
+      "//base/global/resource_management_lite/interfaces/inner_api/include",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
 

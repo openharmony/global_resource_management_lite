@@ -23,7 +23,7 @@ The directory structure for the resource management module is as follows:
 │   │   │   ├── src                         # Implementation code of the resource management module
 │   │   │   └── test                        # Test code
 │   ├──  interfaces                         # APIs of the resource management module
-│   │   └── innerkits                       # APIs of the resource management module for internal subsystems
+│   │   └── inner_api                       # APIs of the resource management module for internal subsystems
 ```
 
 ## Usage<a name="section17235135618274"></a>
