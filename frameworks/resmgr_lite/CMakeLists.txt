@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 3.16.5)
 
 set(GlobalSrc "${PROJECT_SOURCE_DIR}/base/global/resource_management_lite/frameworks/resmgr_lite/src")
 set(GlobalInc "${PROJECT_SOURCE_DIR}/base/global/resource_management_lite/frameworks/resmgr_lite/include")
-set(GlobalKitInc "${PROJECT_SOURCE_DIR}/base/global/resource_management_lite/interfaces/innerkits/include")
+set(GlobalKitInc "${PROJECT_SOURCE_DIR}/base/global/resource_management_lite/interfaces/inner_api/include")
 
 include_directories(${PROJECT_SOURCE_DIR}/third_party/bounds_checking_function/include)
 
