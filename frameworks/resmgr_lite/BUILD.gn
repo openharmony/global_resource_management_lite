@@ -57,6 +57,10 @@ config("global_resmgr_config") {
       "//utils/native/lite/memory",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
+  } else {
+    include_dirs += [
+      "//base/hiviewdfx/hilog_lite/interfaces/native/kit/hilog_lite",
+    ]
   }
 }
 
@@ -90,6 +94,8 @@ if (defined(ohos_lite)) {
         "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
         "//build/lite/config/component/zlib:zlib_shared",
       ]
+    } else if (ohos_kernel_type == "linux") {
+      public_deps = [ "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared" ]
     }
   }
 
