@@ -24,6 +24,7 @@
 #include <unistd.h>
 
 #include "global_utils.h"
+#include "log.h"
 
 /*
  * locale format as below, use '-' or '_' to link, e.g. en_Latn_US
@@ -151,6 +152,7 @@ static int32_t GLOBAL_GetValueByIdInternal(uint32_t id, const char *path, const 
     char realResourcePath[PATH_MAX] = {'\0'};
     GlobalUtilsImpl *utilsImpl = GetGlobalUtilsImpl();
     if (utilsImpl->CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueByIdInternal failed to check file");
         return MC_FAILURE;
     }
 
@@ -158,10 +160,13 @@ static int32_t GLOBAL_GetValueByIdInternal(uint32_t id, const char *path, const 
     IdHeader idHeader = {0, NULL};
     int32_t file = open(realResourcePath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     if (file < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueByIdInternal failed to open file");
         return MC_FAILURE;
     }
     int32_t ret = utilsImpl->GetIdHeaderByOffset(file, idHeaderOffset, &idHeader);
     if (ret != MC_SUCCESS) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL,
+            "[resmgr]GLOBAL_GetValueByIdInternal failed to get id header by offset %lu", idHeaderOffset);
         close(file);
         return ret;
     }
@@ -172,12 +177,15 @@ static int32_t GLOBAL_GetValueByIdInternal(uint32_t id, const char *path, const 
         if (idHeader.idParams[i].id == id) {
             ret = utilsImpl->GetIdItem(file, idHeader.idParams[i].offset, &idItem);
             if (ret != MC_SUCCESS) {
+                HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueByIdInternal failed to get idiItem");
                 close(file);
                 free(idHeader.idParams);
                 return ret;
             }
             *value = (char *)malloc(idItem.valueLen);
             if (*value == NULL || strcpy_s(*value, idItem.valueLen, idItem.value) != EOK) {
+                HILOG_ERROR(HILOG_MODULE_GLOBAL,
+                    "[resmgr]GLOBAL_GetValueByIdInternal failed to copy id item value");
                 close(file);
                 free(idHeader.idParams);
                 FreeIdItem(&idItem);
@@ -196,13 +204,16 @@ static int32_t GLOBAL_GetValueByIdInternal(uint32_t id, const char *path, const 
 
 int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
 {
+    HILOG_INFO(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueById id: %lu", id);
     if (path == NULL || path[0] == '\0' || value == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueById input params invalid");
         return MC_FAILURE;
     }
 
     char tempLocale[MAX_LOCALE_LENGTH] = {'\0'};
     int32_t ret = strcpy_s(tempLocale, MAX_LOCALE_LENGTH, g_locale);
     if (ret != EOK) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GLOBAL_GetValueById failed to copy g_locale");
         return MC_FAILURE;
     }
     char emptyPath[1] = { '\0' };
@@ -212,6 +223,7 @@ int32_t GLOBAL_GetValueById(uint32_t id, const char *path, char **value)
             return MC_SUCCESS;
         }
     }
+    HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]fail get value by id: %lu", id);
     return MC_FAILURE;
 }
 
