@@ -27,6 +27,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "log.h"
+
 #define MAX_ID_ITEM_NUM    0x7F
 #define MAX_RES_CONFIG_NUM 0xFFFF
 #define MAX_ITEM_LENGTH    0xFF
@@ -257,6 +259,7 @@ static uint32_t FindOffsetByAllParam(char **resConfig, const Key *keys, uint32_t
 static uint32_t GetIdHeaderOffsetByCount(char **resConfig, const Key *keys, uint32_t configNum, int32_t count)
 {
     if (resConfig == NULL || keys == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdHeaderOffsetByCount resConfig or keys is null");
         return INVALID_OFFSET;
     }
     uint32_t offset = INVALID_OFFSET;
@@ -293,12 +296,15 @@ static void FreeKeyParams(Key *keys, int32_t count)
 static int32_t GetKeyParams(int32_t file, Key *keys, uint32_t resConfigNum)
 {
     if (file < 0 || keys == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetKeyParams file negative or keys is null");
         return MC_FAILURE;
     }
     g_defaultIdHeaderOffset = INVALID_OFFSET;
     for (uint32_t i = 0; i < resConfigNum; ++i) {
         int seekRet = lseek(file, INDEX_DEFAULT_OFFSET, SEEK_CUR); // skip the "KEYS" header
         if (seekRet < 0) {
+            HILOG_ERROR(HILOG_MODULE_GLOBAL,
+                "[resmgr]GetKeyParams file %ld seek failed, seekRet: %d", file, seekRet);
             FreeKeyParams(keys, i);
             return MC_FAILURE;
         }
@@ -309,11 +315,14 @@ static int32_t GetKeyParams(int32_t file, Key *keys, uint32_t resConfigNum)
             continue;
         }
         if (keys[i].keysCount > KEY_TYPE_MAX) {
+            HILOG_ERROR(HILOG_MODULE_GLOBAL,
+                "[resmgr]GetKeyParams keysCount %lu invalid, i: %lu", keys[i].keysCount, i);
             FreeKeyParams(keys, i);
             return MC_FAILURE;
         }
         keys[i].keyParams = (KeyParam *)malloc(sizeof(KeyParam) * keys[i].keysCount);
         if (keys[i].keyParams == NULL) {
+            HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetKeyParams keyParams is null, i: %lu", i);
             FreeKeyParams(keys, i);
             return MC_FAILURE;
         }
@@ -328,21 +337,25 @@ static int32_t GetKeyParams(int32_t file, Key *keys, uint32_t resConfigNum)
 static int32_t CheckFilePath(const char *path, char *realResourcePath, int32_t length)
 {
     if (length > PATH_MAX || length < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]CheckFilePath length %ld invalid", length);
         return MC_FAILURE;
     }
 #if (defined(_WIN32) || defined(_WIN64))
     if (!PathCanonicalizeA((char*)path, realResourcePath)) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]CheckFilePath path canonicalize failed");
         return MC_FAILURE;
     }
     return MC_SUCCESS;
 #elif defined(I18N_PRODUCT)
     int ret = strcpy_s(realResourcePath, PATH_MAX, path);
     if (ret != 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]CheckFilePath path copy failed");
         return MC_FAILURE;
     }
     return MC_SUCCESS;
 #else
     if (realpath(path, realResourcePath) == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]CheckFilePath realpath failed");
         return MC_FAILURE;
     }
     return MC_SUCCESS;
@@ -352,35 +365,42 @@ static int32_t CheckFilePath(const char *path, char *realResourcePath, int32_t l
 static uint32_t GetOffsetByLocale(const char *path, const char *locale, uint32_t length)
 {
     if (path == NULL || strlen(path) == 0 || locale == NULL || length == 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale input params invalid");
         return INVALID_OFFSET;
     }
     char realResourcePath[PATH_MAX] = {0};
     if (CheckFilePath(path, realResourcePath, PATH_MAX) == MC_FAILURE) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale check file path failed");
         return INVALID_OFFSET;
     }
     int32_t file = open(realResourcePath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     if (file < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale open file failed");
         return INVALID_OFFSET;
     }
     int seekRet = lseek(file, RES_CONFIG_NUM_OFFSET, SEEK_SET); // goto resConfigNum index, now is fixed at 132
     if (seekRet < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale file seek failed");
         close(file);
         return INVALID_OFFSET;
     }
     uint32_t resConfigNum = GetDefaultOffsetValue(file);
     if (resConfigNum == 0 || resConfigNum > MAX_RES_CONFIG_NUM) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale get offset failed resConfigNum:%lu", resConfigNum);
         close(file);
         return INVALID_OFFSET;
     }
     int size = sizeof(Key) * resConfigNum;
     Key *keys = (Key *)malloc(size);
     if (keys == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale keys is null, resConfigNum: %lu", resConfigNum);
         close(file);
         return INVALID_OFFSET;
     }
     (void)memset_s(keys, size, 0, size);
     int32_t ret = GetKeyParams(file, keys, resConfigNum);
     if (ret != MC_SUCCESS) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetOffsetByLocale get key params failed, ret: %ld", ret);
         close(file);
         free(keys);
         return INVALID_OFFSET;
@@ -398,11 +418,13 @@ static uint32_t GetOffsetByLocale(const char *path, const char *locale, uint32_t
 static uint32_t GetDefaultOffsetValue(int32_t file)
 {
     if (file < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetDefaultOffsetValue file %ld negative", file);
         return 0;
     }
     uint8_t cache[INDEX_DEFAULT_OFFSET] = {0};
     int32_t ret = read(file, cache, INDEX_DEFAULT_OFFSET);
     if (ret != INDEX_DEFAULT_OFFSET) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetDefaultOffsetValue file %ld read failed, ret: %ld", file, ret);
         return 0;
     }
     return ConvertUint8ArrayToUint32(cache, INDEX_DEFAULT_OFFSET);
@@ -424,12 +446,14 @@ static uint32_t GetKeyValue(int32_t file)
 static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
 {
     if (offset == INVALID_OFFSET || file == -1 || idItem == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem input params invalid");
         return MC_FAILURE;
     }
     uint8_t defaultCache[INDEX_DEFAULT_OFFSET] = {0};
     uint8_t lengthCache[VALUE_LENGTH_OFFSET] = {0};
     int seekRet = lseek(file, offset, SEEK_SET);
     if (seekRet < 0) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem file %ld seek failed, seekRet: %d", file, seekRet);
         return MC_FAILURE;
     }
     (void)read(file, defaultCache, INDEX_DEFAULT_OFFSET);
@@ -444,11 +468,13 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
     (void)read(file, lengthCache, VALUE_LENGTH_OFFSET);
     idItem->valueLen = (uint16_t)ConvertUint8ArrayToUint32(lengthCache, VALUE_LENGTH_OFFSET);
     if (idItem->valueLen == 0 || idItem->valueLen > MAX_ITEM_LENGTH) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem idItem valueLen %u invalid", idItem->valueLen);
         return MC_FAILURE;
     }
 
     idItem->value = (char *)malloc(idItem->valueLen);
     if (idItem->value == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem idItem value is null");
         return MC_FAILURE;
     }
     (void)memset_s(idItem->value, idItem->valueLen, 0, idItem->valueLen);
@@ -457,6 +483,7 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
     (void)read(file, lengthCache, VALUE_LENGTH_OFFSET);
     idItem->nameLen = (uint16_t)ConvertUint8ArrayToUint32(lengthCache, VALUE_LENGTH_OFFSET);
     if (idItem->nameLen == 0 || idItem->nameLen > MAX_ITEM_LENGTH) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem idItem nameLen %u invalid", idItem->nameLen);
         free(idItem->value);
         idItem->value = NULL;
         return MC_FAILURE;
@@ -464,10 +491,12 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
 
     idItem->name = (char *)malloc(idItem->nameLen);
     if (idItem->name == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem idItem name is null");
         free(idItem->value);
         idItem->value = NULL;
         return MC_FAILURE;
     }
+    HILOG_INFO(HILOG_MODULE_GLOBAL, "[resmgr]GetIdItem file:%ld, nameLen:%u", file, idItem->nameLen);
     (void)memset_s(idItem->name, idItem->nameLen, 0, idItem->nameLen);
     (void)read(file, idItem->name, idItem->nameLen);
 
@@ -495,18 +524,24 @@ static uint32_t GetIdHeaderOffsetByLocale(const char *locale, const Key *keys, u
 static int32_t GetIdHeaderByOffset(int32_t file, uint32_t offset, IdHeader *idHeader)
 {
     if (file == -1 || offset == INVALID_OFFSET || idHeader == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdHeaderByOffset input params invalid");
         return MC_FAILURE;
     }
 
     (void)lseek(file, (int32_t)offset + INDEX_DEFAULT_OFFSET, SEEK_SET); // skip the "IDSS" header
     idHeader->count = GetDefaultOffsetValue(file);
     if (idHeader->count == 0 || idHeader->count > MAX_ID_ITEM_NUM) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL, "[resmgr]GetIdHeaderByOffset idHeader count %lu invalid", idHeader->count);
         return MC_FAILURE;
     }
     idHeader->idParams = (IdParam *)malloc(sizeof(IdParam) * idHeader->count);
     if (idHeader->idParams == NULL) {
+        HILOG_ERROR(HILOG_MODULE_GLOBAL,
+            "[resmgr]GetIdHeaderByOffset idHeader idParams is null, idHeader->count: %lu", idHeader->count);
         return MC_FAILURE;
     }
+    HILOG_INFO(HILOG_MODULE_GLOBAL,
+        "[resmgr]GetIdHeaderByOffset file: %ld, idHeader->count: %lu", file, idHeader->count);
     for (uint32_t i = 0; i < idHeader->count; i++) {
         idHeader->idParams[i].id = GetDefaultOffsetValue(file);
         idHeader->idParams[i].offset = GetDefaultOffsetValue(file);
