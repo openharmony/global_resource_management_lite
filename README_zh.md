@@ -38,7 +38,7 @@
 uint32_t id = 0x16777216;
 char *values = NULL;
 int32_t re = GLOBAL_GetValueById(id, "/system/data/resources.index", &values); // 调用指定应用下某一条资源，并写入values中
-std::count << values << std::endl;
+std::cout << values << std::endl;
 if (values != NULL) {
     free(values);
 }
