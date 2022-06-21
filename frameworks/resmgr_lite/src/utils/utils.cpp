@@ -285,6 +285,8 @@ RState Utils::ConvertColorToUInt32(const char *s, uint32_t &outValue)
             color |= ParseHex(s[1], parseState) << 16;
             color |= ParseHex(s[2], parseState) << 12;
             color |= ParseHex(s[2], parseState) << 8;
+            // 3 means the subscript of parameter s
+            // 4 means the bits shifted left, and increment at 4-bit intervals base len
             color |= ParseHex(s[3], parseState) << 4;
             color |= ParseHex(s[3], parseState);
         } else if (len == 5) { // 5 means #argb
