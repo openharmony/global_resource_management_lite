@@ -38,7 +38,7 @@ Call the  **GLOBAL\_GetValueById**  API to obtain the resource information of th
 uint32_t id = 0x16777216;
 char *values = NULL;
 int32_t re = GLOBAL_GetValueById(id, "/system/data/resources.index", &values); // Obtain the resource of a specified application and write the resource to values.
-std::count << values << std::endl;
+std::cout << values << std::endl;
 if (values != NULL) {
     free(values);
 }
