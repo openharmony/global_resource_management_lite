@@ -44,7 +44,7 @@ config("global_resmgr_config") {
   include_dirs = [
     "include",
     "//base/global/resource_management_lite/interfaces/inner_api/include",
-    "//utils/native/lite/include",
+    "//commonlibrary/utils_lite/include",
     "//third_party/bounds_checking_function/include",
   ]
 
@@ -52,7 +52,7 @@ config("global_resmgr_config") {
     include_dirs += [
       "//third_party/zlib",
       "//third_party/zlib/contrib/minizip",
-      "//utils/native/lite/memory",
+      "//commonlibrary/utils_lite/memory",
       "//base/global/i18n_lite/interfaces/kits/i18n/include/",
     ]
   }
