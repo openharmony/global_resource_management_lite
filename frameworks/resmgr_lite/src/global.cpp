@@ -55,8 +55,7 @@ void GLOBAL_ConfigLanguage(const char *appLanguage)
     }
     InitResConfig();
 
-    std::string lan(appLanguage);
-    std::string language, script, region;
+    std::string lan(appLanguage);    
     auto index1 = lan.find("-");
     auto index2 = lan.find("_");
     auto indexStart = std::string::npos;
@@ -68,7 +67,9 @@ void GLOBAL_ConfigLanguage(const char *appLanguage)
         indexStart = index2;
         indexEnd = lan.find("_", index2 + 1);
     }
-
+    std::string language;
+    std::string script;
+    std::string region;
     if (indexStart != std::string::npos) {
         if (indexEnd != std::string::npos) {
             language.assign(appLanguage, indexStart);
