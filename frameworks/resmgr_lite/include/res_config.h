@@ -59,7 +59,8 @@ LocaleInfo *BuildFromString(const char *str, char sep, RState &rState);
 
 LocaleInfo *BuildFromParts(const char *language, const char *script, const char *region, RState &rState);
 
-void FindAndSort(const std::string localeStr, std::vector<std::string> &candidateLocale, std::vector<std::string> &outValue);
+void FindAndSort(const std::string localeStr, std::vector<std::string> &candidateLocale,
+    std::vector<std::string> &outValue);
 } // namespace Resource
 } // namespace Global
 } // namespace OHOS
