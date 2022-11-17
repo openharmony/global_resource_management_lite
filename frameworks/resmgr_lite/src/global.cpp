@@ -55,7 +55,7 @@ void GLOBAL_ConfigLanguage(const char *appLanguage)
     }
     InitResConfig();
 
-    std::string lan(appLanguage);    
+    std::string lan(appLanguage);
     auto index1 = lan.find("-");
     auto index2 = lan.find("_");
     auto indexStart = std::string::npos;
