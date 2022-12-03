@@ -56,7 +56,7 @@ static uint32_t GetIdHeaderOffsetByLocale(const char *locale, const Key *keys, u
 static int32_t GetIdHeaderByOffset(int32_t file, uint32_t offset, IdHeader *idHeader);
 static int32_t CheckFilePath(const char *path, char *realResourcePath, int32_t length);
 
-static GlobalUtilsImpl g_globalUtilsImpl = {
+const static GlobalUtilsImpl g_globalUtilsImpl = {
     .GetOffsetByLocale = GetOffsetByLocale,
     .GetDefaultOffsetValue = GetDefaultOffsetValue,
     .GetKeyValue = GetKeyValue,
@@ -517,5 +517,5 @@ static int32_t GetIdHeaderByOffset(int32_t file, uint32_t offset, IdHeader *idHe
 
 GlobalUtilsImpl *GetGlobalUtilsImpl(void)
 {
-    return &g_globalUtilsImpl;
+    return (GlobalUtilsImpl *)(&g_globalUtilsImpl);
 }
