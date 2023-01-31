@@ -534,7 +534,8 @@ std::string HapParser::ToFolderPath(const std::vector<KeyParam *> &keyParams)
     if (language.size() > 0) {
         path.append(language);
     }
-    std::string c1("_"), c2("-");
+    std::string c1("_");
+    std::string c2("-");
     PathAppend(path, script, c1);
     PathAppend(path, region, c1);
     PathAppend(path, direction, c2);
