@@ -213,7 +213,8 @@ bool Utils::StrCompare(const char *left, const char *right, size_t len, bool isC
         return false;
     }
     int rc;
-    unsigned char c1, c2;
+    unsigned char c1;
+    unsigned char c2;
     while (len--) {
         c1 = (unsigned char)*left;
         c2 = (unsigned char)*right;
