@@ -1,5 +1,5 @@
 {
-    "name": "@ohos/global_resource_management_lite",
+    "name": "@ohos/resource_management_lite",
     "version": "",
     "description": "Obtains resource information based on the device type and configuration",
     "homePage": "https://gitee.com/openharmony",
@@ -43,8 +43,8 @@
         "adapted_system_type": [
             "small"
         ],
-        "rom": "",
-        "ram": "",
+        "rom": "200KB",
+        "ram": "900KB",
         "deps": {
             "components": [
               "utils_base"
