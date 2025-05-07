@@ -79,7 +79,6 @@ HWTEST_F(HapManagerTest, HapManagerFuncTest001, TestSize.Level1)
     if (idValues == nullptr) {
         delete hapManager;
         EXPECT_TRUE(false);
-        return;
     }
 
     PrintIdValues(idValues);
@@ -97,7 +96,6 @@ HWTEST_F(HapManagerTest, HapManagerFuncTest002, TestSize.Level1)
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     std::string resPath = FormatFullPath(g_resFilePath);
@@ -106,7 +104,6 @@ HWTEST_F(HapManagerTest, HapManagerFuncTest002, TestSize.Level1)
     if (hapManager == nullptr) {
         delete (rc);
         EXPECT_TRUE(false);
-        return;
     }
     hapManager->UpdateResConfig(*rc);
     bool ret = hapManager->AddResourcePath(path);
@@ -119,7 +116,6 @@ HWTEST_F(HapManagerTest, HapManagerFuncTest002, TestSize.Level1)
         delete (hapManager);
         delete (rc);
         EXPECT_TRUE(false);
-        return;
     }
 
     EXPECT_EQ(static_cast<size_t>(1), idValues->GetLimitPathsConst().size());
@@ -132,7 +128,6 @@ HWTEST_F(HapManagerTest, HapManagerFuncTest002, TestSize.Level1)
         delete (hapManager);
         delete (rc);
         EXPECT_TRUE(false);
-        return;
     }
 
     rc2->SetLocaleInfo("zh", nullptr, "CN");
