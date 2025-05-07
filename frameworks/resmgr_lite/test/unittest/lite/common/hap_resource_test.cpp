@@ -77,7 +77,6 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest001, TestSize.Level1)
 
     if (pResource == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_EQ(static_cast<size_t>(80), pResource->IdSize());
 
@@ -157,7 +156,6 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest002, TestSize.Level1)
     if (pResource == nullptr) {
         delete rc;
         EXPECT_TRUE(false);
-        return;
     }
 
     EXPECT_EQ(static_cast<size_t>(79), pResource->IdSize());
@@ -224,7 +222,6 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest003, TestSize.Level1)
 
     if (pResource == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
 
     auto idv = pResource->GetIdValuesByName(std::string("integer_ref"), ResType::INTEGER);

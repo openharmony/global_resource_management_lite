@@ -211,13 +211,11 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest002, 
     auto tmpRm = CreateResourceManager();
     if (tmpRm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
         EXPECT_TRUE(false);
         delete tmpRm;
-        return;
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     rc->SetDeviceType(DeviceType::DEVICE_CAR);
@@ -244,14 +242,12 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest003, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     rc->SetDeviceType(DeviceType::DEVICE_CAR);
@@ -278,7 +274,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest004, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -315,7 +310,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest005, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -345,7 +339,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest006, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -375,7 +368,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest007, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -412,7 +404,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest008, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -442,7 +433,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest009, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -471,7 +461,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest010, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -497,7 +486,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest011, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -533,7 +521,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest012, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -563,7 +550,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest013, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -596,7 +582,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest014, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -626,7 +611,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest015, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -659,7 +643,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest016, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -689,7 +672,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest017, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -718,7 +700,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest018, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -744,7 +725,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest019, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -773,7 +753,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest020, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -799,7 +778,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest021, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -828,7 +806,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest022, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -854,7 +831,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest023, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -883,7 +859,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest024, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -909,7 +884,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest025, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -938,7 +912,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest026, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -964,7 +937,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest027, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -993,7 +965,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest028, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -1019,7 +990,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest029, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -1048,7 +1018,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest030, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -1074,7 +1043,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest031, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
@@ -1103,7 +1071,6 @@ HWTEST_F(ResourceManagerPerformanceTest, ResourceManagerPerformanceFuncTest032, 
 {
     if (rm == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     unsigned long long total = 0;
     double average = 0;
