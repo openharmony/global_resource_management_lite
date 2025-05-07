@@ -175,14 +175,12 @@ HWTEST_F(LocaleInfoTest, LocaleInfoGetSysDefaultTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     UpdateSysDefault(*localeInfo, false);
     const LocaleInfo* currentLocaleInfo = GetSysDefault();
     if (currentLocaleInfo == nullptr) {
         EXPECT_TRUE(false);
         delete localeInfo;
-        return;
     }
     EXPECT_TRUE(std::strcmp("zh", currentLocaleInfo->GetLanguage()) == 0);
     EXPECT_TRUE(std::strcmp("CN", currentLocaleInfo->GetRegion()) == 0);
@@ -201,14 +199,12 @@ HWTEST_F(LocaleInfoTest, LocaleInfoUpdateSysDefaultTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     UpdateSysDefault(*localeInfo, false);
     const LocaleInfo* currentLocaleInfo = GetSysDefault();
     if (currentLocaleInfo == nullptr) {
         EXPECT_TRUE(false);
         delete localeInfo;
-        return;
     }
     EXPECT_TRUE(std::strcmp("zh", currentLocaleInfo->GetLanguage()) == 0);
     EXPECT_TRUE(std::strcmp("CN", currentLocaleInfo->GetRegion()) == 0);
@@ -219,7 +215,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoUpdateSysDefaultTest001, TestSize.Level1)
     if (currentLocaleInfo == nullptr) {
         EXPECT_TRUE(false);
         delete localeInfo;
-        return;
     }
     EXPECT_TRUE(std::strcmp("en", currentLocaleInfo->GetLanguage()) == 0);
     EXPECT_TRUE(std::strcmp("US", currentLocaleInfo->GetRegion()) == 0);
@@ -227,14 +222,12 @@ HWTEST_F(LocaleInfoTest, LocaleInfoUpdateSysDefaultTest001, TestSize.Level1)
     localeInfo = BuildFromString("en-Qaag-US", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     UpdateSysDefault(*localeInfo, false);
     currentLocaleInfo = GetSysDefault();
     if (currentLocaleInfo == nullptr) {
         EXPECT_TRUE(false);
         delete localeInfo;
-        return;
     }
     EXPECT_TRUE(std::strcmp("en", currentLocaleInfo->GetLanguage()) == 0);
     EXPECT_TRUE(std::strcmp("US", currentLocaleInfo->GetRegion()) == 0);
@@ -254,7 +247,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoGetLanguageTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
     delete localeInfo;
@@ -272,7 +264,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoGetRegionTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(std::strcmp("CN", localeInfo->GetRegion()) == 0);
     delete localeInfo;
@@ -290,7 +281,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoGetScriptTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-Hant-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(std::strcmp("Hant", localeInfo->GetScript()) == 0);
     delete localeInfo;
@@ -308,7 +298,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromPartsTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromParts("zh", "Hant", "CN", state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
@@ -389,7 +378,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromPartsTest006, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromParts("zh", nullptr, nullptr, state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
@@ -410,7 +398,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromStringTest001, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-Hant-CN", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
@@ -461,7 +448,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromStringTest004, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
@@ -482,7 +468,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromStringTest005, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("en_US", '_', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("en", localeInfo->GetLanguage()) == 0);
@@ -518,7 +503,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromStringTest007, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("en_Latn_US", '_', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("en", localeInfo->GetLanguage()) == 0);
@@ -569,7 +553,6 @@ HWTEST_F(LocaleInfoTest, LocaleInfoBuildFromStringTest0010, TestSize.Level1)
     LocaleInfo* localeInfo = BuildFromString("zh-CN-xxxx", '-', state);
     if (localeInfo == nullptr) {
         EXPECT_TRUE(false);
-        return;
     }
     EXPECT_TRUE(state == SUCCESS);
     EXPECT_TRUE(std::strcmp("zh", localeInfo->GetLanguage()) == 0);
