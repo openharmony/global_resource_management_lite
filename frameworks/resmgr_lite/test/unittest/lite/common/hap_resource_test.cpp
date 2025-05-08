@@ -76,7 +76,7 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest001, TestSize.Level1)
     HILOG_DEBUG("load cost: %ld us.", cost);
 
     if (pResource == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     EXPECT_EQ(static_cast<size_t>(80), pResource->IdSize());
 
@@ -155,7 +155,7 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest002, TestSize.Level1)
 
     if (pResource == nullptr) {
         delete rc;
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
 
     EXPECT_EQ(static_cast<size_t>(79), pResource->IdSize());
@@ -221,7 +221,7 @@ HWTEST_F(HapResourceTest, HapResourceFuncTest003, TestSize.Level1)
     HILOG_DEBUG("load cost: %ld us.", cost);
 
     if (pResource == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
 
     auto idv = pResource->GetIdValuesByName(std::string("integer_ref"), ResType::INTEGER);
