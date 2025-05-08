@@ -105,7 +105,7 @@ void ResourceManagerTest::AddResource(const char *language, const char *script, 
     if (language != nullptr || region != nullptr) {
         auto rc = CreateResConfig();
         if (rc == nullptr) {
-            EXPECT_TRUE(false);
+            ASSERT_TRUE(false);
         }
         rc->SetLocaleInfo(language, script, region);
         rm->UpdateResConfig(*rc);
@@ -217,7 +217,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest001, TestSize.Le
     RState state;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     rc->SetDeviceType(DeviceType::DEVICE_CAR);
@@ -237,7 +237,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest002, TestSize.Le
     RState state;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     state = rm->UpdateResConfig(*rc);
     delete rc;
@@ -255,7 +255,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest003, TestSize.Le
     RState state;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     rc->SetLocaleInfo(nullptr, nullptr, "US");
     state = rm->UpdateResConfig(*rc);
@@ -276,14 +276,14 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest004, TestSize.Le
     RState state;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     rc->SetLocaleInfo("en", nullptr, nullptr);
     state = rm->UpdateResConfig(*rc);
     EXPECT_EQ(SUCCESS, state);
     ret = rm->AddResource(FormatFullPath(g_resFilePath).c_str());
     if (!ret) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
         delete rc;
     }
     // update to another language, will trigger reload
@@ -314,7 +314,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerUpdateResConfigTest005, TestSize.Le
     RState state;
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     state = rm->UpdateResConfig(*rc);
@@ -350,7 +350,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerGetResConfigTest002, TestSize.Level
     {
         ResConfig *rc = CreateResConfig();
         if (rc == nullptr) {
-            EXPECT_TRUE(false);
+            ASSERT_TRUE(false);
         }
         rc->SetLocaleInfo("en", nullptr, "US");
         rc->SetDeviceType(DeviceType::DEVICE_CAR);
@@ -1537,7 +1537,7 @@ HWTEST_F(ResourceManagerTest, ResourceManagerResolveReferenceTest001, TestSize.L
 {
     ResConfig *rc = CreateResConfig();
     if (rc == nullptr) {
-        EXPECT_TRUE(false);
+        ASSERT_TRUE(false);
     }
     rc->SetLocaleInfo("en", nullptr, "US");
     rm->UpdateResConfig(*rc);
