@@ -1,6 +1,6 @@
 {
     "name": "@ohos/resource_management_lite",
-    "version": "",
+    "version": "1.0.0",
     "description": "Obtains resource information based on the device type and configuration",
     "homePage": "https://gitee.com/openharmony",
     "license": "Apache V2",
