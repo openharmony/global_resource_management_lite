@@ -102,11 +102,14 @@ if (defined(ohos_lite)) {
   lite_component("global_manager_lite") {
     features = [ ":global_resmgr" ]
   }
+  group("global_resmgr_simulator") {}
 } else {
   ohos_static_library("global_resmgr_simulator") {
     sources = global_sources
     public_configs = [ ":global_public_config" ]
-    deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+    external_deps = [ "bounds_checking_function:libsec_static" ]
     configs = [ ":global_resmgr_mingw_config" ]
+    subsystem_name = "global"
+    part_name = "resource_management_lite"
   }
 }
