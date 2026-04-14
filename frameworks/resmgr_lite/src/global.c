@@ -176,8 +176,8 @@ static int32_t GLOBAL_GetValueByIdInternal(uint32_t id, const char *path, const 
                 free(idHeader.idParams);
                 return ret;
             }
-            *value = (char *)malloc(idItem.valueLen);
-            if (*value == NULL || strcpy_s(*value, idItem.valueLen, idItem.value) != EOK) {
+            *value = (char *)malloc(idItem.valueLen + 1);
+            if (*value == NULL || strcpy_s(*value, idItem.valueLen + 1, idItem.value) != EOK) {
                 close(file);
                 free(idHeader.idParams);
                 FreeIdItem(&idItem);
@@ -247,8 +247,8 @@ static int32_t GLOBAL_GetValueByNameInternal(const char *name, const char *path,
             FreeIdItem(&idItem);
             continue;
         }
-        *value = (char *)malloc(idItem.valueLen);
-        if (*value == NULL || strcpy_s(*value, idItem.valueLen, idItem.value) != EOK) {
+        *value = (char *)malloc(idItem.valueLen + 1);
+        if (*value == NULL || strcpy_s(*value, idItem.valueLen + 1, idItem.value) != EOK) {
             close(file);
             free(idHeader.idParams);
             FreeIdItem(&idItem);

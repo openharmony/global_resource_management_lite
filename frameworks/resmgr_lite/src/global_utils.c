@@ -448,11 +448,11 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
         return MC_FAILURE;
     }
 
-    idItem->value = (char *)malloc(idItem->valueLen);
+    idItem->value = (char *)malloc(idItem->valueLen + 1);
     if (idItem->value == NULL) {
         return MC_FAILURE;
     }
-    (void)memset_s(idItem->value, idItem->valueLen, 0, idItem->valueLen);
+    (void)memset_s(idItem->value, idItem->valueLen + 1, 0, idItem->valueLen + 1);
     (void)read(file, idItem->value, idItem->valueLen);
 
     (void)read(file, lengthCache, VALUE_LENGTH_OFFSET);
@@ -463,13 +463,13 @@ static int32_t GetIdItem(int32_t file, uint32_t offset, IdItem *idItem)
         return MC_FAILURE;
     }
 
-    idItem->name = (char *)malloc(idItem->nameLen);
+    idItem->name = (char *)malloc(idItem->nameLen + 1);
     if (idItem->name == NULL) {
         free(idItem->value);
         idItem->value = NULL;
         return MC_FAILURE;
     }
-    (void)memset_s(idItem->name, idItem->nameLen, 0, idItem->nameLen);
+    (void)memset_s(idItem->name, idItem->nameLen + 1, 0, idItem->nameLen + 1);
     (void)read(file, idItem->name, idItem->nameLen);
 
     return MC_SUCCESS;
