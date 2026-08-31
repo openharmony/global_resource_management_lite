@@ -18,6 +18,8 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <cstring>
+#include <charconv>
+#include <system_error>
 
 #include "hilog_wrapper.h"
 #include "res_config.h"
@@ -28,6 +30,25 @@
 namespace OHOS {
 namespace Global {
 namespace Resource {
+
+bool ParseResourceInt(const std::string &str, int &out)
+{
+    if (str.empty()) {
+        HILOG_ERROR("ParseResourceInt empty integer");
+        return false;
+    }
+    int value = 0;
+    const char *first = str.data();
+    const char *last = first + str.size();
+    auto [ptr, ec] = std::from_chars(first, last, value);
+    if (ec != std::errc() || ptr != last) {
+        HILOG_ERROR("ParseResourceInt fail: %s", str.c_str());
+        return false;
+    }
+    out = value;
+    return true;
+}
+
 // default logLevel
 LogLevel g_logLevel = LOG_INFO;
 
@@ -451,7 +472,9 @@ RState ResourceManagerImpl::GetInteger(const IdItem *idItem, int &outValue)
     std::string temp;
     RState state = ResolveReference(idItem->value_, temp);
     if (state == SUCCESS) {
-        outValue = stoi(temp);
+        if (!ParseResourceInt(temp, outValue)) {
+            return ERROR;
+        }
         return SUCCESS;
     }
     return state;
@@ -509,7 +532,12 @@ RState ResourceManagerImpl::GetIntArray(const IdItem *idItem, std::vector<int> &
             HILOG_ERROR("ResolveReference failed, value:%s", idItem->values_[i].c_str());
             return ERROR;
         }
-        outValue.push_back(stoi(resolvedValue));
+        int parsed = 0;
+        if (!ParseResourceInt(resolvedValue, parsed)) {
+            HILOG_ERROR("ParseResourceInt failed, value:%s", idItem->values_[i].c_str());
+            return ERROR;
+        }
+        outValue.push_back(parsed);
     }
     return SUCCESS;
 }
