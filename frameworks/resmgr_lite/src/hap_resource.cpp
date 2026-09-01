@@ -83,30 +83,45 @@ HapResource::~HapResource()
     defaultConfig_ = nullptr;
 }
 
-const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigImpl *defaultConfig, bool system)
+static void *ReadFileToBuffer(const char *path, int64_t &bufLen)
 {
     std::ifstream inFile(path, std::ios::binary | std::ios::in);
     if (!inFile.good()) {
         return nullptr;
     }
     inFile.seekg(0, std::ios::end);
-    int bufLen = inFile.tellg();
-    if (bufLen <= 0) {
-        HILOG_ERROR("file size is zero");
+    bufLen = static_cast<int64_t>(inFile.tellg());
+    if (bufLen <= 0 || bufLen > static_cast<int64_t>(MAX_INDEX_FILE_SIZE)) {
+        HILOG_ERROR("file size is invalid or exceeds limit");
         inFile.close();
         return nullptr;
     }
-    void *buf = malloc(bufLen);
+    void *buf = malloc(static_cast<size_t>(bufLen));
     if (buf == nullptr) {
         HILOG_ERROR("Error allocating memory");
         inFile.close();
         return nullptr;
     }
     inFile.seekg(0, std::ios::beg);
-    inFile.read(static_cast<char *>(buf), bufLen);
+    inFile.read(static_cast<char *>(buf), static_cast<size_t>(bufLen));
+    if (!inFile.good() || static_cast<int64_t>(inFile.gcount()) != bufLen) {
+        HILOG_ERROR("read incomplete");
+        free(buf);
+        inFile.close();
+        return nullptr;
+    }
     inFile.close();
+    return buf;
+}
 
-    HILOG_DEBUG("extract success, bufLen:%d", bufLen);
+const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigImpl *defaultConfig, bool system)
+{
+    int64_t bufLen = 0;
+    void *buf = ReadFileToBuffer(path, bufLen);
+    if (buf == nullptr) {
+        return nullptr;
+    }
+    HILOG_DEBUG("extract success, bufLen:%zu", static_cast<size_t>(bufLen));
 
     ResDesc *resDesc = new (std::nothrow) ResDesc();
     if (resDesc == nullptr) {
@@ -114,7 +129,8 @@ const HapResource *HapResource::LoadFromIndex(const char *path, const ResConfigI
         free(buf);
         return nullptr;
     }
-    int32_t out = HapParser::ParseResHex(static_cast<char *>(buf), bufLen, *resDesc, defaultConfig);
+    int32_t out = HapParser::ParseResHex(static_cast<char *>(buf), static_cast<size_t>(bufLen), *resDesc,
+        defaultConfig);
     if (out != OK) {
         delete (resDesc);
         free(buf);

@@ -126,11 +126,10 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueByName(
     const std::vector<HapResource::ValueUnderQualifierDir *> paths = idValues->GetLimitPathsConst();
 
     size_t len = paths.size();
-    size_t i = 0;
-    size_t bestIndex = -1;
+    size_t bestIndex = len;
     const ResConfigImpl *bestResConfig = nullptr;
     const ResConfigImpl *currentResConfig = this->resConfig_;
-    for (i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         HapResource::ValueUnderQualifierDir *path = paths[i];
         const ResConfigImpl *resConfig = path->GetResConfig();
         if (!this->resConfig_->Match(resConfig)) {
@@ -145,6 +144,9 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueByName(
             bestResConfig = resConfig;
             bestIndex = i;
         }
+    }
+    if (bestIndex >= len) {
+        return nullptr;
     }
     return paths[bestIndex];
 }
@@ -158,11 +160,10 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueById(ui
     const std::vector<HapResource::ValueUnderQualifierDir *> paths = idValues->GetLimitPathsConst();
 
     size_t len = paths.size();
-    size_t i = 0;
-    size_t bestIndex = -1;
+    size_t bestIndex = len;
     const ResConfigImpl *bestResConfig = nullptr;
     const ResConfigImpl *currentResConfig = this->resConfig_;
-    for (i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         HapResource::ValueUnderQualifierDir *path = paths[i];
         const ResConfigImpl *resConfig = path->GetResConfig();
         if (!this->resConfig_->Match(resConfig)) {
@@ -177,6 +178,9 @@ const HapResource::ValueUnderQualifierDir *HapManager::FindQualifierValueById(ui
             bestResConfig = resConfig;
             bestIndex = i;
         }
+    }
+    if (bestIndex >= len) {
+        return nullptr;
     }
     return paths[bestIndex];
 }
@@ -249,6 +253,10 @@ const HapResource::IdValues *HapManager::GetResourceListByName(const char *name,
 
 bool HapManager::AddResourcePath(const char *path)
 {
+    if (path == nullptr || path[0] == '\0') {
+        HILOG_ERROR("AddResourcePath path is null or empty");
+        return false;
+    }
     std::string sPath(path);
     std::vector<std::string>::iterator it = std::find(loadedHapPaths_.begin(),
         loadedHapPaths_.end(), sPath);
