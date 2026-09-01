@@ -35,69 +35,88 @@ namespace Global {
 namespace Resource {
 const char *HapParser::RES_FILE_NAME = "/resources.index";
 
+struct ResBuffer {
+    const char *buffer;
+    size_t bufLen;
+};
+
+static constexpr size_t UINT16_SIZE = sizeof(uint16_t);
+static constexpr size_t NULL_TERMINATOR_SIZE = 1;
+
+static inline bool IsOutOfBounds(uint32_t offset, size_t len, size_t bufLen)
+{
+    return static_cast<uint64_t>(offset) + static_cast<uint64_t>(len) > static_cast<uint64_t>(bufLen);
+}
+
 void UnzCloseFileAndLog(unzFile uf, const char *zipFile)
 {
-    int err = unzCloseCurrentFile(uf); // close the zipfile
+    int err = unzCloseCurrentFile(uf);
     if (err != UNZ_OK) {
         HILOG_ERROR("Error %d with zipfile %s in unzCloseCurrentFile", err, zipFile);
     }
 }
 
-int32_t HapParser::ReadFileFromZip(const char *zipFile, const char *fileName, void **buffer, size_t &bufLen,
-                                   std::string &errInfo)
+static unzFile OpenAndLocateZipFile(const char *zipFile, const char *fileName, std::string &errInfo)
 {
-    int err = UNZ_OK;                // error status
-    char filenameInzip[256];         // for unzGetCurrentFileInfo
-    unz_file_info fileInfo;          // for unzGetCurrentFileInfo
-
-    unzFile uf = unzOpen64(zipFile); // open zipfile stream
+    unzFile uf = unzOpen64(zipFile);
     if (uf == nullptr) {
         errInfo = FormatString("Cannot open %s", zipFile);
-        return UNKNOWN_ERROR;
-    } // file is open
-
-    if (unzLocateFile(uf, fileName, 1)) { // try to locate file inside zip
-        // second argument of unzLocateFile: 1 = case sensitive, 0 = case-insensitive
+        return nullptr;
+    }
+    if (unzLocateFile(uf, fileName, 1)) {
         unzClose(uf);
         errInfo = FormatString("File %s not found in %s", fileName, zipFile);
-        return UNKNOWN_ERROR;
-    } // file inside zip found
+        return nullptr;
+    }
+    return uf;
+}
 
-    if (unzGetCurrentFileInfo(uf, &fileInfo, filenameInzip, sizeof(filenameInzip), nullptr, 0, nullptr, 0)) {
+int32_t HapParser::ReadFileFromZip(const char *zipFile, const char *fileName, void **buffer,
+                                   size_t &bufLen, std::string &errInfo)
+{
+    unzFile uf = OpenAndLocateZipFile(zipFile, fileName, errInfo);
+    if (uf == nullptr) {
+        return UNKNOWN_ERROR;
+    }
+    char filenameInzip[256] = {0};
+    unz_file_info fileInfo;
+    int err = unzGetCurrentFileInfo(uf, &fileInfo, filenameInzip, sizeof(filenameInzip), nullptr, 0, nullptr, 0);
+    if (err != UNZ_OK) {
         unzClose(uf);
         errInfo = FormatString("Error %d with zipfile %s in unzGetCurrentFileInfo.", err, zipFile);
         return UNKNOWN_ERROR;
-    } // obtained the necessary details about file inside zip
-
-    *buffer = static_cast<void *>(malloc(fileInfo.uncompressed_size)); // setup buffer
+    }
+    if (fileInfo.uncompressed_size == 0 || fileInfo.uncompressed_size > MAX_INDEX_FILE_SIZE) {
+        unzClose(uf);
+        errInfo = FormatString("invalid file size in zipfile %s", zipFile);
+        return UNKNOWN_ERROR;
+    }
+    *buffer = static_cast<void *>(malloc(fileInfo.uncompressed_size));
     bufLen = fileInfo.uncompressed_size;
-    if ((*buffer) == nullptr) {
+    if (*buffer == nullptr) {
         unzClose(uf);
         errInfo = FormatString("Error allocating memory for read buffer");
         return UNKNOWN_ERROR;
-    } // buffer ready
-
-    err = unzOpenCurrentFilePassword(uf, nullptr); // Open the file inside the zip (password = NULL)
+    }
+    err = unzOpenCurrentFilePassword(uf, nullptr);
     if (err != UNZ_OK) {
         errInfo = FormatString("Error %d with zipfile %s in unzOpenCurrentFilePassword.", err, zipFile);
         free(*buffer);
         *buffer = nullptr;
         unzClose(uf);
         return UNKNOWN_ERROR;
-    } // file inside the zip is open
-    // Copy contents of the file inside the zip to the buffer
+    }
     HILOG_DEBUG("Extracting: %s from %s, file size: %lu", filenameInzip, zipFile, fileInfo.uncompressed_size);
     err = unzReadCurrentFile(uf, *buffer, bufLen);
     if (err < 0) {
         errInfo = FormatString("Error %d with zipfile %s in unzReadCurrentFile", err, zipFile);
         free(*buffer);
         *buffer = nullptr;
-        UnzCloseFileAndLog(uf, zipFile); // close the zipfile
+        UnzCloseFileAndLog(uf, zipFile);
         unzClose(uf);
         return UNKNOWN_ERROR;
     }
-
-    UnzCloseFileAndLog(uf, zipFile); // close the zipfile
+    UnzCloseFileAndLog(uf, zipFile);
     unzClose(uf);
     return OK;
 }
@@ -159,16 +178,29 @@ int32_t HapParser::ReadIndexFromFile(const char *zipFile, void **buffer,
  * @param includeTemi dose length include '\0'
  * @return OK or ERROR
  */
-int32_t ParseString(const char *buffer, uint32_t &offset, std::string &id, bool includeTemi = true)
+int32_t ParseString(const ResBuffer &buf, uint32_t &offset, std::string &id, bool includeTemi = true)
 {
+    if (IsOutOfBounds(offset, UINT16_SIZE, buf.bufLen)) {
+        HILOG_ERROR("ParseString length failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
     uint16_t strLen;
-    errno_t eret = memcpy_s(&strLen, sizeof(strLen), buffer + offset, 2);
+    errno_t eret = memcpy_s(&strLen, sizeof(strLen), buf.buffer + offset, UINT16_SIZE);
     if (eret != EOK) {
         return SYS_ERROR;
     }
-    offset += 2;
-    std::string tmp = std::string(const_cast<char *>(buffer) + offset, includeTemi ? (strLen - 1) : strLen);
-    offset += includeTemi ? strLen : (strLen + 1);
+    if (includeTemi && strLen == 0) {
+        return SYS_ERROR;
+    }
+    offset += UINT16_SIZE;
+    size_t readLen = includeTemi ? strLen : static_cast<size_t>(strLen) + NULL_TERMINATOR_SIZE;
+    if (IsOutOfBounds(offset, readLen, buf.bufLen)) {
+        HILOG_ERROR("ParseString value failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    size_t strDataLen = includeTemi ? strLen - NULL_TERMINATOR_SIZE : strLen;
+    std::string tmp = std::string(const_cast<char *>(buf.buffer) + offset, strDataLen);
+    offset += readLen;
     id = tmp;
     return OK;
 }
@@ -180,31 +212,37 @@ int32_t ParseString(const char *buffer, uint32_t &offset, std::string &id, bool 
  * @param values
  * @return
  */
-int32_t ParseStringArray(const char *buffer, uint32_t &offset, std::vector<std::string> &values)
+int32_t ParseStringArray(const ResBuffer &buf, uint32_t &offset, std::vector<std::string> &values)
 {
+    if (IsOutOfBounds(offset, UINT16_SIZE, buf.bufLen)) {
+        HILOG_ERROR("ParseStringArray failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
     uint16_t arrLen;
-    errno_t eret = memcpy_s(&arrLen, sizeof(arrLen), buffer + offset, 2);
+    errno_t eret = memcpy_s(&arrLen, sizeof(arrLen), buf.buffer + offset, UINT16_SIZE);
     if (eret != EOK) {
         return SYS_ERROR;
     }
-    offset += 2;
-    // next arrLen bytes are several strings. then after, is one '\0'
+    offset += UINT16_SIZE;
+    if (arrLen == 0 || IsOutOfBounds(offset, arrLen, buf.bufLen)) {
+        HILOG_ERROR("ParseStringArray failed, arrLen out of bounds");
+        return SYS_ERROR;
+    }
     uint32_t startOffset = offset;
     while (true) {
         std::string value;
-        int32_t ret = ParseString(buffer, offset, value, false);
+        int32_t ret = ParseString(buf, offset, value, false);
         if (ret != OK) {
             return ret;
         }
         values.push_back(value);
 
         uint32_t readSize = offset - startOffset;
-        if (readSize + 1 == arrLen) {
-            offset += 1; // after arrLen, got '\0'
+        if (readSize + NULL_TERMINATOR_SIZE == arrLen) {
+            offset += NULL_TERMINATOR_SIZE; // skip trailing '\0'
             break;
         }
-        if (readSize + 1 > arrLen) {
-            // size not match, cannot > arrLen
+        if (readSize + NULL_TERMINATOR_SIZE > arrLen) {
             return SYS_ERROR;
         }
     }
@@ -212,23 +250,31 @@ int32_t ParseStringArray(const char *buffer, uint32_t &offset, std::vector<std::
     return OK;
 }
 
-int32_t ParseIdItem(const char *buffer, uint32_t &offset, IdItem *idItem)
+int32_t ParseIdItem(const ResBuffer &buf, uint32_t &offset, IdItem *idItem)
 {
-    errno_t eret = memcpy_s(idItem, sizeof(IdItem), buffer + offset, IdItem::HEADER_LEN);
+    if (IsOutOfBounds(offset, IdItem::HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse IdItemHeader failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(idItem, sizeof(IdItem), buf.buffer + offset, IdItem::HEADER_LEN);
     if (eret != EOK) {
+        return SYS_ERROR;
+    }
+    if (static_cast<uint32_t>(idItem->resType_) >= static_cast<uint32_t>(ResType::MAX_RES_TYPE)) {
+        HILOG_ERROR("ParseIdItem failed, invalid resType");
         return SYS_ERROR;
     }
     offset += IdItem::HEADER_LEN;
 
     idItem->JudgeArray();
     if (idItem->isArray_) {
-        int32_t ret = ParseStringArray(buffer, offset, idItem->values_);
+        int32_t ret = ParseStringArray(buf, offset, idItem->values_);
         if (ret != OK) {
             return ret;
         }
     } else {
         std::string value;
-        int32_t ret = ParseString(buffer, offset, value);
+        int32_t ret = ParseString(buf, offset, value);
         if (ret != OK) {
             return ret;
         }
@@ -236,7 +282,7 @@ int32_t ParseIdItem(const char *buffer, uint32_t &offset, IdItem *idItem)
         idItem->valueLen_ = value.size();
     }
     std::string name;
-    int32_t ret = ParseString(buffer, offset, name);
+    int32_t ret = ParseString(buf, offset, name);
     if (ret != OK) {
         return ret;
     }
@@ -244,9 +290,40 @@ int32_t ParseIdItem(const char *buffer, uint32_t &offset, IdItem *idItem)
     return OK;
 }
 
-int32_t ParseId(const char *buffer, uint32_t &offset, ResId *id)
+int32_t ParseIdParam(const ResBuffer &buf, uint32_t &offset, IdParam *ip)
 {
-    errno_t eret = memcpy_s(id, sizeof(ResId), buffer + offset, ResId::RESID_HEADER_LEN);
+    if (IsOutOfBounds(offset, ResId::IDPARAM_HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse IdParam failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(ip, sizeof(IdParam), buf.buffer + offset, ResId::IDPARAM_HEADER_LEN);
+    if (eret != EOK) {
+        return SYS_ERROR;
+    }
+    offset += ResId::IDPARAM_HEADER_LEN;
+
+    IdItem *idItem = new (std::nothrow) IdItem();
+    if (idItem == nullptr) {
+        HILOG_ERROR("new IdItem failed when ParseIdParam");
+        return SYS_ERROR;
+    }
+    uint32_t ipOffset = ip->offset_;
+    int32_t ret = ParseIdItem(buf, ipOffset, idItem);
+    if (ret != OK) {
+        delete (idItem);
+        return ret;
+    }
+    ip->idItem_ = idItem;
+    return OK;
+}
+
+int32_t ParseId(const ResBuffer &buf, uint32_t &offset, ResId *id)
+{
+    if (IsOutOfBounds(offset, ResId::RESID_HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse ResIdHeader failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(id, sizeof(ResId), buf.buffer + offset, ResId::RESID_HEADER_LEN);
     if (eret != EOK) {
         return SYS_ERROR;
     }
@@ -255,32 +332,21 @@ int32_t ParseId(const char *buffer, uint32_t &offset, ResId *id)
         || id->tag_[2] != 'S' || id->tag_[3] != 'S') {
         return -1;
     }
+    if (id->count_ > MAX_RES_ID_COUNT) {
+        HILOG_ERROR("Parse ResId failed, id count out of range");
+        return SYS_ERROR;
+    }
     for (uint32_t i = 0; i < id->count_; ++i) {
         IdParam *ip = new (std::nothrow) IdParam();
         if (ip == nullptr) {
             HILOG_ERROR("new IdParam failed when ParseId");
             return SYS_ERROR;
         }
-        errno_t eret = memcpy_s(ip, sizeof(IdParam), buffer + offset, ResId::IDPARAM_HEADER_LEN);
-        if (eret != EOK) {
-            delete (ip);
-            return SYS_ERROR;
-        }
-        offset += ResId::IDPARAM_HEADER_LEN;
-        IdItem *idItem = new (std::nothrow) IdItem();
-        if (idItem == nullptr) {
-            HILOG_ERROR("new IdItem failed when ParseId");
-            delete (ip);
-            return SYS_ERROR;
-        }
-        uint32_t ipOffset = ip->offset_;
-        int32_t ret = ParseIdItem(buffer, ipOffset, idItem);
+        int32_t ret = ParseIdParam(buf, offset, ip);
         if (ret != OK) {
             delete (ip);
-            delete (idItem);
             return ret;
         }
-        ip->idItem_ = idItem;
         id->idParams_.push_back(ip);
     }
 
@@ -304,10 +370,29 @@ bool IsLocaleMatch(const ResConfigImpl *defaultConfig, const std::vector<KeyPara
     return true;
 }
 
-int32_t ParseKey(const char *buffer, uint32_t &offset,  ResKey *key,
+int32_t ParseKeyParam(const ResBuffer &buf, uint32_t &offset, KeyParam *kp)
+{
+    if (IsOutOfBounds(offset, ResKey::KEYPARAM_HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse KeyParam failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(kp, sizeof(KeyParam), buf.buffer + offset, ResKey::KEYPARAM_HEADER_LEN);
+    if (eret != EOK) {
+        return SYS_ERROR;
+    }
+    offset += ResKey::KEYPARAM_HEADER_LEN;
+    kp->InitStr();
+    return OK;
+}
+
+int32_t ParseKey(const ResBuffer &buf, uint32_t &offset, ResKey *key,
                  bool &match, const ResConfigImpl *defaultConfig)
 {
-    errno_t eret = memcpy_s(key, sizeof(ResKey), buffer + offset, ResKey::RESKEY_HEADER_LEN);
+    if (IsOutOfBounds(offset, ResKey::RESKEY_HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse ResKeyHeader failed, the offset will be out of bounds");
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(key, sizeof(ResKey), buf.buffer + offset, ResKey::RESKEY_HEADER_LEN);
     if (eret != EOK) {
         return SYS_ERROR;
     }
@@ -316,19 +401,21 @@ int32_t ParseKey(const char *buffer, uint32_t &offset,  ResKey *key,
         || key->tag_[2] != 'Y' || key->tag_[3] != 'S') {
         return -1;
     }
+    if (key->keyParamsCount_ > MAX_KEY_PARAMS_COUNT) {
+        HILOG_ERROR("Parse ResKey failed, keyParamsCount out of range");
+        return SYS_ERROR;
+    }
     for (uint32_t i = 0; i < key->keyParamsCount_; ++i) {
         KeyParam *kp = new (std::nothrow) KeyParam();
         if (kp == nullptr) {
             HILOG_ERROR("new KeyParam failed when ParseKey");
             return SYS_ERROR;
         }
-        errno_t eret = memcpy_s(kp, sizeof(KeyParam), buffer + offset, ResKey::KEYPARAM_HEADER_LEN);
-        if (eret != EOK) {
+        int32_t ret = ParseKeyParam(buf, offset, kp);
+        if (ret != OK) {
             delete (kp);
-            return SYS_ERROR;
+            return ret;
         }
-        offset += ResKey::KEYPARAM_HEADER_LEN;
-        kp->InitStr();
         key->keyParams_.push_back(kp);
     }
     match = IsLocaleMatch(defaultConfig, key->keyParams_);
@@ -341,7 +428,7 @@ int32_t ParseKey(const char *buffer, uint32_t &offset,  ResKey *key,
         HILOG_ERROR("new ResId failed when ParseKey");
         return SYS_ERROR;
     }
-    int32_t ret = ParseId(buffer, idOffset, id);
+    int32_t ret = ParseId(buf, idOffset, id);
     if (ret != OK) {
         delete (id);
         return ret;
@@ -354,19 +441,25 @@ int32_t ParseKey(const char *buffer, uint32_t &offset,  ResKey *key,
 int32_t HapParser::ParseResHex(const char *buffer, const size_t bufLen, ResDesc &resDesc,
                                const ResConfigImpl *defaultConfig)
 {
+    ResBuffer buf = {buffer, bufLen};
     ResHeader *resHeader = new (std::nothrow) ResHeader();
     if (resHeader == nullptr) {
         HILOG_ERROR("new ResHeader failed when ParseResHex");
         return SYS_ERROR;
     }
     uint32_t offset = 0;
-    errno_t eret = memcpy_s(resHeader, sizeof(ResHeader), buffer + offset, RES_HEADER_LEN);
+    if (IsOutOfBounds(offset, RES_HEADER_LEN, buf.bufLen)) {
+        HILOG_ERROR("Parse ResHeader failed, the offset will be out of bounds");
+        delete (resHeader);
+        return SYS_ERROR;
+    }
+    errno_t eret = memcpy_s(resHeader, sizeof(ResHeader), buf.buffer + offset, RES_HEADER_LEN);
     if (eret != EOK) {
         delete (resHeader);
         return SYS_ERROR;
     }
     offset += RES_HEADER_LEN;
-    if (resHeader->keyCount_ == 0 || resHeader->length_ == 0) {
+    if (resHeader->keyCount_ == 0 || resHeader->keyCount_ > MAX_RES_KEY_COUNT || resHeader->length_ == 0) {
         delete (resHeader);
         return UNKNOWN_ERROR;
     }
@@ -379,7 +472,7 @@ int32_t HapParser::ParseResHex(const char *buffer, const size_t bufLen, ResDesc 
             return SYS_ERROR;
         }
         bool match = true;
-        int32_t ret = ParseKey(buffer, offset, key, match, defaultConfig);
+        int32_t ret = ParseKey(buf, offset, key, match, defaultConfig);
         if (ret != OK) {
             delete (key);
             return ret;

@@ -29,6 +29,11 @@ static constexpr uint32_t RES_HEADER_LEN = 136;
 
 static constexpr uint32_t RES_VERSION_LEN = 128;
 
+static constexpr uint32_t MAX_RES_KEY_COUNT = 0x01000000;
+static constexpr uint32_t MAX_RES_ID_COUNT = 0x01000000;
+static constexpr uint32_t MAX_KEY_PARAMS_COUNT = 32;
+static constexpr size_t MAX_INDEX_FILE_SIZE = UINT32_MAX;
+
 /**
  * resource.index file header
  */
@@ -43,6 +48,8 @@ typedef struct ResHeader {
     // determiner key count
     uint32_t keyCount_;
 } ResHeader;
+
+static_assert(sizeof(ResHeader) == RES_HEADER_LEN, "ResHeader size mismatch");
 
 class IdItem {
 public:
